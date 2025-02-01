@@ -1,0 +1,72 @@
+import React from "react";
+import {
+  Sheet,
+  SheetContent,
+} from "../ui/sheet";
+import { Button } from "../ui/button";
+import { useAuthStore } from "../../Store/useAuthStore";
+import { LogOut, User as UserIcon } from "lucide-react";
+import axios from "../../axiosInstance";
+
+interface ProfileSheetProps {
+  open: boolean;
+  onOpenChange: (isOpen: boolean) => void;
+}
+
+const ProfileSheet: React.FC<ProfileSheetProps> = ({ open, onOpenChange }) => {
+
+
+
+  const { token, clearUser } = useAuthStore();
+
+  const handleSignout = () =>{
+    console.log('token',token);
+    axios.post("/api/logout",{}, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }).then((response)=>{
+      clearUser();
+      console.log('log out res',response)
+  
+    })
+    onOpenChange(false); 
+  }
+  
+
+  return (
+    <Sheet open={open} onOpenChange={onOpenChange}>
+      <SheetContent side="right" className="w-80 flex flex-col h-full">
+        <div className="flex-1 mt-6 space-y-6 flex flex-col items-center">
+          <div className="flex items-center space-x-4">
+              <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center">
+                <UserIcon size={32} className="text-gray-500" />
+              </div>
+            <div className="text-center">
+              <p className="text-lg font-semibold text-gray-800">
+                {/* {user?.name || "نام کاربر"} */}
+                نام کاربر
+              </p>
+              <p className="text-sm text-gray-600">
+                {/* {user?.email || "ایمیل ثبت نشده است"} */}
+                ایمیل ثبت نشده است
+              </p>
+            </div>
+          </div>
+        </div>
+        <div className="mt-auto w-full pb-4">
+          <Button
+            variant="destructive"
+            className="w-full flex items-center justify-center gap-2"
+            onClick={handleSignout}
+          >
+            <LogOut size={20} />
+            خروج از حساب
+          </Button>
+        </div>
+      </SheetContent>
+    </Sheet>
+  );
+};
+
+export default ProfileSheet;
