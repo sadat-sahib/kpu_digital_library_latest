@@ -11,6 +11,7 @@ import axios from "../../axiosInstance";
 import { useMutation, useQueries, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAuthStore } from "../../Store/useAuthStore";
 import { useCartStore } from "../../Store/useCartStore";
+import { AxiosError } from "axios";
 
 
 interface Book {
@@ -105,6 +106,7 @@ export default function BookCategories() {
   // Mutation for adding a book to the cart
   const { token } = useAuthStore();
   const queryClient = useQueryClient();
+  
   const { mutate: addToCart } = useMutation({
     mutationFn: async (id: number) => {
       await axios.post(`/api/cart/books/${id}`, {}, {
@@ -122,18 +124,35 @@ export default function BookCategories() {
       });
       incrementCart();
     },
-    onError: () => {
-      Swal.fire({
-        icon: "error",
-        title: "خطا",
-        text: "اضافه کردن کتاب به کارت با خطا مواجه شد!",
-        confirmButtonText: "بستن",
-      });
+    onError: (error: AxiosError) => {
+      if (error.response && error.response.status === 401) {
+        Swal.fire({
+          icon: "warning",
+          title: "دسترسی غیرمجاز",
+          text: "لطفا برای ثبت درخواست‌تان ثبت‌نام نمایید یا وارد حساب‌تان شوید.",
+          confirmButtonText: "ورود به حساب",
+          showCancelButton: true,
+          cancelButtonText: "بستن",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            // انتقال کاربر به صفحه ورود
+            window.location.href = "/login";
+          }
+        });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "خطا",
+          text: "اضافه کردن کتاب به کارت با خطا مواجه شد!",
+          confirmButtonText: "بستن",
+        });
+      }
       queryClient.invalidateQueries({
         queryKey: ["cartBooks"],
       });
     },
   });
+  
 
   const sliderRef = useRef<HTMLDivElement | null>(null);
   // const goNext = () => {
@@ -272,7 +291,7 @@ export default function BookCategories() {
                                 </TooltipContent>
                               </Tooltip>
                               <Tooltip >
-                                <TooltipTrigger className={`${book.format === 'hard' ? 'opacity-0':'opacity-100'}`}>
+                                <TooltipTrigger className={`${book.format === 'hard' ? 'opacity-0':'opacity-100'}`} >
                                   <Button variant="ghost" size="sm" onClick={() => openPdfDialog(book.pdf, book.title)} disabled={book.format === "hard" ? true : false}>
                                     <FileText size={16} />
                                   </Button>

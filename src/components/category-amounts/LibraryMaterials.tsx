@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { GraduationCap, AlignLeft, Book, FileText, Library } from "lucide-react";
+import { Book, FileText, Library } from "lucide-react";
 
 interface Category {
   id: number;
@@ -11,30 +11,18 @@ interface Category {
 const categories: Category[] = [
   {
     id: 1,
-    title: "مونوگراف ها",
-    icon: <GraduationCap size={18} className="text-white" />,
-    count: 1345,
-  },
-  {
-    id: 2,
-    title: "کل مقالات",
-    icon: <AlignLeft size={18} className="text-white" />,
-    count: 1345,
-  },
-  {
-    id: 3,
-    title: "کتاب های کاغذی",
+    title:"کتاب های کتبی",
     icon: <Book size={18} className="text-white" />,
     count: 1345,
   },
   {
-    id: 4,
+    id: 2,
     title: "کتاب های سافت",
     icon: <FileText size={18} className="text-white" />,
     count: 1345,
   },
   {
-    id: 5,
+    id: 3,
     title: "کل کتاب ها",
     icon: <Library size={18} className="text-white" />,
     count: 1345,
@@ -52,7 +40,7 @@ export default function CategoryAmountsCart() {
 
   return (
     <div className="py-8 px-4 ">
-      <h2 className="text-xl font-bold mb-6 text-center">کتگوری‌ها</h2>
+      <h2 className="text-xl font-bold mb-6 text-center">اطلاعات کلی کتابخانه</h2>
       <div className="flex flex-wrap justify-center gap-4">
         {categories.map((category, index) => (
           <div
