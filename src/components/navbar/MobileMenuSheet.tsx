@@ -57,7 +57,8 @@ const MobileMenuSheet: React.FC<MobileMenuSheetProps> = ({ open, onOpenChange })
               </Button>
 
               {/* Profile Button */}
-              <Button variant="ghost" onClick={toggleProfileSheet}>
+              <Button variant="ghost" onClick={() =>{ toggleProfileSheet();
+                 onOpenChange(false);}}>
                 <User size={20} />
               </Button>
             </div>

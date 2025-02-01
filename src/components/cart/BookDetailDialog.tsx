@@ -29,11 +29,8 @@ const BookDetailsDialog = ({
   return (
     <Dialog open={open} onOpenChange={onClose} >
             <DialogOverlay />
-      <DialogContent className=''>
-        
-        
-
-        <div className="flex flex-col md:flex-row gap-4">
+      <DialogContent>
+        <div className="flex flex-col md:flex-row gap-4 pt-6">
           {/* تصویر کتاب */}
           <div className="flex-none w-full md:w-1/3 h-48 overflow-hidden rounded-md">
             <img src={image} alt={title} className="object-cover w-full h-full" />

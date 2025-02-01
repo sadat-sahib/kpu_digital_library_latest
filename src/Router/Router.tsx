@@ -8,6 +8,8 @@ import UserRegistration from "../Pages/UserRegistration";
 import PrivateRoute from "../components/PrivateRoute";
 import Dashboard from "../Pages/Dashboard";
 import OnlyAdminPrivateRoute from "../components/OnlyAdminPrivateRoute";
+import StudentPrivateRoute from "../components/student-profile/StudentPrivateRoute"
+import StudentProfile from "../components/student-profile/StudentProfile"
 
 
 export const Router = createBrowserRouter([
@@ -48,6 +50,15 @@ export const Router = createBrowserRouter([
                     }
                 ]
             },
+            {
+                element: <StudentPrivateRoute/>,
+                children: [
+                    {
+                        path: '/student-profile',
+                        element: <StudentProfile/>
+                    }
+                ]
+            }
 
 
         ]

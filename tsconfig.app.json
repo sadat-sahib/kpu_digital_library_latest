@@ -16,17 +16,6 @@
     "jsx": "react-jsx",
 
     /* Linting */
-<<<<<<< HEAD
-    // "strict": true,
-    // "noUnusedLocals": true,
-    // "noUnusedParameters": true,
-    // "noFallthroughCasesInSwitch": true,
-    // "noUncheckedSideEffectImports": true,
-    // "forceConsistentCasingInFileNames": true
-  },
-  "include": ["src/**/*"]
-}
-=======
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
@@ -36,4 +25,4 @@
   },
   "include":["src/*"]
 }
->>>>>>> ebc5dec (carousel problomes resolved)
+

@@ -7,21 +7,23 @@ import SearchResult from "../components/cart/SearchResult";
 export default function Layout() {
   const location = useLocation();
   const [isDashboard, setIsDashboard] = useState(false);
+  const [hideNavbar, setHideNavbar] = useState(false);
 
   useEffect(() => {
-    setIsDashboard(location.pathname.startsWith('/dashboard'));
+    setIsDashboard(location.pathname.startsWith("/dashboard"));
+    setHideNavbar(location.pathname === "/student-profile");
   }, [location.pathname]);
 
   return (
     <>
-      {isDashboard ? (
+      {isDashboard || hideNavbar ? (
         <div>
           <Outlet />
         </div>
       ) : (
         <div>
           <Navbar />
-          <SearchResult/>
+          <SearchResult />
           <Outlet />
           <Footer />
         </div>
