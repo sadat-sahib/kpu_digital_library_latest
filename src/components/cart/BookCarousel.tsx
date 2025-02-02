@@ -265,7 +265,11 @@ export default function BookCategories() {
                                   <Download size={16} />
                                 </Button>
                               </TooltipTrigger>
-                              <TooltipContent>
+                              <TooltipContent className={`${
+                                  book.format === "hard"
+                                    ? "opacity-0"
+                                    : "opacity-100"
+                                }`}>
                                 <p>دانلود</p>
                               </TooltipContent>
                             </Tooltip>
@@ -279,7 +283,7 @@ export default function BookCategories() {
                                   <Eye size={16} />
                                 </Button>
                               </TooltipTrigger>
-                              <TooltipContent>
+                              <TooltipContent className="bg-white text-black p-2 rounded-md mb-3">
                                 <p>جزییات</p>
                               </TooltipContent>
                             </Tooltip>
@@ -302,7 +306,11 @@ export default function BookCategories() {
                                   <FileText size={16} />
                                 </Button>
                               </TooltipTrigger>
-                              <TooltipContent>
+                              <TooltipContent className={`${
+                                  book.format === "hard"
+                                    ? "opacity-0"
+                                    : "opacity-100"
+                                }`}>
                                 <p>خواندن</p>
                               </TooltipContent>
                             </Tooltip>
