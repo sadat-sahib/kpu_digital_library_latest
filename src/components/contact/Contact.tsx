@@ -4,6 +4,7 @@ import { Button } from "../ui/button";
 import { Textarea } from "../ui/textarea";
 import { Facebook, Instagram, Twitter, Phone, Mail, MapPin } from "lucide-react";
 import "tailwindcss/tailwind.css";
+import React from "react";
 
 const Contact = () => {
   return (

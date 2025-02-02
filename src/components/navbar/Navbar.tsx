@@ -59,34 +59,42 @@ const Navbar: React.FC = () => {
               <img src="public/logo.png" alt="Logo" className="h-8" />
             </a>
           </div>
+          {/* mobile */}
           <div className="flex items-center gap-2 lg:hidden">
-            <form className="flex justify-center" onSubmit={handleSearch}>
-              <div className="relative flex items-center lg:w-72 gap-1">
-                <Input
-                  type="text"
-                  placeholder="Search..."
-                  className="w-full border rounded-full px-4 py-2 outline-none pr-16"
-                  value={query}
-                  onChange={(e) => setQuery(e.target.value)}
-                />
+          <form className="flex justify-center border border-black rounded-md gap-0" onSubmit={handleSearch}>
+  <div className="flex items-center  w-full">
+    <select
+      className="py-1 text-gray-600 outline-none px-1 border-l border-l-black "
+      value={filter}
+      onChange={(e) => setFilter(e.target.value)}
+    >
+      <option value="title">نام</option>
+      <option value="author">نویسنده</option>
+      <option value="publicationYear">سال چاپ</option>
+      <option value="faculty">پوهنځی</option>
+      <option value="department">دیپارتمنت</option>
+    </select>
 
-                <select
-                  className="border w-fit py-1 text-gray-600 outline-none ml-2 px-1"
-                  value={filter}
-                  onChange={(e) => setFilter(e.target.value)}
-                >
-                  <option value="title">نام</option>
-                  <option value="author">نویسنده</option>
-                  <option value="publicationYear">سال چاپ</option>
-                  <option value="faculty">پوهنځی</option>
-                  <option value="department">دیپارتمنت</option>
-                </select>
+    <div className="relative flex-1">
+    <Button
+        type="submit"
+        variant="ghost"
+        className="absolute inset-y-0 left-0 flex items-center pr-4"
+      >
+        <Search size={20} />
+      </Button>
+      <Input
+        type="text"
+        placeholder="Search..."
+        className="w-full px-4 py-2 outline-none pr-6 border-none overflow-y-auto"
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+      />
 
-                <Button type="submit" variant="ghost" className="absolute rounded-full">
-                  <Search size={20} />
-                </Button>
-              </div>
-            </form>
+    </div>
+  </div>
+</form>
+
 
             <div className="flex justify-start -ml-6">
               <Button variant="ghost" className="relative px-1" onClick={toggleCartSheet}>
@@ -123,33 +131,45 @@ const Navbar: React.FC = () => {
 
             </div>
 
-            <form className="flex justify-center gap-2" onSubmit={handleSearch}>
-              <div className="relative flex items-center lg:w-72 gap-2">
+            {/* desktop mode */}
+
+            <form
+              className="flex justify-end items-center border rounded-md border-black gap-2"
+              onSubmit={handleSearch}
+            >
+              <select
+                className="py-1 text-gray-600 outline-none px-2  border-l border-l-black"
+                value={filter}
+                onChange={(e) => setFilter(e.target.value)}
+              >
+                <option value="title">نام</option>
+                <option value="author">نویسنده</option>
+                <option value="publicationYear">سال چاپ</option>
+                <option value="faculty">پوهنځی</option>
+                <option value="department">دیپارتمنت</option>
+              </select>
+
+              <div className="relative">
+              <Button
+                  type="submit"
+                  variant="ghost"
+                  className="absolute inset-y-0 left-0 flex items-center px-3"
+                >
+                  <Search size={20} />
+                </Button>
                 <Input
+                
                   type="text"
-                  placeholder="Search..."
-                  className="w-full h-8.5 pl-4 border rounded-full px-4 py-2 outline-none pr-16"
+                  placeholder="جستجو..."
+                  className="w-72 pr-10 py-2 outline-none border-none"
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
                 />
 
-                <select
-                  className="border py-1 text-gray-600 outline-none ml-2 px-3"
-                  value={filter}
-                  onChange={(e) => setFilter(e.target.value)}
-                >
-                  <option value="title" >نام</option>
-                  <option value="author">نویسنده</option>
-                  <option value="publicationYear">سال چاپ</option>
-                  <option value="faculty">پوهنځی</option>
-                  <option value="department">دیپارتمنت</option>
-                </select>
-
-                <Button type="submit" variant="ghost" className="absolute rounded-full">
-                  <Search size={20} />
-                </Button>
               </div>
             </form>
+
+
           </div>
 
           <div className="flex items-center space-x-4 hidden lg:flex">

@@ -107,7 +107,7 @@ const SearchResult: React.FC = () => {
                 <CardContent>
                   <div className="flex justify-between items-center py-2">
                     <Tooltip>
-                      <TooltipTrigger>
+                      <TooltipTrigger className={`${book.format === 'hard' ? 'opacity-0':'opacity-100'}`}>
                         <Button variant="ghost" size="sm" disabled={book.format==="hard"?true:false}>
                           <Download size={16} />
                         </Button>
@@ -127,7 +127,7 @@ const SearchResult: React.FC = () => {
                       </TooltipContent>
                     </Tooltip>
                     <Tooltip>
-                      <TooltipTrigger>
+                      <TooltipTrigger className={`${book.format === 'hard' ? 'opacity-0':'opacity-100'}`}>
                         <Button variant="ghost" size="sm" onClick={() => openPdfDialog('/2.pdf', book.title)}
                           disabled={book.format==="hard" ? true : false}>
                           <FileText size={16} />

@@ -1,3 +1,4 @@
+import React from 'react';
 import { Dialog, DialogContent, DialogFooter, DialogOverlay} from '../ui/dialog'; // وارد کردن کامپوننت‌های مورد نیاز از shadcn/ui
 
 

@@ -11,7 +11,10 @@ import axios from "../../axiosInstance";
 import { useMutation, useQueries, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAuthStore } from "../../Store/useAuthStore";
 import { useCartStore } from "../../Store/useCartStore";
+import { useLibraryStore } from "../../Store/useLibraryInformation"
 import { AxiosError } from "axios";
+
+import React from "react";
 
 
 interface Book {
@@ -43,13 +46,16 @@ export default function BookCategories() {
   const [pdfTitle, setPdfTitle] = useState<string>("");
 
   const { incrementCart } = useCartStore();
+  const { setCategoriesNumBooks , setMainInformation } = useLibraryStore();
 
   // Fetch categories
   const { data: categories = [], isLoading: categoriesLoading } = useQuery<Category[]>({
     queryKey: ["categories"],
     queryFn: async () => {
       const res = await axios.get("/api/home");
-      console.log('categories', res.data.categories_with_books[0].books)
+      console.log('categories', res)
+      setCategoriesNumBooks(res.data.categories_num_books);
+      setMainInformation(res.data.main_information)
       return res.data.categories_with_books;
     },
   });
@@ -219,7 +225,7 @@ export default function BookCategories() {
                         <CardContent>
                           <div className="flex justify-between items-center py-2">
                             <Tooltip>
-                              <TooltipTrigger>
+                              <TooltipTrigger className={`${book.format === 'hard' ? 'opacity-0':'opacity-100'}`}>
                                 <Button variant="ghost" size="sm" disabled={book.format === "hard" ? true : false}>
                                   <Download size={16} />
                                 </Button>
@@ -239,7 +245,7 @@ export default function BookCategories() {
                               </TooltipContent>
                             </Tooltip>
                             <Tooltip>
-                              <TooltipTrigger>
+                              <TooltipTrigger className={`${book.format === 'hard' ? 'opacity-0':'opacity-100'}`}>
                                 <Button variant="ghost" size="sm" onClick={() => openPdfDialog(book.pdf, book.title)} disabled={book.format === "hard" ? true : false}>
                                   <FileText size={16} />
                                 </Button>
