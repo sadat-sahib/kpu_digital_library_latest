@@ -52,6 +52,9 @@ const ProfileSheet: React.FC<ProfileSheetProps> = ({ open, onOpenChange }) => {
                   </div>
               </div>
             </Link>
+                  <div>
+                    <Link to={'./student-profile'}>کتاب های گرفته شده</Link>
+                  </div>
         </div>
         <div className="mt-auto w-full pb-4">
           <Button
