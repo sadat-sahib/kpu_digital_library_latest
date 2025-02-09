@@ -1,5 +1,6 @@
 
-import { Facebook, Instagram, Twitter, Phone, Mail } from "lucide-react";
+import { Facebook, Phone, Mail, Linkedin } from "lucide-react";
+import React from "react";
 import { Link } from "react-router-dom";
 import "tailwindcss/tailwind.css";
 
@@ -26,17 +27,14 @@ const Footer = () => {
         {/* Contact Section */}
         <div>
           <h3 className="text-lg font-bold text-white mb-4">راه‌های ارتباطی</h3>
-          <p className="mb-2 flex gap-1"><Phone size={24} className="hover:text-blue-400"/> 123-456-789</p>
-          <p className="mb-4 flex gap-1"><Mail size={24} className="hover:text-blue-400"/> example@example.com</p>
+          <p className="mb-2 flex gap-1"><Phone size={24} className="hover:text-blue-400"/> 0202526381</p>
+          <p className="mb-4 flex gap-1"><Mail size={24} className="hover:text-blue-400"/>chanellor@gmail.com</p>
           <div className="flex space-x-4 rtl:space-x-reverse">
             <a href="#" className="text-gray-400 hover:text-blue-400 transition">
               <Facebook size={24} />
             </a>
-            <a href="#" className="text-gray-400 hover:text-pink-400 transition">
-              <Instagram size={24} />
-            </a>
             <a href="#" className="text-gray-400 hover:text-blue-400 transition">
-              <Twitter size={24} />
+              <Linkedin size={24} />
             </a>
           </div>
         </div>
@@ -59,19 +57,4 @@ const Footer = () => {
 
 export default Footer;
 
-// Tailwind CSS animation
-// Add this to your global CSS
-// @keyframes fade-in {
-//   from {
-//     opacity: 0;
-//     transform: translateY(10px);
-//   }
-//   to {
-//     opacity: 1;
-//     transform: translateY(0);
-//   }
-// }
 
-// .animate-fade-in {
-//   animation: fade-in 0.5s ease-out;
-// }

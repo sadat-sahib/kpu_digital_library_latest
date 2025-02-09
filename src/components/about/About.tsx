@@ -1,3 +1,4 @@
+import React from "react";
 import "tailwindcss/tailwind.css";
 
 const About = () => {
@@ -7,7 +8,7 @@ const About = () => {
         {/* Single Image Section */}
         <div className="mb-8">
           <img
-            src="/public/3.jpg" // تغییر این آدرس به مسیر تصویر مورد نظر
+            src="/library.jpg" // تغییر این آدرس به مسیر تصویر مورد نظر
             alt="Library Image"
             className="w-full h-96 object-cover rounded-md shadow-lg"
           />

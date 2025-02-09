@@ -1,46 +1,28 @@
 import React from "react";
+import { useProfileInfo } from "../../Store/useProfileInfo";
 
-interface Book {
-  id: number;
-  title: string;
-  author: string;
-  borrowDate?: string;
-  returnDate?: string;
-  requestDate?: string;
-  status?: string;
-}
+const BookList = () => {
+  const { books } = useProfileInfo();
 
-interface BookListProps {
-  books: Book[];
-  type: "borrowed" | "requested";
-}
-
-const BookList: React.FC<BookListProps> = ({ books, type }) => {
   return (
-    <div className="space-y-4 max-h-96 overflow-y-auto pr-6 px-12 scrollbar-thin">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 max-h-96 overflow-y-auto pr-6 px-12 scrollbar-thin">
       {books.length > 0 ? (
         books.map((book) => (
           <div
-            key={book.id}
-            className="p-4 bg-gray-50 border border-gray-200 rounded-lg shadow-sm hover:shadow-lg transition-all duration-300 transform hover:scale-105"
+            key={book.book_title}
+            className=" bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 transform hover:scale-105 flex flex-col items-center w-56"
           >
-            <div className="flex flex-col md:flex-row md:justify-between">
-              <div className="mt-2 md:mt-0 text-gray-500 text-sm">
-                {type === "borrowed" ? (
-                  <>
-                    <p>تاریخ اخذ: {book.borrowDate}</p>
-                    <p>تاریخ برگشت: {book.returnDate}</p>
-                  </>
-                ) : (
-                  <>
-                    <p>تاریخ درخواست: {book.requestDate}</p>
-                    <p>وضعیت: {book.status}</p>
-                  </>
-                )}
-              </div>
-              <div>
-                <h4 className="text-xl font-bold text-gray-700">{book.title}</h4>
-                <p className="text-gray-600">نویسنده: {book.author}</p>
+            <img 
+              src={book.book_image} 
+              alt={book.book_title} 
+              className="w-full h-40 object-cover rounded-lg border border-gray-300"
+            />
+            <div className="mt-3 text-center">
+              <h4 className="text-lg font-bold text-gray-700">{book.book_title}</h4>
+              <p className="text-gray-600">نویسنده: {book.book_author}</p>
+              <div className="mt-2 text-gray-500 text-sm pb-2">
+                <p>تاریخ اخذ: {book.reserve_date}</p>
+                <p>تاریخ برگشت: {book.return_date}</p>
               </div>
             </div>
           </div>

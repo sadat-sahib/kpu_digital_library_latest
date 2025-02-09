@@ -61,39 +61,39 @@ const Navbar: React.FC = () => {
           </div>
           {/* mobile */}
           <div className="flex items-center gap-2 lg:hidden">
-          <form className="flex justify-center border border-black rounded-md gap-0" onSubmit={handleSearch}>
-  <div className="flex items-center  w-full">
-    <select
-      className="py-1 text-gray-600 outline-none px-1 border-l border-l-black "
-      value={filter}
-      onChange={(e) => setFilter(e.target.value)}
-    >
-      <option value="title">نام</option>
-      <option value="author">نویسنده</option>
-      <option value="publicationYear">سال چاپ</option>
-      <option value="faculty">پوهنځی</option>
-      <option value="department">دیپارتمنت</option>
-    </select>
+            <form className="flex justify-center border border-black rounded-md gap-0" onSubmit={handleSearch}>
+              <div className="flex items-center  w-full">
+                <select
+                  className="py-1 text-gray-600 outline-none px-1 border-l border-l-black "
+                  value={filter}
+                  onChange={(e) => setFilter(e.target.value)}
+                >
+                  <option value="title">نام</option>
+                  <option value="author">نویسنده</option>
+                  <option value="publicationYear">سال چاپ</option>
+                  <option value="faculty">پوهنځی</option>
+                  <option value="department">دیپارتمنت</option>
+                </select>
 
-    <div className="relative flex-1">
-    <Button
-        type="submit"
-        variant="ghost"
-        className="absolute inset-y-0 left-0 flex items-center pr-4"
-      >
-        <Search size={20} />
-      </Button>
-      <Input
-        type="text"
-        placeholder="Search..."
-        className="w-full px-4 py-2 outline-none pr-6 border-none overflow-y-auto"
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-      />
+                <div className="relative flex-1">
+                <Button
+                    type="submit"
+                    variant="ghost"
+                    className="absolute inset-y-0 left-0 flex items-center pr-4"
+                  >
+                    <Search size={20} />
+                  </Button>
+                  <Input
+                    type="text"
+                    placeholder="Search..."
+                    className="w-full px-4 py-2 outline-none pr-6 border-none overflow-y-auto"
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
+                  />
 
-    </div>
-  </div>
-</form>
+                </div>
+              </div>
+            </form>
 
 
             <div className="flex justify-start -ml-6">

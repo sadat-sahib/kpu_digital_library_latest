@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useAuthStore } from "../../Store/useAuthStore";
+import React from "react";
 
 export default function AdBanner() {
   const { token } = useAuthStore();
@@ -7,7 +8,7 @@ export default function AdBanner() {
   return (
     <div className="relative w-full h-[400px] sm:h-[500px] lg:h-[600px] rounded-md overflow-hidden">
       <img
-        src="/kpu3.jpg"
+        src="/33.jpg"
         alt="Advertisement"
         className="object-cover w-full h-full blur-sm"
       />

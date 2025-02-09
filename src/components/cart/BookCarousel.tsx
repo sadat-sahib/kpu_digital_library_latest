@@ -14,7 +14,7 @@ import {
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@radix-ui/react-tooltip";
+} from "../../components/ui/tooltip";
 import { Download, Eye, FileText } from "lucide-react";
 import Swal from "sweetalert2";
 import { AxiosError } from "axios";
@@ -283,7 +283,7 @@ export default function BookCategories() {
                                   <Eye size={16} />
                                 </Button>
                               </TooltipTrigger>
-                              <TooltipContent className="bg-white text-black p-2 rounded-md mb-3">
+                              <TooltipContent >
                                 <p>جزییات</p>
                               </TooltipContent>
                             </Tooltip>
