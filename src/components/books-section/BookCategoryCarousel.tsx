@@ -17,6 +17,7 @@ import {
 import { Button } from "../ui/button";
 import { Link } from "react-router-dom";
 import { toast } from "../../@/hooks/use-toast";
+import BookCardSkeleton from "./BookCardSkeleton";
 
 interface CoursesCardsProps {
   isMobile?: boolean;
@@ -79,9 +80,7 @@ const CoursesCards = ({ isMobile, categoryDocIds }: CoursesCardsProps) => {
 
   if (isPending) {
     return (
-      <div className="flex justify-center items-center h-screen">
-        Loading...
-      </div>
+      <BookCardSkeleton/>
     );
   }
 
@@ -129,7 +128,7 @@ const CoursesCards = ({ isMobile, categoryDocIds }: CoursesCardsProps) => {
               <Card key={book.id} className="book-card shadow-md mx-auto w-[90%] sm:w-[150px] md:w-[180px] lg:w-[250px] flex-shrink-0">
                 <div className="relative h-48 w-full overflow-hidden rounded-t-md">
                   <img
-                    src={book.image && "/3.jpg"}
+                    src={book.image && "/1.jpg"}
                     alt={book.title}
                     className="object-cover w-full h-full"
                   />

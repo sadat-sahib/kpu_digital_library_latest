@@ -102,11 +102,11 @@ export default function LibraryInfo() {
                 <div className="space-y-3">
                   <div className="flex justify-between items-center pb-2 border-b">
                     <span className="font-medium">شنبه تا چهارشنبه</span>
-                    <span>۸:۰۰ الی ۱۸:۰۰</span>
+                    <span>۸:۰۰ الی ۴:۰۰</span>
                   </div>
                   <div className="flex justify-between items-center pb-2 border-b">
                     <span className="font-medium">پنج‌شنبه</span>
-                    <span>۸:۰۰ الی ۱۴:۰۰</span>
+                    <span>۸:۰۰ الی ۱:۰۰</span>
                   </div>
                   <div className="flex justify-between items-center pb-2 border-b">
                     <span className="font-medium">جمعه و تعطیلات رسمی</span>
