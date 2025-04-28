@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import Navbar from "../components/navbar/Navbar";
 import Footer from "../components/footer/Footer";
 import SearchResult from "../components/cart/SearchResult";
+import React from "react";
 
 export default function Layout() {
   const location = useLocation();

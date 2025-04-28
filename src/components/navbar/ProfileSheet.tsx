@@ -1,16 +1,15 @@
 import React from "react";
-import { useQuery } from "@tanstack/react-query";
 import {
   Sheet,
   SheetContent,
 } from "../ui/sheet";
 import { Button } from "../ui/button";
 import { useAuthStore } from "../../Store/useAuthStore";
-import { useProfileInfo } from "../../Store/useProfileInfo";
-import { BookA, LogOut, User as UserIcon } from "lucide-react";
+
+import { LogOut, User as UserIcon } from "lucide-react";
 import axios from "../../axiosInstance";
 import { Link } from "react-router-dom";
-
+import { useGetProfileInfo } from '../../config/client/HomePgeApi.query'
 interface ProfileSheetProps {
   open: boolean;
   onOpenChange: (isOpen: boolean) => void;
@@ -18,24 +17,9 @@ interface ProfileSheetProps {
 
 const ProfileSheet: React.FC<ProfileSheetProps> = ({ open, onOpenChange }) => {
   const { token, clearUser } = useAuthStore();
-  const { setUser, setBooks} = useProfileInfo();
 
-  // درخواست گرفتن اطلاعات کاربر با React Query
-  const { data: profileUser, isLoading, error } = useQuery({
-    queryKey: ["profile"],
-    queryFn: async () => {
-      const response = await axios.get("api/account/profile", {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      });
-      console.log('profile data', response)
-      setUser(response.data.user)
-      setBooks(response.data.books)
-      return response.data;
-    },
-    enabled: !!token, // فقط وقتی که توکن موجود باشد، درخواست ارسال می‌شود
-  });
+  const { data, isPending, error } = useGetProfileInfo()
+  // console.log('data_for_profile_new',data);
 
   const handleSignout = () => {
     axios.post("/api/logout", {}, {
@@ -53,7 +37,7 @@ const ProfileSheet: React.FC<ProfileSheetProps> = ({ open, onOpenChange }) => {
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent side="right" className="w-80 flex flex-col h-full">
         <div className="flex-1 mt-6 space-y-6 flex flex-col items-center">
-          {isLoading ? (
+          {isPending ? (
             <p>در حال بارگذاری...</p>
           ) : error ? (
             <p className="text-red-500">خطا در دریافت اطلاعات</p>
@@ -65,16 +49,16 @@ const ProfileSheet: React.FC<ProfileSheetProps> = ({ open, onOpenChange }) => {
                 </div>
                 <div className="text-center">
                   <p className="text-lg font-semibold text-gray-800">
-                    {profileUser?.user.firstName}  {profileUser?.user.lastName}
+                    {data?.data.user.firstName}  {data?.data.user.lastName}
                   </p>
                 </div>
               </div>
             </Link>
           )}
-          <div className="flex justify-center items-center gap-3">
+          {/* <div className="flex justify-center items-center gap-3">
             <BookA size={18} />
             <Link to={'./student-profile'}>کتاب های گرفته شده</Link>
-          </div>
+          </div> */}
         </div>
         <div className="mt-auto w-full pb-4">
           <Button

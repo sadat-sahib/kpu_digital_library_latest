@@ -1,50 +1,107 @@
-"use client";
+
 
 import React from "react";
-import { UserIcon, ArrowLeft } from "lucide-react";
-import { Link } from "react-router-dom";
-import { useAuthStore } from "../../Store/useAuthStore";
-import { useProfileInfo } from "../../Store/useProfileInfo";
-import BookList from "./BookList";
+import { UserDetails } from "./user-details";
+import { UserOverview } from "./user-overview";
+import { TabsBooks } from "./tabs-books";
 
-const StudentProfile = () => {
-  const { token } = useAuthStore();
-  const { user } = useProfileInfo();
-  console.log('profile token', token)
-  console.log('users',user)
+// Mock user data
+const userData = {
+  id: "user123",
+  firstName: "Alex",
+  lastName: "Johnson",
+  fatherName: "Michael Johnson",
+  email: "alex.johnson@example.com",
+  phone: "+1 (555) 123-4567",
+  accountStatus: "Active",
+  accountType: "Premium",
+  profileImage: "/2.jpg",
+};
+
+// Mock borrowed books data
+const borrowedBooks = [
+  {
+    id: "book1",
+    title: "The Design of Everyday Things",
+    author: "Don Norman",
+    borrowDate: "2023-10-15",
+    image: "/1.jpg",
+  },
+  {
+    id: "book2",
+    title: "Atomic Habits",
+    author: "James Clear",
+    borrowDate: "2023-11-02",
+    image: "/1.jpg",
+  },
+  {
+    id: "book3",
+    title: "Thinking, Fast and Slow",
+    author: "Daniel Kahneman",
+    borrowDate: "2023-11-10",
+    image: "/1.jpg",
+  },
+];
+
+// Mock requested books data
+const requestedBooks = [
+  {
+    id: "req1",
+    title: "Sapiens: A Brief History of Humankind",
+    author: "Yuval Noah Harari",
+    requestDate: "2023-11-15",
+    image: "/1.jpg",
+  },
+  {
+    id: "req2",
+    title: "The Psychology of Money",
+    author: "Morgan Housel",
+    requestDate: "2023-11-18",
+    image: "/1.jpg",
+  },
+  {
+    id: "req2",
+    title: "The Psychology of Money",
+    author: "Morgan Housel",
+    requestDate: "2023-11-18",
+    image: "/1.jpg",
+  },
+  {
+    id: "req1",
+    title: "Sapiens: A Brief History of Humankind",
+    author: "Yuval Noah Harari",
+    requestDate: "2023-11-15",
+    image: "/1.jpg",
+  },
+  {
+    id: "req2",
+    title: "The Psychology of Money",
+    author: "Morgan Housel",
+    requestDate: "2023-11-18",
+    image: "/1.jpg",
+  },
+  {
+    id: "req2",
+    title: "The Psychology of Money",
+    author: "Morgan Housel",
+    requestDate: "2023-11-18",
+    image: "/1.jpg",
+  },
+];
+
+export default function UserProfile() {
   return (
-    <div className="relative">
-      
-      <Link
-        to="/"
-        className="absolute top-4 mt-2 left-4 ml-2 md:top-8 md:left-8 text-gray-600 hover:text-gray-900"
-      >
-        <ArrowLeft size={26} />
-      </Link>
-
-      <div className="max-w-7xl min-h-screen mx-auto bg-white shadow-xl rounded-lg overflow-hidden">
-        <div className="flex flex-col md:flex-row h-screen">
-          
-          <div className="md:w-1/3 p-8 bg-gradient-to-r from-blue-500 to-indigo-500 text-white flex flex-col items-center">
-            <div className="w-24 h-24 rounded-full bg-white flex items-center justify-center overflow-hidden border-4 border-white mb-4">
-              <UserIcon size={48} className="text-blue-500" />
-            </div>
-            <h2 className="text-3xl font-bold mb-2">
-              {user?.firstName} {user?.lastName}
-            </h2>
-            <p className="text-lg mb-1">{user?.email}</p>
-            <p className="mb-1">وضعیت: {user?.status}</p>
-            <p>نوع حساب: {user?.type}</p>
-          </div>
-
-          <div className="md:w-2/3 p-8">
-            <h3 className="text-2xl font-bold mb-4">کتاب‌ها</h3>
-            <BookList  />
+    <div className="space-y-8 py-5">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="lg:col-span-1 border-0 border-l border-l-gray-300">
+          <div className="  px-2   rounded-lg">
+            <UserOverview user={userData} />
+            <UserDetails user={userData} />
           </div>
         </div>
+        <TabsBooks borrowedBooks={borrowedBooks} requestedBooks={requestedBooks} />
+
       </div>
     </div>
   );
-};
-
-export default StudentProfile;
+}

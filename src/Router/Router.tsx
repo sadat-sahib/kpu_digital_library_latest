@@ -10,6 +10,9 @@ import Dashboard from "../Pages/Dashboard";
 import OnlyAdminPrivateRoute from "../components/OnlyAdminPrivateRoute";
 import StudentPrivateRoute from "../components/student-profile/StudentPrivateRoute"
 import StudentProfile from "../components/student-profile/StudentProfile"
+import BookDetailPage from "../components/cart/BookDetailsPage";
+import React from "react";
+import BookLibrary from "../components/books-page/BooksPage";
 
 
 export const Router = createBrowserRouter([
@@ -20,10 +23,11 @@ export const Router = createBrowserRouter([
             {
                 path: '/',
                 element: <Home/>,
-                children: [
-                    
-                ]
             },
+            {
+                path: 'book-details/:id',
+                element: <BookDetailPage />
+              },
             {
                 path: 'contact',
                 element: <Contact/>
@@ -31,6 +35,10 @@ export const Router = createBrowserRouter([
             {
                 path: 'about',
                 element: <About/>
+            },
+            {
+                path: 'books',
+                element: <BookLibrary/>
             },
             {
                 element: <PrivateRoute/>,

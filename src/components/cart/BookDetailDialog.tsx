@@ -34,7 +34,7 @@ const BookDetailsDialog = ({
         <div className="flex flex-col md:flex-row gap-4 pt-6">
           {/* تصویر کتاب */}
           <div className="flex-none w-full md:w-1/3 h-48 overflow-hidden rounded-md">
-            <img src={image} alt={title} className="object-cover w-full h-full" />
+            <img src={image && '/3.jpg'} alt={title} className="object-cover w-full h-full" />
           </div>
 
           {/* جزئیات کتاب */}

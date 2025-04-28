@@ -1,7 +1,6 @@
 import { useState } from "react";
-import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { ShoppingCart, User, Menu, Search } from "lucide-react"; 
+import { ShoppingCart, User, Menu } from "lucide-react"; 
 import MobileMenuSheet from "./MobileMenuSheet";
 import ShoppingCartSheet from "./ShoppingCartSheet";
 import ProfileSheet from "./ProfileSheet"; 
@@ -61,7 +60,7 @@ const Navbar: React.FC = () => {
           </div>
           {/* mobile */}
           <div className="flex items-center gap-2 lg:hidden">
-            <form className="flex justify-center border border-black rounded-md gap-0" onSubmit={handleSearch}>
+            {/* <form className="flex justify-center border border-black rounded-md gap-0" onSubmit={handleSearch}>
               <div className="flex items-center  w-full">
                 <select
                   className="py-1 text-gray-600 outline-none px-1 border-l border-l-black "
@@ -93,10 +92,10 @@ const Navbar: React.FC = () => {
 
                 </div>
               </div>
-            </form>
+            </form> */}
 
 
-            <div className="flex justify-start -ml-6">
+            <div className="flex justify-start">
               <Button variant="ghost" className="relative px-1" onClick={toggleCartSheet}>
                 <ShoppingCart size={20} />
                 {cartCount > 0 && (
@@ -114,7 +113,7 @@ const Navbar: React.FC = () => {
           <div className="flex-grow mx-4 hidden lg:flex flex-col lg:flex-row items-center justify-center space-x-6">
             <div className="flex space-x-4">
             <Link to="/" className="relative group text-gray-700 hover:text-blue-500 font-black ml-2">
-                کتاب‌ها
+                صفحه اصلی
                 <span className="absolute left-0 bottom-0 w-0 h-0.5 bg-blue-500 transition-all duration-300 group-hover:w-full"></span>
               </Link>
               <Link to="/about" className="relative group text-gray-700 hover:text-blue-500 font-black ml-2">
@@ -126,6 +125,10 @@ const Navbar: React.FC = () => {
                 تماس با ما
                 <span className="absolute left-0 bottom-0 w-0 h-0.5 bg-blue-500 transition-all duration-300 group-hover:w-full"></span>
               </Link>
+              <Link to="/books" className="relative group text-gray-700 hover:text-blue-500 font-black">
+                کتاب ها
+                <span className="absolute left-0 bottom-0 w-0 h-0.5 bg-blue-500 transition-all duration-300 group-hover:w-full"></span>
+              </Link>
 
 
 
@@ -133,7 +136,7 @@ const Navbar: React.FC = () => {
 
             {/* desktop mode */}
 
-            <form
+            {/* <form
               className="flex justify-end items-center border rounded-md border-black gap-2"
               onSubmit={handleSearch}
             >
@@ -167,12 +170,12 @@ const Navbar: React.FC = () => {
                 />
 
               </div>
-            </form>
+            </form> */}
 
 
           </div>
 
-          <div className="flex items-center space-x-4 hidden lg:flex">
+          <div className=" items-center space-x-4 hidden lg:flex">
             <Button variant="ghost" className="relative" onClick={toggleCartSheet}>
               <ShoppingCart size={20} />
               {cartCount > 0 && (

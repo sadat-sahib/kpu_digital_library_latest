@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button } from "../ui/button";
-import { ShoppingCart, User, Home, Info, Phone } from "lucide-react";
+import { ShoppingCart, User, Home, Info, Phone, BookA } from "lucide-react";
 import ShoppingCartSheet from "./ShoppingCartSheet";
 import ProfileSheet from "./ProfileSheet";
 import { Sheet, SheetContent } from "../ui/sheet";
@@ -34,13 +34,16 @@ const MobileMenuSheet: React.FC<MobileMenuSheetProps> = ({ open, onOpenChange })
             {/* Links in Mobile */}
             <div className="flex flex-col space-y-4 text-center">
               <a href="/" className="flex items-center space-x-2 text-gray-700 hover:text-blue-500 gap-2">
-                <Home size={20} /> <span>Home</span>
+                <Home size={20} /> <span>صفحه اصلی</span>
               </a>
               <a href="/about" className="flex items-center space-x-2 text-gray-700 hover:text-blue-500 gap-2">
-                <Info size={20} /> <span>About</span>
+                <Info size={20} /> <span>درباره ما</span>
               </a>
               <a href="/contact" className="flex items-center space-x-2 text-gray-700 hover:text-blue-500 gap-2">
-                <Phone size={20} /> <span>Contact</span>
+                <Phone size={20} /> <span>تماس با ما</span>
+              </a>
+              <a href="/books" className="flex items-center space-x-2 text-gray-700 hover:text-blue-500 gap-2">
+                <BookA size={20} /> <span>کتاب ها</span>
               </a>
             </div>
 
