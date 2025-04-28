@@ -34,6 +34,7 @@ const AdminLogin: React.FC = () => {
     axios
       .post("/api/admin/login", data)
       .then((response) => {
+        console.log(response)
         if (response.status === 200) {
           const employee = response.data.employee?.type === "employee";
           console.log(response.data);
@@ -51,6 +52,7 @@ const AdminLogin: React.FC = () => {
             setUser(loggedInUser, userToken, userIsAdmin, type, permission);
             setResponse(response.data.message);
           } else {
+
             const loggedInUser = {
               email: response.data.$assistant.email,
               status: response.data.$assistant.status,
