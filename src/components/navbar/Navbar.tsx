@@ -59,39 +59,7 @@ const Navbar: React.FC = () => {
           </div>
           {/* mobile */}
           <div className="flex items-center gap-2 lg:hidden">
-            {/* <form className="flex justify-center border border-black rounded-md gap-0" onSubmit={handleSearch}>
-              <div className="flex items-center  w-full">
-                <select
-                  className="py-1 text-gray-600 outline-none px-1 border-l border-l-black "
-                  value={filter}
-                  onChange={(e) => setFilter(e.target.value)}
-                >
-                  <option value="title">نام</option>
-                  <option value="author">نویسنده</option>
-                  <option value="publicationYear">سال چاپ</option>
-                  <option value="faculty">پوهنځی</option>
-                  <option value="department">دیپارتمنت</option>
-                </select>
 
-                <div className="relative flex-1">
-                <Button
-                    type="submit"
-                    variant="ghost"
-                    className="absolute inset-y-0 left-0 flex items-center pr-4"
-                  >
-                    <Search size={20} />
-                  </Button>
-                  <Input
-                    type="text"
-                    placeholder="Search..."
-                    className="w-full px-4 py-2 outline-none pr-6 border-none overflow-y-auto"
-                    value={query}
-                    onChange={(e) => setQuery(e.target.value)}
-                  />
-
-                </div>
-              </div>
-            </form> */}
 
             <div className="flex justify-start">
               <Button
@@ -152,41 +120,7 @@ const Navbar: React.FC = () => {
 
             {/* desktop mode */}
 
-            {/* <form
-              className="flex justify-end items-center border rounded-md border-black gap-2"
-              onSubmit={handleSearch}
-            >
-              <select
-                className="py-1 text-gray-600 outline-none px-2  border-l border-l-black"
-                value={filter}
-                onChange={(e) => setFilter(e.target.value)}
-              >
-                <option value="title">نام</option>
-                <option value="author">نویسنده</option>
-                <option value="publicationYear">سال چاپ</option>
-                <option value="faculty">پوهنځی</option>
-                <option value="department">دیپارتمنت</option>
-              </select>
-
-              <div className="relative">
-              <Button
-                  type="submit"
-                  variant="ghost"
-                  className="absolute inset-y-0 left-0 flex items-center px-3"
-                >
-                  <Search size={20} />
-                </Button>
-                <Input
-                
-                  type="text"
-                  placeholder="جستجو..."
-                  className="w-72 pr-10 py-2 outline-none border-none"
-                  value={query}
-                  onChange={(e) => setQuery(e.target.value)}
-                />
-
-              </div>
-            </form> */}
+   
           </div>
 
           <div className="items-center space-x-4 hidden lg:flex">
@@ -204,9 +138,9 @@ const Navbar: React.FC = () => {
             </Button>
 
             {token ? (
-              <Button variant="ghost" onClick={toggleProfileSheet}>
+              <Link to={'/student-profile'} className="relative group text-gray-700 hover:text-blue-500 font-black ml-2 flex gap-2 justify-center items-center">
                 <User size={20} />
-              </Button>
+              </Link>
             ) : (
               <div className="flex justify-center items-center gap-2 border border-gray-400 rounded-md p-2 transition-transform duration-300 hover:bg-orange-100 hover:border-orange-300 hover:scale-105">
                 <Link to="login" className="hover:underline">

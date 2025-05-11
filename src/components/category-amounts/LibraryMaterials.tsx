@@ -164,10 +164,11 @@ export default function LibraryResources() {
   return (
     <section className="w-full py-10 px-4 md:px-12 bg-muted">
       <div className="max-w-7xl mx-auto text-center">
-        <h2 className="text-2xl md:text-3xl font-bold mb-4 text-primary">
+        <h2 className="text-2xl md:text-3xl font-bold mb-1 text-primary">
           منابع کتابخانه
         </h2>
-        <p className="text-muted-foreground mb-8 max-w-2xl mx-auto text-sm md:text-base">
+        <div className="mx-auto w-28 h-1 bg-blue-500 rounded"></div>
+        <p className="text-muted-foreground mb-8 max-w-2xl mx-auto text-sm md:text-base mt-4">
           کتابخانه دیجیتال دانشگاه، منابع فیزیکی و الکترونیکی متنوعی را در اختیار دانشجویان و پژوهشگران قرار می‌دهد.
         </p>
 

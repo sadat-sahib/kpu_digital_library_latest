@@ -11,6 +11,7 @@ import { useAddToShoppingCard, useGetCategoriesWithBooks } from "../../config/cl
 import { toast } from "../../@/hooks/use-toast";
 import BookCardSkeleton from "../books-section/BookCardSkeleton";
 import SearchFilterSkeleton from "./SearchFilterSkeleton";
+import CustomImage from "../ui/custom-image/CustomImage";
 
 export default function BookLibrary() {
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
@@ -125,11 +126,16 @@ export default function BookLibrary() {
             filteredBooks.map((book: any) => (
               <Card key={book.id} className="book-card shadow-lg mx-auto w-[90%] sm:w-[150px] md:w-[180px] lg:w-[250px] flex-shrink-0">
                 <div className="relative h-48 w-full overflow-hidden rounded-t-md">
-                  <img
-                    src={book.image && "/1.jpg"}
+  
+                  <CustomImage
+                    src={book.image }
                     alt={book.title}
+                    fallbackSrc="/no-image.png"
+                    width="100%"
+                    height="100%"
                     className="object-cover w-full h-full"
-                  />
+                    imgClassName="rounded-t-md" 
+                    />
                 </div>
                 <CardContent>
                   <div className="flex justify-center items-center py-2">
@@ -155,7 +161,7 @@ export default function BookLibrary() {
                     </p>
                   </div>
                   <Button
-                    className="w-full mt-4 text-xs"
+                    className="w-full mt-4 text-xs bg-blue-600 text-white hover:bg-blue-500 hover:text-white"
                     variant="outline"
                     onClick={() => handleAddToCard(book.id)}
                   >

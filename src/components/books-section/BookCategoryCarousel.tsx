@@ -1,12 +1,11 @@
 import { useCallback, useEffect, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
-import {
-  ChevronLeft,
-  ChevronRight,
-  Eye,
-} from "lucide-react";
+import { ChevronLeft, ChevronRight, Eye } from "lucide-react";
 import React from "react";
-import { useAddToShoppingCard, useGetCategoriesWithBooks } from "../../config/client/HomePgeApi.query";
+import {
+  useAddToShoppingCard,
+  useGetCategoriesWithBooks,
+} from "../../config/client/HomePgeApi.query";
 import { Card, CardContent } from "../ui/card";
 import {
   Tooltip,
@@ -18,6 +17,7 @@ import { Button } from "../ui/button";
 import { Link } from "react-router-dom";
 import { toast } from "../../@/hooks/use-toast";
 import BookCardSkeleton from "./BookCardSkeleton";
+import CustomImage from "../ui/custom-image/CustomImage";
 
 interface CoursesCardsProps {
   isMobile?: boolean;
@@ -41,7 +41,8 @@ const CoursesCards = ({ isMobile, categoryDocIds }: CoursesCardsProps) => {
           title: "موفقیت آمیز!",
           description: "موفقانه به کارت افزورده شد",
           duration: 2000,
-          className: "bg-emerald-100 text-emerald-800 border border-emerald-300 font-semibold",
+          className:
+            "bg-emerald-100 text-emerald-800 border border-emerald-300 font-semibold",
         });
       },
       onError: () => {
@@ -49,7 +50,8 @@ const CoursesCards = ({ isMobile, categoryDocIds }: CoursesCardsProps) => {
           title: "خطا!",
           description: "خطا در افزودن به کارت",
           duration: 2000,
-          className: "bg-red-100 text-red-800 border border-red-300 font-semibold",
+          className:
+            "bg-red-100 text-red-800 border border-red-300 font-semibold",
         });
       },
     });
@@ -79,9 +81,7 @@ const CoursesCards = ({ isMobile, categoryDocIds }: CoursesCardsProps) => {
   }, [emblaApi, onSelect]);
 
   if (isPending) {
-    return (
-      <BookCardSkeleton/>
-    );
+    return <BookCardSkeleton />;
   }
 
   const categoriesWithBooks = data?.data.categories_with_books || [];
@@ -125,12 +125,19 @@ const CoursesCards = ({ isMobile, categoryDocIds }: CoursesCardsProps) => {
         <div className="flex flex-row-reverse gap-4 py-4">
           {categoriesWithBooks.map((category) =>
             category.books.data.map((book: any) => (
-              <Card key={book.id} className="book-card shadow-md mx-auto w-[90%] sm:w-[150px] md:w-[180px] lg:w-[250px] flex-shrink-0">
+              <Card
+                key={book.id}
+                className="book-card shadow-md mx-auto w-[90%] sm:w-[150px] md:w-[180px] lg:w-[250px] flex-shrink-0"
+              >
                 <div className="relative h-48 w-full overflow-hidden rounded-t-md">
-                  <img
-                    src={book.image && "/1.jpg"}
+                  <CustomImage
+                    src={book.image}
                     alt={book.title}
+                    fallbackSrc="/no-image.png"
+                    width="100%"
+                    height="100%"
                     className="object-cover w-full h-full"
+                    imgClassName="rounded-t-md"
                   />
                 </div>
                 <CardContent>
@@ -157,7 +164,7 @@ const CoursesCards = ({ isMobile, categoryDocIds }: CoursesCardsProps) => {
                     </p>
                   </div>
                   <Button
-                    className="w-full mt-4 text-xs"
+                    className="w-full mt-4 text-xs bg-blue-600 text-white hover:bg-blue-500 hover:text-white"
                     variant="outline"
                     onClick={() => handleAddToCard(book.id)}
                   >
