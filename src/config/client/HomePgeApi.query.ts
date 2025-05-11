@@ -4,6 +4,7 @@ import {
   useQueryClient,
 } from "@tanstack/react-query";
 import homePageApi from "./HomePageApi";
+import { number } from "zod";
 
 export const useGetProfileInfo = () => {
   return useQuery({
