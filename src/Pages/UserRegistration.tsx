@@ -82,9 +82,8 @@ const UserRegistration: React.FC<UserRegistrationProps> = ({userId}) => {
         setSelectedFac(selectedFaculty);
     };
     useEffect(()=>{
-        axios.get("/api/home/faculties/with/departments").then((response)=>{
-            setFaculties(response.data.data);
-            console.log(response.data.data);
+        axios.get("/api/home/faculties-with-departments").then((response)=>{
+            setFaculties(response.data.faculties);
 
         });
         if (userId) {

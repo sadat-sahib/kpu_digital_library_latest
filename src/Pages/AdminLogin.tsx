@@ -1,3 +1,4 @@
+import React from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -34,34 +35,35 @@ const AdminLogin: React.FC = () => {
     axios
       .post("/api/admin/login", data)
       .then((response) => {
-        console.log(response)
+        console.log("Response: ", response);
         if (response.status === 200) {
-          const employee = response.data.employee?.type === "employee";
-          console.log(response.data);
+          const employee = response.data.data?.type === "employee";
+          console.log("Response Data form: ", employee);
+
           setLoading(false);
           if (employee) {
             const loggedInUser = {
-              email: response.data.employee.email,
-              status: response.data.employee.status,
-              type: response.data.employee.type,
+              email: response.data.data.email,
+              status: response.data.data.status,
+              type: response.data.data.type,
             };
             const userToken = response.data.token;
             const userIsAdmin = true;
-            const type = response.data.employee.type;
-            const permission = response.data.employee.role;
+            const type = response.data.data.type;
+            const permission = response.data.data.role;
             setUser(loggedInUser, userToken, userIsAdmin, type, permission);
             setResponse(response.data.message);
           } else {
 
             const loggedInUser = {
-              email: response.data.$assistant.email,
-              status: response.data.$assistant.status,
-              type: response.data.$assistant.type,
+              email: response.data.data.email,
+              status: response.data.data.status,
+              type: response.data.data.type,
             };
             const userToken = response.data.token;
             const userIsAdmin = true;
-            const type = response.data.$assistant.type;
-            const permission = response.data.$assistant.role;
+            const type = response.data.data.type;
+            const permission = response.data.data.role;
             setUser(loggedInUser, userToken, userIsAdmin, type, permission);
             setResponse(response.data.message);
           }
@@ -127,9 +129,6 @@ const AdminLogin: React.FC = () => {
         </div>
 
         <div className="flex flex-col">
-          <label htmlFor="role" className="login-label">
-            نقش شما
-          </label>
           <select {...register("type")} id="role" className="input rounded-md">
             <option value="">نقش خود را انتخاب کنید</option>
             <option value="employee">کتابخانه</option>

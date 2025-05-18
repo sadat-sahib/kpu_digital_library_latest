@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect, ChangeEvent } from 'react';
 import axios from '../../../axiosInstance';
-
-interface Book {
+import { sampleStudents, sampleBooks } from './data';
+export interface Book {
   id: string;
   title: string;
   author: string;
@@ -12,7 +12,7 @@ interface Book {
   checkedOutBy?: string;
 }
 
-interface Student {
+export interface Student {
   id: string;
   name: string;
   department: string;
@@ -420,49 +420,6 @@ const LibraryReport: React.FC<LibraryReportProps> = ({ books, students }) => {
   );
 };
 
-
-
-
-
-const sampleBooks: Book[] = [
-  {
-    id: 'BK-001',
-    title: 'Introduction to Algorithms',
-    author: 'Thomas H. Cormen',
-    isbn: '978-0262033848',
-    type: 'textbook',
-    status: 'available'
-  },
-  {
-    id: 'BK-002',
-    title: 'To Kill a Mockingbird',
-    author: 'Harper Lee',
-    isbn: '978-0061120084',
-    type: 'fiction',
-    status: 'checked-out',
-    dueDate: '2023-12-15',
-    checkedOutBy: 'STU-2023-001'
-  },
-  // More books...
-];
-
-const sampleStudents: Student[] = [
-  {
-    id: 'STU-2023-001',
-    name: 'John Smith',
-    department: 'Computer Science',
-    year: 2,
-    booksCheckedOut: 3
-  },
-  {
-    id: 'STU-2023-002',
-    name: 'Maria Garcia',
-    department: 'Engineering',
-    year: 3,
-    booksCheckedOut: 1
-  },
-  // More students...
-];
 
 function Report() {
   return (

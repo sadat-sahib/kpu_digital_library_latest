@@ -27,15 +27,15 @@ const DashDepartmentTable: React.FC<Props> = ({ update }) => {
     const fetchFaculties = async () => {
       setLoading(true);
       try {
-        const response = await axios.get("/api/dashboard/faculties/with/departments", {
+        const response = await axios.get("/api/dashboard/faculties-with-departments", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
         console.log("API response:", response.data);
 
-        if (response.data && Array.isArray(response.data.data)) {
-          setFaculties(response.data.data);
+        if (response.data && Array.isArray(response.data.faculties)) {
+          setFaculties(response.data.faculties);
         } else {
           console.error("Unexpected API response structure:", response.data);
         }
