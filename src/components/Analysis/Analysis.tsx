@@ -18,9 +18,9 @@ const Dashboard: React.FC = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
         <StatsCard title="Total User" value="40,689" change="8.5%" />
-        <StatsCard title="Total Order" value="10,293" change="1.3%" />
-        <StatsCard title="Total Sales" value="$89,000" change="-4.3%" />
-        <StatsCard title="Total Pending" value="2,040" change="1.8%" />
+        <StatsCard title="Total Books" value="10,293" change="1.3%" />
+        <StatsCard title="Total Requests" value="89,000" change="-4.3%" />
+        <StatsCard title="Total reserves" value="2,040" change="1.8%" />
       </div>
 
 

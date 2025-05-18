@@ -76,9 +76,9 @@ const LibraryReport: React.FC<LibraryReportProps> = ({ books, students }) => {
            setSelectedFac(selectedFaculty);
        };
        useEffect(()=>{
-           axios.get("/api/home/faculties/with/departments").then((response)=>{
-               setFaculties(response.data.data);
-               console.log(response.data.data);
+           axios.get("/api/home/faculties-with-departments").then((response)=>{
+               setFaculties(response.data.faculties);
+               console.log(response.data.faculties);
    
            });
        }, [])

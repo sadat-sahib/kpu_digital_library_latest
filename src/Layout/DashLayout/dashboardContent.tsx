@@ -23,6 +23,7 @@ import DashRequests from "../../Components/Dashboard/borrow/DashRequests";
 import DashReturned from "../../Components/Dashboard/borrow/DashReturned";
 import Teachers from "../../Components/Dashboard/users/teachers";
 import Admin from "../../Components/Dashboard/admin/admin";
+import Report from "../../components/dashboard/reports/report";
 
 const DashboardContent: React.FC = () => {
   const location = useLocation();
@@ -82,6 +83,8 @@ const DashboardContent: React.FC = () => {
       {tab === "section" && <DashSectionRegistration />}
       {/* Category */}
       {tab === "category" && <DashCategoryRegistration />}
+      {/* Report */}
+      {tab === "report" && <Report />}
     </div>
   );
 };

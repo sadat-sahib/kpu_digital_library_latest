@@ -1,11 +1,10 @@
 import React from 'react';
 import { FaUserShield, FaShoppingBag, FaShieldAlt } from "react-icons/fa";
-import { HiOutlineBriefcase, HiOutlineCreditCard } from "react-icons/hi";
 import { BiSearch } from "react-icons/bi";
 import { FiSettings } from "react-icons/fi";
 const Services:React.FC = () => {
   return (
-    <div className="flex min-h-screen bg-gray-100 text-gray-700">
+    <div className="flex bg-gray-100 text-gray-700">
       {/* Main Content */}
       <main className="flex-1 p-6">
         <header className="flex justify-between items-center mb-6">
@@ -48,7 +47,7 @@ const Services:React.FC = () => {
         </section>
 
         {/* Bank Services List */}
-        <section>
+        {/* <section>
           <h2 className="text-xl font-semibold mb-4">Bank Services List</h2>
           <div className="space-y-4">
             {[
@@ -76,7 +75,7 @@ const Services:React.FC = () => {
               </div>
             ))}
           </div>
-        </section>
+        </section> */}
       </main>
     </div>
   );

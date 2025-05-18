@@ -50,7 +50,7 @@ const DashDeActiveUsers: React.FC = () => {
             },
           }
         );
-        console.log(response.data);
+        console.log(response.data.data);
         setUsers(response.data.data);
       } catch (err) {
         console.log(err);

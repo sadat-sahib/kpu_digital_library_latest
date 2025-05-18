@@ -3,7 +3,7 @@ import React from "react";
 const CustomerStats: React.FC = () => {
   return (
     <div className="bg-white p-4 rounded-lg shadow text-center">
-      <h3 className="text-lg font-semibold">Customers</h3>
+      <h3 className="text-lg font-semibold">Students</h3>
       <div className="flex justify-center my-4">
         <div className="w-20 h-20 rounded-full bg-blue-100 flex items-center justify-center">
           {/* Replace with an actual chart or icon as needed */}
@@ -13,7 +13,7 @@ const CustomerStats: React.FC = () => {
       <div className="flex justify-around text-center">
         <div>
           <p className="text-xl font-semibold">34,249</p>
-          <p className="text-sm text-gray-500">New Customers</p>
+          <p className="text-sm text-gray-500">New Students</p>
         </div>
         <div>
           <p className="text-xl font-semibold">1,420</p>

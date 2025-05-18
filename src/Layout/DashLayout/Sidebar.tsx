@@ -5,6 +5,7 @@ import axios from "../../axiosInstance";
 import { ChevronDown, Settings, Users, LogOut, Menu, BookOpen, GraduationCap, Library, ClipboardList } from 'lucide-react';
 import logo  from './image.png';
 import { RiAdminFill } from "react-icons/ri";
+import { BiAnalyse } from "react-icons/bi";
 interface SidebarProps {
   isOpen: boolean;
   toggleSidebar?: () => void;
@@ -176,7 +177,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
          style={{ scrollbarWidth: "none", height: "calc(100vh - 4rem)" }}>
           <nav className="px-4 py-6 space-y-4">
             <MenuItemComponent to="/dashboard?tab=dashboard" icon={Menu} label="داشبورد" isActive={isActive("?tab=dashboard")} />
-            {/* <MenuItemComponent to="/dashboard?tab=profile" icon={User} label="پروفایل" isActive={isActive("?tab=profile")} /> */}
+            <MenuItemComponent to="/dashboard?tab=report" icon={BiAnalyse} label="گزارش" isActive={isActive("?tab=report")} />
 
             {isEmployee && employeeMenuGroups.map((group, index) => (
               <MenuGroupComponent key={index} {...group} />

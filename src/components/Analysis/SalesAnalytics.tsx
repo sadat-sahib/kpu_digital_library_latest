@@ -12,7 +12,7 @@ const data = [
 const SalesAnalytics: React.FC = () => {
   return (
     <div className="bg-white p-4 rounded-lg shadow text-center">
-      <h3 className="text-lg font-semibold">Sales Analytics</h3>
+      <h3 className="text-lg font-semibold">Request Analytics</h3>
       <ResponsiveContainer width="100%" height={200}>
         <LineChart data={data}>
           <XAxis dataKey="year" />

@@ -54,7 +54,7 @@ const DashActiveUsers: React.FC = () => {
           },
         }
       );
-      setUsers(response.data);
+      setUsers(response.data.data);
       console.log(response);
       setError(null);
     } catch (err) {
