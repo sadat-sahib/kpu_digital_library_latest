@@ -99,3 +99,57 @@ export const useGEtBooksByCategoryId = (categoryId: string) => {
     refetchOnWindowFocus: false,
   });
 };
+//NEW ROUTS
+export const useGetAllInformation = () => {
+  return useQuery({
+    queryKey: ["getAllInformation"],
+    queryFn: () => homePageApi.homePage.getAllInformation(),
+    refetchOnWindowFocus: false,
+  });
+};
+
+export const useGetAllCategories = () => {
+  return useQuery({
+    queryKey: ["getAllCategories"],
+    queryFn: () => homePageApi.homePage.getAllCategories(),
+    refetchOnWindowFocus: false,
+  });
+};
+
+export const useGetBookDetailById = (categoryId?: number) => {
+  return useQuery({
+    queryKey: ["bookDetailById", categoryId],
+    queryFn: () => homePageApi.homePage.getBookDetailById(categoryId),
+    refetchOnWindowFocus: false,
+  });
+};
+
+export const useNewgetCategoriesWithBooks = () => {
+  return useQuery({
+    queryKey: ["newCategoriesWithBooks"],
+    queryFn: () => homePageApi.homePage.NewgetCategoriesWithBooks(),
+    refetchOnWindowFocus: false,
+    staleTime: 1000 * 60 * 5
+  });
+};
+export const usegetFacultyWithDepartments = () => {
+  return useQuery({
+    queryKey: ["getFacultyWithDepartments"],
+    queryFn: () => homePageApi.homePage.getFacutlyWithDepartments(),
+    refetchOnWindowFocus: false,
+  });
+};
+export const usegetHomeData = () => {
+  return useQuery({
+    queryKey: ["getHomeData"],
+    queryFn: () => homePageApi.homePage.getFacutlyWithDepartments(),
+    refetchOnWindowFocus: false,
+  });
+};
+export const usegetProfile = () => {
+  return useQuery({
+    queryKey: ["getProfile"],
+    queryFn: () => homePageApi.homePage.getProfile(),
+    refetchOnWindowFocus: false,
+  });
+};

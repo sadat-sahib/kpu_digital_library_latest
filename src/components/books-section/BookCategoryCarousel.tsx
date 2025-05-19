@@ -5,6 +5,7 @@ import React from "react";
 import {
   useAddToShoppingCard,
   useGetCategoriesWithBooks,
+  useNewgetCategoriesWithBooks,
 } from "../../config/client/HomePgeApi.query";
 import { Card, CardContent } from "../ui/card";
 import {
@@ -30,8 +31,9 @@ const CoursesCards = ({ isMobile, categoryDocIds }: CoursesCardsProps) => {
     align: "start",
     skipSnaps: false,
   });
-
-  const { data, isPending } = useGetCategoriesWithBooks();
+const {data:book, isPending } = useNewgetCategoriesWithBooks();
+console.log('bbb',book)
+  // const { data, isPending } = useGetCategoriesWithBooks();
   const addToCardMutation = useAddToShoppingCard();
 
   const handleAddToCard = (bookId: string) => {
@@ -84,7 +86,7 @@ const CoursesCards = ({ isMobile, categoryDocIds }: CoursesCardsProps) => {
     return <BookCardSkeleton />;
   }
 
-  const categoriesWithBooks = data?.data.categories_with_books || [];
+  // const categoriesWithBooks = data?.data.categories_with_books || [];
 
   return (
     <div className="relative py-6" dir="rtl">
@@ -123,8 +125,8 @@ const CoursesCards = ({ isMobile, categoryDocIds }: CoursesCardsProps) => {
       {/* Carousel */}
       <div className="lg:px-6 overflow-hidden" ref={emblaRef}>
         <div className="flex flex-row-reverse gap-4 py-4">
-          {categoriesWithBooks.map((category) =>
-            category.books.data.map((book: any) => (
+          {book?.data.data.map((category) =>
+            category.books.map((book: any) => (
               <Card
                 key={book.id}
                 className="book-card shadow-md mx-auto w-[90%] sm:w-[150px] md:w-[180px] lg:w-[250px] flex-shrink-0"
@@ -174,6 +176,7 @@ const CoursesCards = ({ isMobile, categoryDocIds }: CoursesCardsProps) => {
               </Card>
             ))
           )}
+
         </div>
       </div>
 

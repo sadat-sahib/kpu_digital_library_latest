@@ -2,11 +2,17 @@
 import React from "react";
 import { Card, CardContent } from "../ui/card";
 import { Button } from "../ui/button";
-import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from "../../components/ui/tooltip";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+  TooltipProvider,
+} from "../../components/ui/tooltip";
 import { Download, Eye, FileText } from "lucide-react";
 import { Book } from "./Types";
 import { useCartStore } from "../../Store/useCartStore";
-import Swal from "sweetalert2";
+import CustomImage from "../ui/custom-image/CustomImage";
+import { useGetAllInformation } from "../../config/client/HomePgeApi.query";
 
 interface BookCardProps {
   book: Book;
@@ -15,57 +21,97 @@ interface BookCardProps {
   onAddToCart: (bookId: number) => void;
 }
 
-const BookCard: React.FC<BookCardProps> = ({ book, onDetailsClick, onPdfClick, onAddToCart }) => {
+const BookCard: React.FC<BookCardProps> = ({
+  book,
+  onDetailsClick,
+  onPdfClick,
+  onAddToCart,
+}) => {
   const { incrementCart } = useCartStore();
+
+
 
   return (
     <Card className="book-card shadow-lg mx-auto w-[90%] sm:w-[150px] md:w-[180px] lg:w-[230px] flex-shrink-0">
       <div className="relative h-48 w-full overflow-hidden rounded-t-md">
-        <img
+        {/* <img
           src={book.image && "/3.jpg"}
           alt={book.title}
           className="object-cover w-full h-full"
+        /> */}
+        <CustomImage
+          src={book.image}
+          alt={book.title}
+          fallbackSrc="/no-image.png"
+          width="100%"
+          height="100%"
+          className="object-cover w-full h-full"
+          imgClassName="rounded-t-md"
         />
       </div>
       <CardContent>
         <div className="flex justify-between items-center py-2">
-        <TooltipProvider  >
-          <Tooltip>
-            <TooltipTrigger className={`${book.format === "hard" ? "opacity-0" : "opacity-100"}`}>
-              <Button variant="ghost" size="sm" disabled={book.format === "hard"}>
-                <Download size={16} />
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent className={`${book.format === "hard" ? "opacity-0" : "opacity-100"}`}>
-              <p>دانلود</p>
-            </TooltipContent>
-          </Tooltip>
-          <Tooltip>
-            <TooltipTrigger>
-              <Button variant="ghost" size="sm" onClick={() => onDetailsClick(book)}>
-                <Eye size={16} />
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>جزییات</p>
-            </TooltipContent>
-          </Tooltip>
-          
-          <Tooltip>
-            <TooltipTrigger className={`${book.format === "hard" ? "opacity-0" : "opacity-100"}`}>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => onPdfClick(book.pdf, book.title)}
-                disabled={book.format === "hard"}
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger
+                className={`${
+                  book.format === "hard" ? "opacity-0" : "opacity-100"
+                }`}
               >
-                <FileText size={16} />
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent className={`${book.format === "hard" ? "opacity-0" : "opacity-100"}`}>
-              <p>خواندن</p>
-            </TooltipContent>
-          </Tooltip>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  disabled={book.format === "hard"}
+                >
+                  <Download size={16} />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent
+                className={`${
+                  book.format === "hard" ? "opacity-0" : "opacity-100"
+                }`}
+              >
+                <p>دانلود</p>
+              </TooltipContent>
+            </Tooltip>
+            <Tooltip>
+              <TooltipTrigger>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => onDetailsClick(book)}
+                >
+                  <Eye size={16} />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>جزییات</p>
+              </TooltipContent>
+            </Tooltip>
+
+            <Tooltip>
+              <TooltipTrigger
+                className={`${
+                  book.format === "hard" ? "opacity-0" : "opacity-100"
+                }`}
+              >
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => onPdfClick(book.pdf, book.title)}
+                  disabled={book.format === "hard"}
+                >
+                  <FileText size={16} />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent
+                className={`${
+                  book.format === "hard" ? "opacity-0" : "opacity-100"
+                }`}
+              >
+                <p>خواندن</p>
+              </TooltipContent>
+            </Tooltip>
           </TooltipProvider>
         </div>
         <div>
