@@ -7,7 +7,7 @@ import React from "react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/tooltip";
 import { Link } from "react-router-dom";
 import { Eye } from "lucide-react";
-import { useAddToShoppingCard, useGetCategoriesWithBooks } from "../../config/client/HomePgeApi.query";
+import { useAddToShoppingCard, useGetCategoriesWithBooks, useNewgetCategoriesWithBooks } from "../../config/client/HomePgeApi.query";
 import { toast } from "../../@/hooks/use-toast";
 import BookCardSkeleton from "../books-section/BookCardSkeleton";
 import SearchFilterSkeleton from "./SearchFilterSkeleton";
@@ -17,8 +17,9 @@ export default function BookLibrary() {
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
   const [searchTerm, setSearchTerm] = useState<string>(""); 
   const [searchType, setSearchType] = useState<string>("title");
-
-  const { data, isPending } = useGetCategoriesWithBooks();
+  const {data:book, isPending } = useNewgetCategoriesWithBooks();
+console.log('catwithBook', book)
+  // const { data, isPending } = useGetCategoriesWithBooks();
   const addToCardMutation = useAddToShoppingCard();
 
   const handleAddToCard = (bookId: string) => {
@@ -46,19 +47,28 @@ export default function BookLibrary() {
       <SearchFilterSkeleton/>
     )
   }
+const categoriesWithBooks = book?.data.data || [];
+const categories = ["All", ...categoriesWithBooks.map((cat: any) => cat.category_name)];
+const allBooks = categoriesWithBooks.flatMap((category: any) =>
+  category.books.map((book: any) => ({
+    ...book,
+    categoryName: category.category_name, // برای فیلتر شدن
+  }))
+);
 
-  const categoriesWithBooks = data?.data.categories_with_books || [];
+  // const catWithBook = book?.data;
+  // const categoriesWithBooks = data?.data.categories_with_books || [];
 
   // لیست کتگوری‌ها: نام کتگوری‌ها از ای پی آی
-  const categories = ["All", ...categoriesWithBooks.map((cat: any) => cat.name)];
-
+  // const categories = ["All", ...categoriesWithBooks.map((cat: any) => cat.name)];
+//  const categories = ["All", book?.data.data.map((cat: any) => cat.name)];
   // تمام کتاب‌ها از همه کتگوری‌ها
-  const allBooks = categoriesWithBooks.flatMap((category: any) => 
-    category.books?.data.map((book: any) => ({
-      ...book,
-      categoryName: category.name, // برای فیلتر راحت
-    }))
-  );
+  // const allBooks = categoriesWithBooks.flatMap((category: any) => 
+  //   category.books?.data.map((book: any) => ({
+  //     ...book,
+  //     categoryName: category.name, // برای فیلتر راحت
+  //   }))
+  // );
 
   const filteredBooks = (allBooks || []).filter((book) => {
     let matchSearch = false;

@@ -10,7 +10,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "../ui/tooltip";
-import { useGetProfileInfo } from "../../config/client/HomePgeApi.query";
+import { usegetProfile, useGetProfileInfo } from "../../config/client/HomePgeApi.query";
 import { ArrowRight } from "lucide-react";
 import { Skeleton } from "../ui/skeleton";
 
@@ -29,6 +29,8 @@ interface UserOverviewProps {
 
 export function UserOverview({ user }: UserOverviewProps) {
   const { data, isPending } = useGetProfileInfo();
+    const {data:prof} = usegetProfile()
+    console.log('prof',prof)
 
   if (isPending) {
     return (
@@ -48,8 +50,8 @@ export function UserOverview({ user }: UserOverviewProps) {
     );
   }
 
-  const userInfo = data?.data.user;
-
+  // const userInfo = data?.data.user;
+  const userInfo = prof?.data.user;
   return (
     <Card className="py-4 relative border-0  rounded-none  shadow-none ">
       <Link

@@ -1,6 +1,11 @@
-import React from 'react';
-import { Dialog, DialogContent, DialogFooter, DialogOverlay} from '../ui/dialog'; // وارد کردن کامپوننت‌های مورد نیاز از shadcn/ui
-
+import React from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogOverlay,
+} from "../ui/dialog"; // وارد کردن کامپوننت‌های مورد نیاز از shadcn/ui
+import CustomImage from "../ui/custom-image/CustomImage";
 
 interface BookDialogProps {
   open: boolean;
@@ -11,7 +16,7 @@ interface BookDialogProps {
   publicationYear: string;
   publisher: string;
   translator: string;
-  description:string;
+  description: string;
 }
 
 const BookDetailsDialog = ({
@@ -25,37 +30,40 @@ const BookDetailsDialog = ({
   translator,
   description,
 }: BookDialogProps) => {
-
-
   return (
-    <Dialog open={open} onOpenChange={onClose} >
-            <DialogOverlay />
+    <Dialog open={open} onOpenChange={onClose}>
+      <DialogOverlay />
       <DialogContent>
         <div className="flex flex-col md:flex-row gap-4 pt-6">
           {/* تصویر کتاب */}
           <div className="flex-none w-full md:w-1/3 h-48 overflow-hidden rounded-md">
-            <img src={image && '/3.jpg'} alt={title} className="object-cover w-full h-full" />
+            {/* <img src={image && '/3.jpg'} alt={title} className="object-cover w-full h-full" /> */}
+            <CustomImage
+              src={image}
+              alt={title}
+              fallbackSrc="/no-image.png"
+              width="100%"
+              height="100%"
+              className="object-cover w-full h-full"
+              imgClassName="rounded-t-md"
+            />
           </div>
 
           {/* جزئیات کتاب */}
           <div className="flex flex-col justify-between w-full md:w-2/3">
             <p className="text-sm text-gray-600">نویسنده: {author}</p>
-            <p className="text-sm text-gray-600">سال انتشار: {publicationYear}</p>
+            <p className="text-sm text-gray-600">
+              سال انتشار: {publicationYear}
+            </p>
             <p className="text-sm text-gray-600">ناشر: {publisher}</p>
             <p className="text-sm text-gray-600">مترجم: {translator}</p>
             <p className="text-sm text-gray-600">توضیحات: {description}</p>
-
- 
           </div>
         </div>
 
-        <DialogFooter className='flex justify-center gap-3 items-center'>
-
-        </DialogFooter>
+        <DialogFooter className="flex justify-center gap-3 items-center"></DialogFooter>
       </DialogContent>
     </Dialog>
   );
 };
- export default BookDetailsDialog
-
-
+export default BookDetailsDialog;

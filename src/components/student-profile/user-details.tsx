@@ -2,7 +2,7 @@ import React from "react";
 import { Card, CardContent } from "../ui/card";
 
 import { BsPatchCheckFill } from "react-icons/bs";
-import { useGetProfileInfo } from "../../config/client/HomePgeApi.query";
+import { usegetProfile, useGetProfileInfo } from "../../config/client/HomePgeApi.query";
 import { Skeleton } from "../ui/skeleton";
 import { Button } from "../ui/button";
 import { LogOutIcon } from "lucide-react";
@@ -24,8 +24,10 @@ interface UserDetailsProps {
 
 export function UserDetails({ user }: UserDetailsProps) {
     const { token, clearUser } = useAuthStore();
+        const {data:prof} = usegetProfile()
+        console.log('prof',prof)
   
-    const { data:userata,  } = useGetProfileInfo()
+    // const { data:userata,  } = useGetProfileInfo()
     // console.log('data_for_profile_new',userata);
   
     const handleSignout = () => {
@@ -55,8 +57,8 @@ export function UserDetails({ user }: UserDetailsProps) {
       </div>
     );
   }
-  const UserDetails = data?.data.user;
-
+  // const UserDetails = data?.data.user;
+  const UserDetails = prof?.data.user;
   return (
     <Card className="border-none shadow-none ">
       <CardContent className="space-y-4">
@@ -72,12 +74,12 @@ export function UserDetails({ user }: UserDetailsProps) {
               تخلص: <span className="text-black">{UserDetails?.lastName}</span>{" "}
             </h3>
           </div>
-
+{/* 
           <div>
             <h3 className="text-sm font-medium text-muted-foreground">
               نام پدر :<span className="text-black">{user.fatherName}</span>
             </h3>
-          </div>
+          </div> */}
 
           <div>
             <h3 className="text-sm font-medium text-muted-foreground">
