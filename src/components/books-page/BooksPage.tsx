@@ -7,7 +7,7 @@ import React from "react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/tooltip";
 import { Link } from "react-router-dom";
 import { Eye } from "lucide-react";
-import { useAddToShoppingCard, useGetCategoriesWithBooks, useNewgetCategoriesWithBooks } from "../../config/client/HomePgeApi.query";
+import { useAddToShoppingCard, useNewgetCategoriesWithBooks } from "../../config/client/HomePgeApi.query";
 import { toast } from "../../@/hooks/use-toast";
 import BookCardSkeleton from "../books-section/BookCardSkeleton";
 import SearchFilterSkeleton from "./SearchFilterSkeleton";

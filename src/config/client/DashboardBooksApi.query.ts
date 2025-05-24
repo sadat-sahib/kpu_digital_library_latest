@@ -61,3 +61,30 @@ export const useDeleteDashboardBooks = () => {
     },
   });
 };
+
+
+export const useAddBooksById = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (bookId: string) =>
+      DashBooksApi.DashBook.addBooksById(bookId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["addBooksById"] });
+    },
+    onError: (error) => {
+      console.error("❌خطا د اضافه کردن کتاب, error", error);
+    },
+  });
+};
+export const useAddBooks = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: () => DashBooksApi.DashBook.addBooks(),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["addBooks"] });
+    },
+    onError: (error) => {
+      console.error("❌خطا د اضافه کردن کتاب, error", error);
+    },
+  });
+};

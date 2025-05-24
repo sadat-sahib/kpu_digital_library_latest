@@ -2,7 +2,7 @@ import { Card, CardContent } from "../ui/card";
 
 import React from "react";
 import { BookCard } from "./book-card";
-import { usegetProfile, useGetProfileInfo } from "../../config/client/HomePgeApi.query";
+import { usegetProfile} from "../../config/client/HomePgeApi.query";
 import { Skeleton } from "../ui/skeleton";
 import { Book } from "./tabs-books";
 
@@ -11,9 +11,9 @@ interface BorrowedBooksProps {
 }
 
 export function BorrowedBooks({ books }: BorrowedBooksProps) {
-  const {data:prof} = usegetProfile()
+  const {data:prof, isPending} = usegetProfile()
   console.log('prof',prof)
-  const { data, isPending } = useGetProfileInfo();
+  // const { data, isPending } = useGetProfileInfo();
   if (isPending) {
     return (
       <div>
@@ -28,7 +28,8 @@ export function BorrowedBooks({ books }: BorrowedBooksProps) {
       </div>
     );
   }
-  const UserBooks = data?.data.books ?? [];
+  // const UserBooks = data?.data.books ?? [];
+    const UserBooks = prof?.data.books ?? [];
   return (
     <Card className="border-none shadow-none  rounded-none  w-full">
 

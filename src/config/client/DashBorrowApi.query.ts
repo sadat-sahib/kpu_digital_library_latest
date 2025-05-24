@@ -48,3 +48,34 @@ export const useDeleteInActiveUsers = () => {
     },
   });
 };
+ export const useAddRequestBook = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ selectedRequestId, returnDate }: { selectedRequestId: string; returnDate: string }) =>
+      DashBorrowApi.borrowPage.addRequestBook(selectedRequestId, returnDate),
+    onSuccess: () => {
+      // وقتی حذف شد، کارت را دوباره fetch کن
+      queryClient.invalidateQueries({ queryKey: ["addRequestBook"] }); // ✅ درست
+    },
+
+    onError: (error) => {
+      console.error("❌ خطا در اضافه کردن کتال درخواست شده ", error);
+    },
+  })};
+
+
+  export const useAddReceivedBook = () => {
+  const queryClient = useQueryClient(); 
+  return useMutation({
+    mutationFn: (selectedReceivedId: string) =>
+      DashBorrowApi.borrowPage.addReceivedBook(selectedReceivedId),
+    onSuccess: () => {
+      // وقتی حذف شد، کارت را دوباره fetch کن
+      queryClient.invalidateQueries({ queryKey: ["addReceivedBook"] }); // ✅ درست
+    },
+
+    onError: (error) => {
+      console.error("❌ خطا در ارسال کتاب گرفته شده " , error);
+    },
+  })};

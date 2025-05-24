@@ -10,7 +10,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "../ui/tooltip";
-import { usegetProfile, useGetProfileInfo } from "../../config/client/HomePgeApi.query";
+import { usegetProfile } from "../../config/client/HomePgeApi.query";
 import { ArrowRight } from "lucide-react";
 import { Skeleton } from "../ui/skeleton";
 
@@ -28,8 +28,8 @@ interface UserOverviewProps {
 }
 
 export function UserOverview({ user }: UserOverviewProps) {
-  const { data, isPending } = useGetProfileInfo();
-    const {data:prof} = usegetProfile()
+  // const { data, isPending } = useGetProfileInfo();
+    const {data:prof, isPending} = usegetProfile()
     console.log('prof',prof)
 
   if (isPending) {
@@ -66,10 +66,10 @@ export function UserOverview({ user }: UserOverviewProps) {
         <Avatar className="h-24 w-24 rounded-full mb-4">
           <AvatarImage
             src={"/1.jpg"}
-            alt={`${data?.data.user.firstName} ${user.lastName}`}
+            alt={`${prof?.data.user.firstName} ${prof?.data.user.lastName}`}
             className="h-full w-full rounded-full"
           />
-          <AvatarFallback>{`${data?.data.user.firstName.charAt(
+          <AvatarFallback>{`${prof?.data.user.firstName.charAt(
             0
           )}${user.lastName.charAt(0)}`}</AvatarFallback>
         </Avatar>
