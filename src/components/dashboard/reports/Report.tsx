@@ -123,8 +123,8 @@ const LibraryReport: React.FC<LibraryReportProps> = ({ books, students }) => {
               <table>
                 <thead>
                   <tr>
-                    <th>Title</th>
-                    <th>Author</th>
+                    <th>عنوان</th>
+                    <th>نویسنده</th>
                     <th>Type</th>
                     <th>Status</th>
                     <th>Due Date</th>
@@ -273,8 +273,8 @@ const LibraryReport: React.FC<LibraryReportProps> = ({ books, students }) => {
               <table className="min-w-full divide-y divide-gray-200 print:table print:w-full">
                 <thead className="bg-gray-50 print:bg-gray-100">
                   <tr>
-                    <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider print:px-2 print:py-2 print:text-sm">Title</th>
-                    <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider print:px-2 print:py-2 print:text-sm">Author</th>
+                    <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider print:px-2 print:py-2 print:text-sm">عنوان</th>
+                    <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider print:px-2 print:py-2 print:text-sm">نویسنده</th>
                     <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider print:px-2 print:py-2 print:text-sm">Type</th>
                     <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider print:px-2 print:py-2 print:text-sm">Status</th>
                     <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider print:px-2 print:py-2 print:text-sm">Due Date</th>

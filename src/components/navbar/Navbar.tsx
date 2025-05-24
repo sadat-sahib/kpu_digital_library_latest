@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button } from "../ui/button";
-import { ShoppingCart, User, Menu, Home } from "lucide-react";
+import { ShoppingCart, User, Menu, Home, Info } from "lucide-react";
 import MobileMenuSheet from "./MobileMenuSheet";
 import ShoppingCartSheet from "./ShoppingCartSheet";
 import ProfileSheet from "./ProfileSheet";
@@ -88,7 +88,7 @@ const Navbar: React.FC = () => {
             <div className="flex space-x-8">
               <Link
                 to="/"
-                className="relative group text-gray-700 hover:text-blue-500 font-black ml-2 flex gap-2 justify-center items-center"
+                className="relative group text-gray-700 hover:text-blue-500 font-black ml-6 flex gap-2 justify-center items-center"
               >
                 <Home size={16} />
                 صفحه اصلی
@@ -96,7 +96,7 @@ const Navbar: React.FC = () => {
               </Link>
               <Link
                 to="/about"
-                className="relative group text-gray-700 hover:text-blue-500 font-black ml-2"
+                className="relative group text-gray-700 hover:text-blue-500 font-black mr-4"
               >
                 درباره ما
                 <span className="absolute left-0 bottom-0 w-0 h-0.5 bg-blue-500 transition-all duration-300 group-hover:w-full"></span>

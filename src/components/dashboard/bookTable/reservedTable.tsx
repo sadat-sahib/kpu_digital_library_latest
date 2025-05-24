@@ -6,7 +6,7 @@ interface Book {
   book_title: string;
   book_author: string;
   return_date: string;
-  category: string;
+  reserve_date: string;
 }
 
 interface BookTableProps {
@@ -21,11 +21,10 @@ const ReservedTable: React.FC<BookTableProps> = ({ books, onView }) => {
       <table className="min-w-full table-auto">
         <thead>
           <tr className="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
-            <th className="py-3 px-6 text-right">آی‌دی</th>
             <th className="py-3 px-6 text-right">عنوان</th>
             <th className="py-3 px-6 text-right">نویسنده</th>
-            <th className="py-3 px-6 text-right">ناشر</th>
-            <th className="py-3 px-6 text-right">تاریخ انتشار</th>
+            <th className="py-3 px-6 text-right">تاریخ اجرا</th>
+            <th className="py-3 px-6 text-right">تاریخ بازگشت</th>
             <th className="py-3 px-6 text-center">عملیات</th>
           </tr>
         </thead>
@@ -33,14 +32,11 @@ const ReservedTable: React.FC<BookTableProps> = ({ books, onView }) => {
           {books.map((book) => (
             <tr key={book.id} className="border-b border-gray-200 hover:bg-gray-100">
               <td className="py-3 px-6 text-right whitespace-nowrap">
-                <div className="font-medium">{book.id}</div>
-              </td>
-              <td className="py-3 px-6 text-right whitespace-nowrap">
                 <div className="font-medium">{book.book_title}</div>
               </td>
               <td className="py-3 px-6 text-right">{book.book_author}</td>
               <td className="py-3 px-6 text-right">{book.return_date}</td>
-              <td className="py-3 px-6 text-right">{book.category}</td>
+              <td className="py-3 px-6 text-right">{book.reserve_date}</td>
               <td className="py-3 px-6 text-center">
                 <div className="flex item-center justify-center">
                   <button

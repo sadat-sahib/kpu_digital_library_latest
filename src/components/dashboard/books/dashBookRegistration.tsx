@@ -57,7 +57,7 @@ const DashBookRegistration: React.FC<DashBookRegistrationProps> = ({
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
   const { token } = useAdminAuthStore();
-  const [isSoft, setIsSoft] = useState(false);
+  const [bookFormat, setBookFormat] = useState("hard");
   const [isEditing, setIsEditing] = useState(false);
   const {
     register,
@@ -71,17 +71,14 @@ const DashBookRegistration: React.FC<DashBookRegistrationProps> = ({
   useEffect(() => {
     if (id) {
       // Fetch book data for editing
-      console.log("Fetching data for book ID:", id); //Example fetch, replace with your actual fetch logic
+      console.log("Fetching data for book ID:", id);
     }
   }, [id]);
-  const handleSoft = (e: ChangeEvent<HTMLSelectElement>) => {
-    console.log("Event: ", e.target.value);
-    if (e.target.value === "pdf" || e.target.value === "both") {
-      setIsSoft(true);
-    } else {
-      setIsSoft(false);
-    }
+
+  const handleFormatChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    setBookFormat(e.target.value);
   };
+
   useEffect(() => {
     axios
       .get("/api/dashboard/departments", {
@@ -125,9 +122,7 @@ const DashBookRegistration: React.FC<DashBookRegistrationProps> = ({
             if (key === "image" || key === "pdf") return;
             setValue(key as keyof FormValues, bookData[key]);
           });
-          if (bookData.format === "pdf" || bookData.format === "both") {
-            setIsSoft(true);
-          }
+          setBookFormat(bookData.format);
         });
     }
   }, [bookId, setValue, token]);
@@ -145,24 +140,28 @@ const DashBookRegistration: React.FC<DashBookRegistrationProps> = ({
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     const formData = new FormData();
-
+    
     formData.append("title", data.title);
     formData.append("author", data.author);
     formData.append("publisher", data.publisher);
     formData.append("dep_id", String(data.dep_id));
     formData.append("cat_id", String(data.cat_id));
     formData.append("format", data.format);
-    formData.append("borrow", data.barrow);
-    formData.append("shelf", data.shelf);
     formData.append("publicationYear", data.publicationYear);
     formData.append("lang", data.lang);
     formData.append("translator", data.translator);
-    formData.append("sec_id", data.sec_id);
-    formData.append("isbn", data.isbn);
     formData.append("description", data.description);
-    formData.append("total", String(data.total));
     formData.append("edition", data.edition);
-    formData.append("code", data.code);
+    
+    if (bookFormat === "hard" || bookFormat === "both") {
+      formData.append("borrow", data.barrow);
+      formData.append("shelf", data.shelf);
+      formData.append("sec_id", data.sec_id);
+      formData.append("isbn", data.isbn);
+      formData.append("total", String(data.total));
+      formData.append("code", data.code);
+    }
+
     if (isEditing) {
       formData.append("_method", "PUT");
     }
@@ -171,19 +170,17 @@ const DashBookRegistration: React.FC<DashBookRegistrationProps> = ({
     if (selectedImage) {
       formData.append("image", selectedImage);
     }
-    if (selectedFile) {
+    if ((bookFormat === "pdf" || bookFormat === "both") && selectedFile) {
       formData.append("pdf", selectedFile);
-      console.log(formData.values());
     }
-    for (const [key, value] of formData.entries()) {
-      console.log(`${key}:`, value);
-    }
+
     setLoading(true);
     const url = isEditing
       ? `/api/dashboard/books/${bookId}`
       : "/api/dashboard/books";
     const method = isEditing ? axios.post : axios.post;
 
+    console.log(Object.fromEntries(formData.entries()));
     method(url, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
@@ -209,13 +206,7 @@ const DashBookRegistration: React.FC<DashBookRegistrationProps> = ({
         } else {
           console.error('Error:', err.message);
         }
-      if (err){
-      setResponse(err.response?.data?.message || 'An error occurred');
-      setLoading(false);
-      console.log(err);
-      }else{
-          setResponse('');
-      }
+        setResponse(err.response?.data?.message || 'An error occurred');
       })
       .finally(() => {
         setLoading(false);
@@ -233,6 +224,26 @@ const DashBookRegistration: React.FC<DashBookRegistrationProps> = ({
           className="flex flex-col gap-2 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-4 lg:gap-4 w-full"
         >
           <div className="flex flex-col">
+            <label className="font-semibold">نوعیت کتاب</label>
+            <select
+              {...register("format", { required: "این فیلد اجباری است" })}
+              className="input"
+              onChange={handleFormatChange}
+              value={bookFormat}
+            >
+              <option value="hard">هارد</option>
+              <option value="pdf">سافت</option>
+              <option value="both">هردو</option>
+            </select>
+            {errors.format && (
+              <span className="text-red-500 text-sm">
+                {errors.format.message}
+              </span>
+            )}
+          </div>
+
+          {/* Common fields for all formats */}
+          <div className="flex flex-col">
             <label className="font-semibold">عنوان</label>
             <input
               type="text"
@@ -243,10 +254,13 @@ const DashBookRegistration: React.FC<DashBookRegistrationProps> = ({
 
           <div className="flex flex-col">
             <label htmlFor="faculty" className="font-semibold">
-              {" "}
               کتگوری:
             </label>
-            <select {...register("cat_id")} id="faculty" className="input">
+            <select 
+              {...register("cat_id", { required: "این فیلد اجباری است" })} 
+              id="faculty" 
+              className="input"
+            >
               <option value="">انتخاب کتگوری</option>
               {categories &&
                 categories.map((f, index) => (
@@ -262,10 +276,13 @@ const DashBookRegistration: React.FC<DashBookRegistrationProps> = ({
 
           <div className="flex flex-col">
             <label htmlFor="department" className="font-semibold">
-              {" "}
               دپارتمنت:
             </label>
-            <select {...register("dep_id")} id="department" className="input">
+            <select 
+              {...register("dep_id", { required: "این فیلد اجباری است" })} 
+              id="department" 
+              className="input"
+            >
               <option value="">انتخاب دیپارتمنت</option>
               {faculties &&
                 faculties.map((d, index) => (
@@ -297,58 +314,29 @@ const DashBookRegistration: React.FC<DashBookRegistrationProps> = ({
             <label className="font-semibold">ناشر</label>
             <input
               type="text"
-              {...register("publisher", { required: "این فیلد اجباری است" })}
+              {...register("publisher")}
               className="input"
             />
-            {errors.author && (
-              <span className="text-red-500 text-sm">
-                {errors.author.message}
-              </span>
-            )}
           </div>
 
           <div className="flex flex-col">
             <label className="font-semibold">چاپ</label>
             <input
               type="text"
-              {...register("edition", { required: "این فیلد اجباری است" })}
+              {...register("edition")}
               className="input"
             />
-            {errors.edition && (
-              <span className="text-red-500 text-sm">
-                {errors.edition.message}
-              </span>
-            )}
           </div>
 
           <div className="flex flex-col">
             <label className="font-semibold">زبان</label>
             <select
-              {...register("lang", { required: "این فیلد اجباری است" })}
+              {...register("lang")}
               className="input"
             >
               <option value="fa">دری</option>
               <option value="en">انگلیسی</option>
             </select>
-            {errors.lang && (
-              <span className="text-red-500 text-sm">
-                {errors.lang.message}
-              </span>
-            )}
-          </div>
-
-          <div className="flex flex-col">
-            <label className="font-semibold">تعداد</label>
-            <input
-              type="number"
-              {...register("total", { required: "این فیلد اجباری است" })}
-              className="input"
-            />
-            {errors.total && (
-              <span className="text-red-500 text-sm">
-                {errors.total.message}
-              </span>
-            )}
           </div>
 
           <div className="flex flex-col">
@@ -359,7 +347,7 @@ const DashBookRegistration: React.FC<DashBookRegistrationProps> = ({
           <div className="flex flex-col">
             <label className="font-semibold">سال چاپ</label>
             <input
-              type="date"
+              type="number"
               {...register("publicationYear", {
                 required: "این فیلد اجباری است",
               })}
@@ -372,122 +360,121 @@ const DashBookRegistration: React.FC<DashBookRegistrationProps> = ({
             )}
           </div>
 
-          {/* Shelf */}
-          <div className="flex flex-col">
-            <label className="font-semibold">نام الماری</label>
-            <select
-              {...register("sec_id", { required: "این فیلد اجباری است" })}
-              className="input"
-            >
-              <option value="">الماری انتخاب کنید</option>
-              {shelves &&
-                shelves.map((shelf) => (
-                  <option key={shelf.id} value={shelf.id}>
-                    {shelf.section}
-                  </option>
-                ))}
-            </select>
-            {errors.sec_id && (
-              <span className="text-red-500">{errors.sec_id.message}</span>
-            )}
-          </div>
+          {/* Fields for hard copy or both */}
+          {(bookFormat === "hard" || bookFormat === "both") && (
+            <>
+              <div className="flex flex-col">
+                <label className="font-semibold">تعداد</label>
+                <input
+                  type="number"
+                  {...register("total")}
+                  className="input"
+                />
+                {errors.total && (
+                  <span className="text-red-500 text-sm">
+                    {errors.total.message}
+                  </span>
+                )}
+              </div>
 
-          <div className="flex flex-col">
-            <label className="font-semibold">نمبر قفسه</label>
-            <input
-              type="number"
-              {...register("shelf", { required: "این فیلد اجباری است" })}
-              className="input"
-            />
+              <div className="flex flex-col">
+                <label className="font-semibold">نام الماری</label>
+                <select
+                  {...register("sec_id")}
+                  className="input"
+                >
+                  <option value="">الماری انتخاب کنید</option>
+                  {shelves &&
+                    shelves.map((shelf) => (
+                      <option key={shelf.id} value={shelf.id}>
+                        {shelf.section}
+                      </option>
+                    ))}
+                </select>
+                {errors.sec_id && (
+                  <span className="text-red-500">{errors.sec_id.message}</span>
+                )}
+              </div>
 
-            {errors.shelf && (
-              <span className="text-red-500">{errors.shelf.message}</span>
-            )}
-          </div>
-          <div className="flex flex-col">
-            <label className="font-semibold">ISBN</label>
-            <input
-              type="text"
-              {...register("isbn", { required: "این فیلد اجباری است" })}
-              className="input"
-            />
-            {errors.isbn && (
-              <span className="text-red-500 text-sm">
-                {errors.isbn.message}
-              </span>
-            )}
-          </div>
+              <div className="flex flex-col">
+                <label className="font-semibold">نمبر قفسه</label>
+                <input
+                  type="number"
+                  {...register("shelf")}
+                  className="input"
+                />
+                {errors.shelf && (
+                  <span className="text-red-500">{errors.shelf.message}</span>
+                )}
+              </div>
 
-          {/* NEED EDITING */}
-          <div className="flex flex-col">
-            <label className="font-semibold">Code</label>
-            <input
-              type="text"
-              {...register("code", { required: "این فیلد اجباری است" })}
-              className="input"
-            />
-            {errors.code && (
-              <span className="text-red-500 text-sm">
-                {errors.code.message}
-              </span>
-            )}
-          </div>
+              <div className="flex flex-col">
+                <label className="font-semibold">ISBN</label>
+                <input
+                  type="text"
+                  {...register("isbn")}
+                  className="input"
+                />
+                {errors.isbn && (
+                  <span className="text-red-500 text-sm">
+                    {errors.isbn.message}
+                  </span>
+                )}
+              </div>
 
-          <div className="flex flex-col">
-            <label className="font-semibold">اجازه امانت</label>
-            <select
-              {...register("barrow", { required: "این فیلد اجباری است" })}
-              className="input"
-            >
-              <option value="yes">بلی</option>
-              <option value="no">نخیر</option>
-            </select>
-            {errors.barrow && (
-              <span className="text-red-500 text-sm">
-                {errors.barrow.message}
-              </span>
-            )}
-          </div>
+              <div className="flex flex-col">
+                <label className="font-semibold">Code</label>
+                <input
+                  type="text"
+                  {...register("code")}
+                  className="input"
+                />
+                {errors.code && (
+                  <span className="text-red-500 text-sm">
+                    {errors.code.message}
+                  </span>
+                )}
+              </div>
 
-          <div className="flex flex-col">
-            <label className="font-semibold">نوعیت کتاب</label>
-            <select
-              {...register("format", { required: "این فیلد اجباری است" })}
-              className="input"
-              onChange={handleSoft}
-            >
-              <option value="hard">هارد</option>
-              <option value="pdf">سافت</option>
-              <option value="both">هردو</option>
-            </select>
-            {errors.format && (
-              <span className="text-red-500 text-sm">
-                {errors.format.message}
-              </span>
-            )}
-          </div>
+              <div className="flex flex-col">
+                <label className="font-semibold">اجازه امانت</label>
+                <select
+                  {...register("barrow")}
+                  className="input"
+                >
+                  <option value="yes">بلی</option>
+                  <option value="no">نخیر</option>
+                </select>
+                {errors.barrow && (
+                  <span className="text-red-500 text-sm">
+                    {errors.barrow.message}
+                  </span>
+                )}
+              </div>
+            </>
+          )}
+
+          {/* Image upload for all formats */}
           <div className="flex flex-col">
             <label className="font-semibold">انتخاب عکس</label>
-            <input type="file" onChange={handleImageChange} className="input" />
-            {errors.image && (
-              <span className="text-red-500 text-sm">
-                {errors.image.message}
-              </span>
-            )}
+            <input 
+              type="file" 
+              onChange={handleImageChange} 
+              className="input" 
+              required={bookFormat !== "pdf"}
+            />
           </div>
-          {isSoft && (
+
+          {/* PDF upload for soft or both formats */}
+          {(bookFormat === "pdf" || bookFormat === "both") && (
             <div className="flex flex-col">
               <label className="font-semibold">انتخاب کتاب</label>
               <input
                 type="file"
+                accept="application/pdf"
                 onChange={handleFileChange}
                 className="input"
               />
-              {errors.pdf && (
-                <span className="text-red-500 text-sm">
-                  {errors.pdf.message}
-                </span>
-              )}
             </div>
           )}
 
@@ -506,10 +493,11 @@ const DashBookRegistration: React.FC<DashBookRegistrationProps> = ({
 
           {/* Submit Button */}
           <div className="col-span-3 flex flex-col justify-center items-center">
-          <p className='text-red-500 mt-2'>{response}</p>
+            <p className='text-red-500 mt-2'>{response}</p>
             <button
               type="submit"
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-20 rounded-md mt-4"
+              disabled={loading}
             >
               {loading ? (
                 <Loader2 size={20} className="animate-spin" />

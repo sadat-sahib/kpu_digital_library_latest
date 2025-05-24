@@ -94,14 +94,22 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
 
   const employeeMenuGroups: MenuGroup[] = [
     {
+      icon: BiAnalyse,
+      label: "گزارشات",
+      items: [
+        { to: "/dashboard?tab=report", icon: BookOpen, label: "گزارش", isActive: isActive("?tab=report") },
+        { to: "/dashboard?tab=book-report", icon: BookOpen, label: "گزارش کتاب‌ها", isActive: isActive("?tab=report") },
+        { to: "/dashboard?tab=student-report", icon: Users, label: "گزارش محصلین", isActive: isActive("?tab=reserve-books") },
+        { to: "/dashboard?tab=borrow-report", icon: BookOpen, label: "گزارش امانات", isActive: isActive("?tab=book-registration") },
+      ],
+    },
+    {
       icon: BookOpen,
       label: "کتاب‌ها",
       items: [
         { to: "/dashboard?tab=books", icon: BookOpen, label: "کتاب‌ها", isActive: isActive("?tab=books") },
         { to: "/dashboard?tab=reserve-books", icon: BookOpen, label: "کتابهای ثبت شده", isActive: isActive("?tab=reserve-books") },
         { to: "/dashboard?tab=book-registration", icon: BookOpen, label: "اضافه کردن کتاب", isActive: isActive("?tab=book-registration") },
-        // { to: "/dashboard?tab=monographs", icon: BookOpen, label: "مونوگراف‌ها", isActive: isActive("?tab=monographs") },
-        // { to: "/dashboard?tab=articles", icon: BookOpen, label: "مقاله‌ها", isActive: isActive("?tab=articles") },
       ],
     },
     {
@@ -118,7 +126,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
       icon: ClipboardList,
       label: "امانات",
       items: [
-        { to: "/dashboard?tab=borrow", icon: ClipboardList, label: "لیست امانات", isActive: isActive("?tab=borrow") },
+        { to: "/dashboard?tab=borrow", icon: ClipboardList, label: "لست امانات", isActive: isActive("?tab=borrow") },
         { to: "/dashboard?tab=requests", icon: ClipboardList, label: "درخواستی‌ها", isActive: isActive("?tab=requests") },
         // { to: "/dashboard?tab=returned-books", icon: ClipboardList, label: "بازگشتی", isActive: isActive("?tab=returned-books") },
       ],
@@ -137,14 +145,14 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
       icon: GraduationCap,
       label: "استادان",
       items: [
-        { to: "/dashboard?tab=teachers-list", icon: GraduationCap, label: "لیست استاد", isActive: isActive("?tab=teachers-list") },
+        { to: "/dashboard?tab=teachers-list", icon: GraduationCap, label: "لست استاد", isActive: isActive("?tab=teachers-list") },
       ],
     },
     {
       icon: RiAdminFill,
       label: "ادمین",
       items: [
-        { to: "/dashboard?tab=admin-list", icon: RiAdminFill, label: "لیست ادمین‌ها", isActive: isActive("?tab=admin-list") },
+        { to: "/dashboard?tab=admin-list", icon: RiAdminFill, label: "لست ادمین‌ها", isActive: isActive("?tab=admin-list") },
       ],
     },
   ];
@@ -177,7 +185,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
          style={{ scrollbarWidth: "none", height: "calc(100vh - 4rem)" }}>
           <nav className="px-4 py-6 space-y-4">
             <MenuItemComponent to="/dashboard?tab=dashboard" icon={Menu} label="داشبورد" isActive={isActive("?tab=dashboard")} />
-            <MenuItemComponent to="/dashboard?tab=report" icon={BiAnalyse} label="گزارش" isActive={isActive("?tab=report")} />
+            {/* <MenuItemComponent to="/dashboard?tab=report" icon={BiAnalyse} label="گزارش" isActive={isActive("?tab=report")} /> */}
 
             {isEmployee && employeeMenuGroups.map((group, index) => (
               <MenuGroupComponent key={index} {...group} />

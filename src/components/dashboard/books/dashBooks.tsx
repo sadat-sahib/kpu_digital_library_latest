@@ -27,8 +27,15 @@ interface Book {
   code: string;
 }
 
+interface Faculty {
+  id: number;
+  name: string;
+}
+
 const DashBooks: React.FC = () => {
   const [books, setBooks] = useState<Book[]>([]);
+  const [faculties, setFaculties] = useState<Faculty[]>([]);
+  const [selectedFaculty, setSelectedFaculty] = useState<string>("");
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [booksPerPage] = useState(10);
@@ -37,8 +44,10 @@ const DashBooks: React.FC = () => {
   const { token } = useAdminAuthStore();
   const [editingBookId, setEditingBookId] = useState<number | null>(null);
   const [selectedBook, setSelectedBook] = useState<Book | null>(null);
+
   useEffect(() => {
     fetchBooks();
+    fetchFaculties();
   }, []);
 
   const fetchBooks = async () => {
@@ -49,7 +58,6 @@ const DashBooks: React.FC = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(response.data.data);
       setBooks(response.data.data);
     } catch (error) {
       console.error("Error fetching books:", error);
@@ -59,9 +67,24 @@ const DashBooks: React.FC = () => {
     }
   };
 
+  const fetchFaculties = async () => {
+    try {
+      const response = await axios.get("/api/dashboard/faculties", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log("Faculties: ", response.data.data);
+      setFaculties(response.data.data);
+    } catch (error) {
+      console.error("Error fetching faculties:", error);
+    }
+  };
+
   const handleEdit = async (id: number) => {
     setEditingBookId(id);
   };
+
   const handleView = (id: number) => {
     const bookToView = books.find((book) => book.id === id);
     if (bookToView) {
@@ -84,8 +107,7 @@ const DashBooks: React.FC = () => {
 
       if (result.isConfirmed) {
         setLoadingDelete(id);
-        // Implement delete functionality
-        axios.delete(`/api/dashboard/books/${id}`, {
+        await axios.delete(`/api/dashboard/books/${id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -101,14 +123,25 @@ const DashBooks: React.FC = () => {
     }
   };
 
-  const filteredBooks = books.filter((book) =>
-    `${book.title} ${book.author} ${book.publisher}`
+  const handleFacultyChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedFaculty(e.target.value);
+    setCurrentPage(1); // Reset to first page when filter changes
+  };
+
+  const filteredBooks = books.filter((book) => {
+    const matchesSearch = `${book.title} ${book.author} ${book.publisher}`
       .toLowerCase()
-      .includes(searchTerm.toLowerCase())
-  );
+      .includes(searchTerm.toLowerCase());
+    
+    const matchesFaculty = selectedFaculty === "" || book.faculty === selectedFaculty;
+    
+    return matchesSearch && matchesFaculty;
+  });
+
   if (editingBookId !== null) {
     return <DashBookRegistration bookId={editingBookId} />;
   }
+
   // Pagination
   const indexOfLastBook = currentPage * booksPerPage;
   const indexOfFirstBook = indexOfLastBook - booksPerPage;
@@ -124,14 +157,28 @@ const DashBooks: React.FC = () => {
           onClose={() => setSelectedBook(null)}
         />
       )}
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
         <h1 className="text-3xl font-bold text-gray-800">لیست کتابها</h1>
-        <div className="flex items-center">
-          <div className="relative">
+        <div className="flex flex-col md:flex-row items-start md:items-center gap-4 w-full md:w-auto">
+          <div className="w-full md:w-48">
+            <select
+              value={selectedFaculty}
+              onChange={handleFacultyChange}
+              className="w-full bg-white border border-gray-300 rounded-md py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            >
+              <option value="">همه دانشکده ها</option>
+              {faculties.map((faculty) => (
+                <option key={faculty.id} value={faculty.name}>
+                  {faculty.name}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="relative w-full md:w-64">
             <input
               type="text"
               placeholder="جستجو..."
-              className="bg-white border border-gray-300 rounded-full py-2 px-4 pr-10 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full bg-white border border-gray-300 rounded-full py-2 px-4 pr-10 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />

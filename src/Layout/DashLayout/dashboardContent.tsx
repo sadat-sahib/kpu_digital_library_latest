@@ -24,6 +24,9 @@ import DashReturned from "../../Components/Dashboard/borrow/DashReturned";
 import Teachers from "../../Components/Dashboard/users/teachers";
 import Admin from "../../Components/Dashboard/admin/admin";
 import Report from "../../components/dashboard/reports/report";
+import StudentsReport from "../../components/dashboard/reports/StudentsReport";
+import BooksReport from "../../components/dashboard/reports/BooksReport";
+import BorrowsReport from "../../components/dashboard/reports/BorrowsReport";
 
 const DashboardContent: React.FC = () => {
   const location = useLocation();
@@ -85,6 +88,12 @@ const DashboardContent: React.FC = () => {
       {tab === "category" && <DashCategoryRegistration />}
       {/* Report */}
       {tab === "report" && <Report />}
+      {/* Student Report */}
+      {tab === "student-report" && <StudentsReport />}
+      {/* Books Report */}
+      {tab === "book-report" && <BooksReport />}
+      {/* Borrow Report */}
+      {tab === "borrow-report" && <BorrowsReport />}
     </div>
   );
 };

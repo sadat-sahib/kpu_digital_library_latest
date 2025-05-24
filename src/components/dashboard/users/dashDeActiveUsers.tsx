@@ -24,8 +24,15 @@ interface User {
   nin: string;
 }
 
+interface Faculty {
+  id: number;
+  name: string;
+}
+
 const DashDeActiveUsers: React.FC = () => {
   const [users, setUsers] = useState<User[]>([]);
+  const [faculties, setFaculties] = useState<Faculty[]>([]);
+  const [selectedFaculty, setSelectedFaculty] = useState<string>("");
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -36,36 +43,54 @@ const DashDeActiveUsers: React.FC = () => {
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [loadingDelete, setLoadingDelete] = useState<number | null>(null);
   const [editingUserId, setEditingUserId] = useState<number | null>(null);
+
   const refetchData = () => {
     setReload(!reload);
   };
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const response = await axios.get(
-          "/api/dashboard/users/inactivated_students",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        console.log(response.data.data);
-        setUsers(response.data.data);
-      } catch (err) {
-        console.log(err);
-        setError("Failed to fetch users");
-      } finally {
-        setLoading(false);
-      }
-    };
 
+  useEffect(() => {
     fetchUsers();
+    fetchFaculties();
   }, [token, reload]);
+
+  const fetchUsers = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get(
+        "/api/dashboard/users/inactivated_students",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setUsers(response.data.data);
+      setError(null);
+    } catch (err) {
+      console.log(err);
+      setError("Failed to fetch users");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const fetchFaculties = async () => {
+    try {
+      const response = await axios.get("/api/dashboard/faculties", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setFaculties(response.data.data);
+    } catch (error) {
+      console.error("Error fetching faculties:", error);
+    }
+  };
 
   const handleEdit = async (id: number) => {
     setEditingUserId(id);
   };
+
   const handleView = (id: number) => {
     const userToView = users.find((user) => user.id === id);
     if (userToView) {
@@ -88,8 +113,7 @@ const DashDeActiveUsers: React.FC = () => {
 
       if (result.isConfirmed) {
         setLoadingDelete(id);
-        // Implement delete functionality
-        axios.delete(`/api/dashboard/users/destroy/${id}`, {
+        await axios.delete(`/api/dashboard/users/destroy/${id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -105,15 +129,25 @@ const DashDeActiveUsers: React.FC = () => {
     }
   };
 
-  const filteredUsers = users.filter((user) =>
-    `${user.firstName} ${user.lastName}`
+  const handleFacultyChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedFaculty(e.target.value);
+    setCurrentPage(1); // Reset to first page when filter changes
+  };
+
+  const filteredUsers = users.filter((user) => {
+    const matchesSearch = `${user.firstName} ${user.lastName}`
       .toLowerCase()
-      .includes(searchTerm.toLowerCase())
-  );
+      .includes(searchTerm.toLowerCase());
+    
+    const matchesFaculty = selectedFaculty === "" || user.faculty === selectedFaculty;
+    
+    return matchesSearch && matchesFaculty;
+  });
 
   if (editingUserId !== null) {
     return <UserRegistration userId={editingUserId} />;
   }
+
   // Pagination
   const indexOfLastUser = currentPage * usersPerPage;
   const indexOfFirstUser = indexOfLastUser - usersPerPage;
@@ -127,19 +161,35 @@ const DashDeActiveUsers: React.FC = () => {
           onClose={() => setSelectedUser(null)}
         />
       )}
-      <header className="flex justify-between items-center mb-6">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
         <h1 className="text-3xl font-bold text-gray-800">کاربران غیرفعال</h1>
-        <div className="relative">
-          <input
-            type="text"
-            placeholder="Search..."
-            className="bg-white border border-gray-300 rounded-full py-2 px-4 pr-10 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-          <FaSearch className="absolute left-3 top-3 text-gray-400" />
+        <div className="flex flex-col md:flex-row items-start md:items-center gap-4 w-full md:w-auto">
+          <div className="w-full md:w-48">
+            <select
+              value={selectedFaculty}
+              onChange={handleFacultyChange}
+              className="w-full bg-white border border-gray-300 rounded-md py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            >
+              <option value="">همه دانشکده ها</option>
+              {faculties.map((faculty) => (
+                <option key={faculty.id} value={faculty.name}>
+                  {faculty.name}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="relative w-full md:w-64">
+            <input
+              type="text"
+              placeholder="جستجو..."
+              className="w-full bg-white border border-gray-300 rounded-full py-2 px-4 pr-10 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+            <FaSearch className="absolute left-3 top-3 text-gray-400" />
+          </div>
         </div>
-      </header>
+      </div>
 
       {loading ? (
         <div className="flex justify-center items-center h-64">
