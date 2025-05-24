@@ -20,7 +20,7 @@ const DASHBOARD_ENDPOINTS = {
 };
 
 class DashboardDepartmentRegistrationApi {
-    borrowPage = {
+    department = {
         getFaculties: async () => {
             return await fetcher.get(
                 DASHBOARD_ENDPOINTS.GET_FACULTIES

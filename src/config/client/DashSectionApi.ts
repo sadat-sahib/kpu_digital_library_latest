@@ -16,7 +16,7 @@ const DASHBOARD_ENDPOINTS = {
 };
 
 class DashSectionApi {
-    borrowPage = {
+    section = {
         getSections: async () => {
             return await fetcher.get(
                 DASHBOARD_ENDPOINTS.GET_SECTIONS

@@ -13,7 +13,7 @@ const DASHBOARD_ENDPOINTS = {
 };
 
 class DashboardCategoriesRegistrationApi {
-    borrowPage = {
+    categoryRegister = {
         getCategories: async () => {
             return await fetcher.get(
                 DASHBOARD_ENDPOINTS.GET_CATEGORIES

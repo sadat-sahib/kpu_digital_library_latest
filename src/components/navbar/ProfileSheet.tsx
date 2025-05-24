@@ -9,7 +9,7 @@ import { useAuthStore } from "../../Store/useAuthStore";
 import { LogOut, User as UserIcon } from "lucide-react";
 import axios from "../../axiosInstance";
 import { Link } from "react-router-dom";
-import { useGetProfileInfo } from '../../config/client/HomePgeApi.query'
+import { usegetProfile } from '../../config/client/HomePgeApi.query'
 interface ProfileSheetProps {
   open: boolean;
   onOpenChange: (isOpen: boolean) => void;
@@ -18,7 +18,7 @@ interface ProfileSheetProps {
 const ProfileSheet: React.FC<ProfileSheetProps> = ({ open, onOpenChange }) => {
   const { token, clearUser } = useAuthStore();
 
-  const { data, isPending, error } = useGetProfileInfo()
+  const { data, isPending, error } = usegetProfile()
   // console.log('data_for_profile_new',data);
 
   const handleSignout = () => {

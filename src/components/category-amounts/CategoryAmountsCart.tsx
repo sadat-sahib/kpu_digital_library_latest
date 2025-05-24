@@ -1,6 +1,6 @@
 
 
-import { useGetAllCategories, useGetAllInformation, useGetBookDetailById, useGetCategoriesWithBooks, usegetFacultyWithDepartments, usegetHomeData, useNewgetCategoriesWithBooks } from "../../config/client/HomePgeApi.query";
+import { useGetAllCategories, useGetAllInformation, useGetBookDetailById, usegetFacultyWithDepartments, usegetHomeData, useNewgetCategoriesWithBooks } from "../../config/client/HomePgeApi.query";
 import { Card, CardContent } from "../ui/card";
 import React from "react";
 import CategoryAmountsCartSkeleton from "./CategorySkeleton";

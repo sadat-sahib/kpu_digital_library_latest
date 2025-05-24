@@ -6,13 +6,13 @@ import { useAuthStore } from "../../Store/useAuthStore";
 import { useLibraryStore } from "../../Store/useLibraryInformation";
 import { useCartStore } from "../../Store/useCartStore";
 import BookCard from "./BookCard"; // Import the new BookCard component
-import BookDetailsDialog from "./BookDetailDialog";
+
 import PDFViewerDialog from "../pdf/PDFViewerDialog";
 import { Book, Category } from "./Types";
 import { AxiosError } from "axios";
 import { Button } from "../ui/button";
 import Swal from "sweetalert2";
-import { useGetAllInformation, useGetCategoriesWithBooks, useReserveBooks } from "../../config/client/HomePgeApi.query";
+import { useGetAllInformation, useReserveBooks } from "../../config/client/HomePgeApi.query";
 
 // باقی کدهای قبلی شما بدون تغییر
 
@@ -32,7 +32,7 @@ export default function BookCategories() {
   const { setCategoriesNumBooks, setMainInformation } = useLibraryStore();
 
   
-const {data:book } = useGetCategoriesWithBooks();
+// const {data:book } = useGetCategoriesWithBooks();
 
   // دریافت دسته‌بندی‌ها
   const { data: categories = [] } = useQuery<Category[], AxiosError>({

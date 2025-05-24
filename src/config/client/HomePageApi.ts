@@ -87,13 +87,13 @@ export interface AllCategoriesResponse {
   
 const HOME_PAGE_ENDPOINTS = {
     BOOKS_BY_CATEGORY_ID: (categoryId: string) => `/api/categories/books/${categoryId}`,
-    CATEGORIES_WITH_BOOKS:'/api/home',
+    // CATEGORIES_WITH_BOOKS:'/api/home',
     ADD_TO_SHOPING_CARD: (bookId: string) => `/api/cart/books/${bookId}`,
     SHOPING_CARD_BOOKS: '/api/cart/books',
     DELETE_FROM_SHOPPING_CARD: (bookId:string) => `/api/cart/books/${bookId}`,
     RESERVE_BOOKS: (bookId: string) => `/api/reserve/books/${bookId}`,
     SEARCH_BOOKS: (searchType: string, searchKey: string) => `/api/books/search?type=${searchType}&key=${searchKey}`,
-    PROFILE_INFO: '/api/account/profile',
+    // PROFILE_INFO: '/api/account/profile',
     //NEW ROUTS
     GET_ALL_INFO: '/api/information',
     GET_ALL_CATEGORIES: '/api/categories',
@@ -111,11 +111,11 @@ class HomePageApi {
                 HOME_PAGE_ENDPOINTS.BOOKS_BY_CATEGORY_ID(categoryId)
             )
         },
-        getCategoriesWithBooks: async () => {
-            return await fetcher.get(
-                HOME_PAGE_ENDPOINTS.CATEGORIES_WITH_BOOKS
-            )
-        },
+        // getCategoriesWithBooks: async () => {
+        //     return await fetcher.get(
+        //         HOME_PAGE_ENDPOINTS.CATEGORIES_WITH_BOOKS
+        //     )
+        // },
         addToShoppingCard: async (bookId: string) => {
             return await authFetcher.post(
                 HOME_PAGE_ENDPOINTS.ADD_TO_SHOPING_CARD(bookId)
@@ -141,11 +141,11 @@ class HomePageApi {
                 HOME_PAGE_ENDPOINTS.SEARCH_BOOKS(searchType, searchKey)
             )
         },
-        getProfileInfo: async () => {
-            return await authFetcher.get<ProfileResponse>(
-                HOME_PAGE_ENDPOINTS.PROFILE_INFO
-            )
-        },
+        // getProfileInfo: async () => {
+        //     return await authFetcher.get<ProfileResponse>(
+        //         HOME_PAGE_ENDPOINTS.PROFILE_INFO
+        //     )
+        // },
         //NEW ROUTS
         getAllInformation: async () => {
             return await fetcher.get<AllInfoRespons>(

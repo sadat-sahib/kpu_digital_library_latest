@@ -2,7 +2,7 @@ import React from "react";
 import { Card, CardContent } from "../ui/card";
 
 import { BsPatchCheckFill } from "react-icons/bs";
-import { usegetProfile, useGetProfileInfo } from "../../config/client/HomePgeApi.query";
+import { usegetProfile } from "../../config/client/HomePgeApi.query";
 import { Skeleton } from "../ui/skeleton";
 import { Button } from "../ui/button";
 import { LogOutIcon } from "lucide-react";
@@ -24,7 +24,7 @@ interface UserDetailsProps {
 
 export function UserDetails({ user }: UserDetailsProps) {
     const { token, clearUser } = useAuthStore();
-        const {data:prof} = usegetProfile()
+        const {data:prof, isPending} = usegetProfile()
         console.log('prof',prof)
   
     // const { data:userata,  } = useGetProfileInfo()
@@ -42,7 +42,7 @@ export function UserDetails({ user }: UserDetailsProps) {
      
     };
   
-  const { data, isPending } = useGetProfileInfo();
+  // const { data, isPending } = useGetProfileInfo();
   if (isPending) {
     return (
       <div className="p-4 border rounded-xl shadow-sm space-y-4">
