@@ -1,10 +1,10 @@
 
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Sheet, SheetContent } from "../ui/sheet";
 import { Button } from "../../components/ui/button";
 import { Card, CardContent } from "../../components/ui/card";
-import { toast } from "../../@/hooks/use-toast";
+import { toast } from "../ui/use-toast";
 
 import { useCartStore } from "../../Store/useCartStore";
 
@@ -35,6 +35,7 @@ const ShoppingCartSheet: React.FC<ShoppingCartSheetProps> = ({
   open,
   onOpenChange,
 }) => {
+
   const { cartCount, setCartCount, decrementCart } = useCartStore();
 
   const { data, isPending, isError } = useGetShoppingCardInfo();
@@ -46,8 +47,8 @@ const ShoppingCartSheet: React.FC<ShoppingCartSheetProps> = ({
       setCartCount(data?.data.data.length);
     }
   }, [data?.data.data.length, cartCount, setCartCount]);
-
   const handleDelete = (bookId: string) => {
+
     deleteMutation.mutate(bookId, {
       onSuccess: () => {
         decrementCart();
@@ -67,7 +68,7 @@ const ShoppingCartSheet: React.FC<ShoppingCartSheetProps> = ({
             "bg-red-100 text-red-800 border border-red-300 font-semibold",
           duration: 2000,
         });
-      },
+      }
     });
   };
 
@@ -108,7 +109,7 @@ const ShoppingCartSheet: React.FC<ShoppingCartSheetProps> = ({
               </div>
             ) :(
           
-          data.data.length === 0 ? (
+          data.data.data.length === 0 ? (
             <div className="text-center text-gray-500">سبد شما خالی است.</div>
           ) : (
             <div className="flex flex-col space-y-4">
@@ -138,9 +139,8 @@ const ShoppingCartSheet: React.FC<ShoppingCartSheetProps> = ({
                         className="flex items-center justify-center w-full md:w-24 text-sm px-4 py-2"
                         onClick={() => handleReserve(book.id)}
                       >
-                        {reservMutation.isPending
-                          ? "در حال ثبت.."
-                          : "ثبت درخواست"}
+  
+                       ثبت درخواست
                       </Button>
                       <Button
                         variant="destructive"

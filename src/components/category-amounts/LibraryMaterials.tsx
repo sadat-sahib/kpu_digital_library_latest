@@ -7,7 +7,7 @@ import { Skeleton } from "../ui/skeleton";
 
 export default function LibraryResources() {
   const { data:info, isPending } = useGetAllInformation()
-  console.log('info',info)
+  // console.log('info',info)
   // const { data } = useGetCategoriesWithBooks();
   
   // چک کردن برای بارگذاری

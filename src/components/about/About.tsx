@@ -1,69 +1,3 @@
-// import React from "react";
-// import "tailwindcss/tailwind.css";
-
-// const About = () => {
-//   return (
-//     <div className="bg-gray-50 text-gray-800 min-h-screen p-6 animate-fade-in">
-//       <div className="max-w-7xl mx-auto text-center">
-//         {/* Single Image Section */}
-//         <div className="mb-8">
-//           <img
-//             src="/library.jpg" // تغییر این آدرس به مسیر تصویر مورد نظر
-//             alt="Library Image"
-//             className="w-full h-96 object-cover rounded-md shadow-lg"
-//           />
-//         </div>
-
-//         {/* About Text Section */}
-//         <div className="text-center">
-//           <h2 className="text-3xl font-bold mb-6">کتابخانه پوهنتون پولیتخنیک کابل</h2>
-//           <p className="leading-relaxed text-lg mx-auto mb-6 max-w-3xl">
-//             کتابخانه ما مکانی الهام‌بخش برای مطالعه و تحقیق است. در اینجا به
-//             بهترین منابع علمی دسترسی دارید. ما به ارائه خدمات با کیفیت بالا
-//             متعهد هستیم و امیدواریم محیطی ایده‌آل برای یادگیری شما فراهم
-//             کنیم. کتابخانه ما منابعی متنوع از کتاب‌ها و مقالات علمی را برای
-//             علاقه‌مندان به مطالعات مختلف فراهم کرده است.
-//           </p>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default About;
-// import React from "react";
-// import "tailwindcss/tailwind.css";
-
-// const About = () => {
-//   return (
-//     <div className="bg-gray-50 text-gray-800 min-h-screen p-6 animate-fade-in">
-//       <div className="max-w-7xl mx-auto text-center">
-//         {/* Single Image Section */}
-//         <div className="mb-8">
-//           <img
-//             src="/library.jpg" // تغییر این آدرس به مسیر تصویر مورد نظر
-//             alt="Library Image"
-//             className="w-full h-96 object-cover rounded-md shadow-lg"
-//           />
-//         </div>
-
-//         {/* About Text Section */}
-//         <div className="text-center">
-//           <h2 className="text-3xl font-bold mb-6">کتابخانه پوهنتون پولیتخنیک کابل</h2>
-//           <p className="leading-relaxed text-lg mx-auto mb-6 max-w-3xl">
-//             کتابخانه ما مکانی الهام‌بخش برای مطالعه و تحقیق است. در اینجا به
-//             بهترین منابع علمی دسترسی دارید. ما به ارائه خدمات با کیفیت بالا
-//             متعهد هستیم و امیدواریم محیطی ایده‌آل برای یادگیری شما فراهم
-//             کنیم. کتابخانه ما منابعی متنوع از کتاب‌ها و مقالات علمی را برای
-//             علاقه‌مندان به مطالعات مختلف فراهم کرده است.
-//           </p>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default About;
 
 import {
   Book,
@@ -72,6 +6,9 @@ import {
   BookOpen,
   Award,
   Globe,
+  BookCopy,
+  BookMarked,
+  BookA,
 } from "lucide-react";
 import React from "react";
 import {
@@ -82,6 +19,9 @@ import {
   CardTitle,
 } from "../ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
+import { useGetAllInformation } from "../../config/client/HomePgeApi.query";
+
+import { BsFilePdf } from "react-icons/bs";
 const historyData = [
   {
     year: "۱۳۸۴",
@@ -114,6 +54,9 @@ const historyData = [
 ];
 
 export default function AboutPage() {
+  const { data:info } = useGetAllInformation();
+  
+
   return (
     <div className="container mx-auto px-6 py-12">
       <div className="flex flex-col items-center text-center mb-16">
@@ -144,29 +87,29 @@ export default function AboutPage() {
               <div className="bg-primary/10 p-3 rounded-full mb-3">
                 <Book className="h-6 w-6 text-primary" color="blue"/>
               </div>
-              <h3 className="text-xl font-bold">۲ هزار +</h3>
-              <p className="text-sm text-muted-foreground">منابع دیجیتال</p>
+              <h3 className="text-xl font-bold">{info?.data.data.information.all_books}+</h3>
+              <p className="text-sm text-muted-foreground">منابع کتابخانه</p>
             </div>
             <div className="flex flex-col items-center">
               <div className="bg-primary/10 p-3 rounded-full mb-3">
                 <Users className="h-6 w-6 text-primary" color="blue"/>
               </div>
-              <h3 className="text-xl font-bold">۴۰۰ +</h3>
+              <h3 className="text-xl font-bold">{info?.data.data.information.all_registered_users}</h3>
               <p className="text-sm text-muted-foreground">کاربران فعال</p>
             </div>
             <div className="flex flex-col items-center">
               <div className="bg-primary/10 p-3 rounded-full mb-3">
-                <GraduationCap className="h-6 w-6 text-primary" color="blue"/>
+                <BookA className="h-6 w-6 text-primary" color="blue"/>
               </div>
-              <h3 className="text-xl font-bold">۱۲۰+</h3>
-              <p className="text-sm text-muted-foreground">موسسات همکار</p>
+              <h3 className="text-xl font-bold">{info?.data.data.information.all_barrowable_books}</h3>
+              <p className="text-sm text-muted-foreground">کتاب های قابل امانت</p>
             </div>
             <div className="flex flex-col items-center">
               <div className="bg-primary/10 p-3 rounded-full mb-3">
-                <Globe className="h-6 w-6 text-primary" color="blue"/>
+                <BsFilePdf className="h-6 w-6 text-primary" color="blue"/>
               </div>
-              <h3 className="text-xl font-bold">۱۹۰+</h3>
-              <p className="text-sm text-muted-foreground">کشورهای تحت پوشش</p>
+              <h3 className="text-xl font-bold">{info?.data.data.information.pdf_books}</h3>
+              <p className="text-sm text-muted-foreground">کتاب های پی دی اف</p>
             </div>
           </div>
         </div>

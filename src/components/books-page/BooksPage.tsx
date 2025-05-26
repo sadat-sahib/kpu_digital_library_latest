@@ -8,7 +8,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/
 import { Link } from "react-router-dom";
 import { Eye } from "lucide-react";
 import { useAddToShoppingCard, useNewgetCategoriesWithBooks } from "../../config/client/HomePgeApi.query";
-import { toast } from "../../@/hooks/use-toast";
+import { toast } from "../ui/use-toast";
 import BookCardSkeleton from "../books-section/BookCardSkeleton";
 import SearchFilterSkeleton from "./SearchFilterSkeleton";
 import CustomImage from "../ui/custom-image/CustomImage";

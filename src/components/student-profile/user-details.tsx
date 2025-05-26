@@ -23,25 +23,30 @@ interface UserDetailsProps {
 }
 
 export function UserDetails({ user }: UserDetailsProps) {
-    const { token, clearUser } = useAuthStore();
-        const {data:prof, isPending} = usegetProfile()
-        console.log('prof',prof)
-  
-    // const { data:userata,  } = useGetProfileInfo()
-    // console.log('data_for_profile_new',userata);
-  
-    const handleSignout = () => {
-      axios.post("/api/logout", {}, {
-        headers: {
-          Authorization: `Bearer ${token}`
+  const { token, clearUser } = useAuthStore();
+  const { data: prof, isPending } = usegetProfile();
+  console.log("prof", prof);
+
+  // const { data:userata,  } = useGetProfileInfo()
+  // console.log('data_for_profile_new',userata);
+
+  const handleSignout = () => {
+    axios
+      .post(
+        "/api/logout",
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
-      }).then((response) => {
+      )
+      .then((response) => {
         clearUser();
-        console.log('log out res', response);
+        console.log("log out res", response);
       });
-     
-    };
-  
+  };
+
   // const { data, isPending } = useGetProfileInfo();
   if (isPending) {
     return (
@@ -74,7 +79,7 @@ export function UserDetails({ user }: UserDetailsProps) {
               تخلص: <span className="text-black">{UserDetails?.lastName}</span>{" "}
             </h3>
           </div>
-{/* 
+          {/* 
           <div>
             <h3 className="text-sm font-medium text-muted-foreground">
               نام پدر :<span className="text-black">{user.fatherName}</span>
@@ -108,9 +113,13 @@ export function UserDetails({ user }: UserDetailsProps) {
             </h3>
           </div>
         </div>
-        <div className="flex justify-center items-center mt-3">
-          <Button size="sm" className="w-full" variant="destructive" 
-          onClick={handleSignout}>
+        <div className="flex justify-center items-center pt-12">
+          <Button
+            size="sm"
+            className="w-full"
+            variant="destructive"
+            onClick={handleSignout}
+          >
             <LogOutIcon />
             خروج از حساب
           </Button>
