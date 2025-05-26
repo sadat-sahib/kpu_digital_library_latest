@@ -15,7 +15,7 @@ import {
 } from "@radix-ui/react-tooltip";
 import { Button } from "../ui/button";
 import { Link } from "react-router-dom";
-import { toast } from "../../@/hooks/use-toast";
+import { toast } from "../ui/use-toast";
 import BookCardSkeleton from "./BookCardSkeleton";
 import CustomImage from "../ui/custom-image/CustomImage";
 import PDFViewerDialog from "../pdf/PDFViewerDialog";
@@ -25,18 +25,18 @@ interface CoursesCardsProps {
   categoryDocIds?: string[];
 }
 
-const CoursesCards = ({ isMobile, categoryDocIds }: CoursesCardsProps) => {
-    //   // PDF functionality
-    const [pdfDialogOpen, setPdfDialogOpen] = useState<boolean>(false);
-    const [pdfUrl, setPdfUrl] = useState<string | null>(null);
-    const [pdfTitle, setPdfTitle] = useState<string>("");
+const CoursesCards = () => {
+  //   // PDF functionality
+  const [pdfDialogOpen, setPdfDialogOpen] = useState<boolean>(false);
+  const [pdfUrl, setPdfUrl] = useState<string | null>(null);
+  const [pdfTitle, setPdfTitle] = useState<string>("");
   const [emblaRef, emblaApi] = useEmblaCarousel({
     slidesToScroll: 1,
     align: "start",
     skipSnaps: false,
   });
-const {data:book, isPending } = useNewgetCategoriesWithBooks();
-console.log('bbb',book)
+  const { data: book, isPending } = useNewgetCategoriesWithBooks();
+  console.log("bbb", book);
   // const { data, isPending } = useGetCategoriesWithBooks();
   const addToCardMutation = useAddToShoppingCard();
 
@@ -94,7 +94,7 @@ console.log('bbb',book)
     setPdfTitle(title);
     setPdfDialogOpen(true);
   };
-      const closePdfDialog = () => {
+  const closePdfDialog = () => {
     setPdfDialogOpen(false);
     setPdfUrl(null);
     setPdfTitle("");
@@ -168,29 +168,29 @@ console.log('bbb',book)
                           <p>جزییات</p>
                         </TooltipContent>
                       </Tooltip>
-                                  <Tooltip>
-              <TooltipTrigger
-                className={`${
-                  book.format === "hard" ? "opacity-0" : "opacity-100"
-                }`}
-              >
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => handlePdfClick(book.pdf, book.title)}
-                  disabled={book.format === "hard"}
-                >
-                  <FileText size={16} />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent
-                className={`${
-                  book.format === "hard" ? "opacity-0" : "opacity-100"
-                }`}
-              >
-                <p>خواندن</p>
-              </TooltipContent>
-            </Tooltip>
+                      {/* <Tooltip>
+                        <TooltipTrigger
+                          className={`${
+                            book.format === "hard" ? "opacity-0" : "opacity-100"
+                          }`}
+                        >
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => handlePdfClick(book.pdf, book.title)}
+                            disabled={book.format === "hard"}
+                          >
+                            <FileText size={16} />
+                          </Button>
+                        </TooltipTrigger>
+                        <TooltipContent
+                          className={`${
+                            book.format === "hard" ? "opacity-0" : "opacity-100"
+                          }`}
+                        >
+                          <p>خواندن</p>
+                        </TooltipContent>
+                      </Tooltip> */}
                     </TooltipProvider>
                   </div>
                   <div>
@@ -212,7 +212,6 @@ console.log('bbb',book)
               </Card>
             ))
           )}
-
         </div>
       </div>
 
@@ -225,7 +224,13 @@ console.log('bbb',book)
           نمایش همه کتاب‌ها
         </Link>
       </div>
-            {pdfDialogOpen && <PDFViewerDialog pdfUrl={pdfUrl} title={pdfTitle} onClose={closePdfDialog} />}
+      {pdfDialogOpen && (
+        <PDFViewerDialog
+          pdfUrl={pdfUrl}
+          title={pdfTitle}
+          onClose={closePdfDialog}
+        />
+      )}
     </div>
   );
 };
