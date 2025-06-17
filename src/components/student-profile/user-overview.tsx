@@ -30,7 +30,7 @@ interface UserOverviewProps {
 export function UserOverview({ user }: UserOverviewProps) {
   // const { data, isPending } = useGetProfileInfo();
     const {data:prof, isPending} = usegetProfile()
-    console.log('prof',prof)
+    // console.log('prof',prof)
 
   if (isPending) {
     return (

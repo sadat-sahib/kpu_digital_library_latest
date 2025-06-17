@@ -32,10 +32,9 @@ export interface UserProfile {
     all_registered_books: number
     all_registered_users: number;
    }
+
    export interface AllInfoRespons {
-    data: {
-        information: AllInformation;
-    }
+          counts: AllInformation;
    }
 
 export interface AllCategories {
@@ -91,7 +90,7 @@ const HOME_PAGE_ENDPOINTS = {
     ADD_TO_SHOPING_CARD: (bookId: string) => `/api/cart/books/${bookId}`,
     SHOPING_CARD_BOOKS: '/api/cart/books',
     DELETE_FROM_SHOPPING_CARD: (bookId:string) => `/api/cart/books/${bookId}`,
-    RESERVE_BOOKS: (bookId: string) => `/api/reserve/books/${bookId}`,
+    RESERVE_BOOKS: (bookId: string) => `/api/reserve/book/${bookId}`,
     SEARCH_BOOKS: (searchType: string, searchKey: string) => `/api/books/search?type=${searchType}&key=${searchKey}`,
     // PROFILE_INFO: '/api/account/profile',
     //NEW ROUTS

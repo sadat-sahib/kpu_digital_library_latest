@@ -12,7 +12,7 @@ interface BorrowedBooksProps {
 
 export function BorrowedBooks({ books }: BorrowedBooksProps) {
   const {data:prof, isPending} = usegetProfile()
-  console.log('prof',prof)
+  // console.log('prof',prof)
   // const { data, isPending } = useGetProfileInfo();
   if (isPending) {
     return (
