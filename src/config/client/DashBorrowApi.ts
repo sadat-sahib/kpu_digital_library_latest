@@ -30,6 +30,8 @@ const DASHBOARD_ENDPOINTS = {
   GET_IN_ACTIVE_USERS: `/api/dashboard/reserves/inactive/users`,
   DELETE_IN_ACTIVE_USERS: (bookId) =>
     `/api/dashboard/reserves/inactive/user/delete/${bookId}`,
+  ADD_REQUEST_BOOK: (selectedRequestId) => `/api/dashboard/reserves/active/${selectedRequestId}`,
+  ADD_RECEIVED_BOOK: (selectedReceivedId) => `/api/dashboard/reserves/return/book/${selectedReceivedId}`
 };
 
 class DashboardBorrowApi {
@@ -50,6 +52,17 @@ class DashboardBorrowApi {
         DASHBOARD_ENDPOINTS.DELETE_IN_ACTIVE_USERS(bookId)
       );
     },
+    addRequestBook: async (selectedRequestId, returnDate) => {
+      return await authFetcher.post(
+        DASHBOARD_ENDPOINTS.ADD_REQUEST_BOOK(selectedRequestId),
+        { return_by: returnDate }
+      );
+    },
+    addReceivedBook: async (selectedReceivedId) => {
+      return await authFetcher.post(
+        DASHBOARD_ENDPOINTS.ADD_RECEIVED_BOOK(selectedReceivedId)
+      );
+    }
   };
 }
 const DashBorrowApi = new DashboardBorrowApi();

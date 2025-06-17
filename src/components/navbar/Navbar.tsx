@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button } from "../ui/button";
-import { ShoppingCart, User, Menu, Home, Info } from "lucide-react";
+import { ShoppingCart, User, Menu, Home, Info, Contact, Book, Phone, BookA } from "lucide-react";
 import MobileMenuSheet from "./MobileMenuSheet";
 import ShoppingCartSheet from "./ShoppingCartSheet";
 import ProfileSheet from "./ProfileSheet";
@@ -96,23 +96,26 @@ const Navbar: React.FC = () => {
               </Link>
               <Link
                 to="/about"
-                className="relative group text-gray-700 hover:text-blue-500 font-black mr-4"
+                className="relative group text-gray-700 hover:text-blue-500 font-black mr-4 flex gap-2 justify-center items-center"
               >
+                <Info size={16} />
                 درباره ما
                 <span className="absolute left-0 bottom-0 w-0 h-0.5 bg-blue-500 transition-all duration-300 group-hover:w-full"></span>
               </Link>
 
               <Link
                 to="/contact"
-                className="relative group text-gray-700 hover:text-blue-500 font-black"
+                className="relative group text-gray-700 hover:text-blue-500 font-black flex gap-2 justify-center items-center"
               >
+                <Phone size={16} />
                 تماس با ما
                 <span className="absolute left-0 bottom-0 w-0 h-0.5 bg-blue-500 transition-all duration-300 group-hover:w-full"></span>
               </Link>
               <Link
                 to="/books"
-                className="relative group text-gray-700 hover:text-blue-500 font-black"
+                className="relative group text-gray-700 hover:text-blue-500 font-black flex gap-2 justify-center items-center"
               >
+                <BookA size={16} />
                 کتاب ها
                 <span className="absolute left-0 bottom-0 w-0 h-0.5 bg-blue-500 transition-all duration-300 group-hover:w-full"></span>
               </Link>

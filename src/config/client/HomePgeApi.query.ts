@@ -4,15 +4,14 @@ import {
   useQueryClient,
 } from "@tanstack/react-query";
 import homePageApi from "./HomePageApi";
-import { number } from "zod";
 
-export const useGetProfileInfo = () => {
-  return useQuery({
-    queryKey: ["profileInfo"],
-    queryFn: () => homePageApi.homePage.getProfileInfo(),
-    refetchOnWindowFocus: false,
-  });
-};
+// export const useGetProfileInfo = () => {
+//   return useQuery({
+//     queryKey: ["profileInfo"],
+//     queryFn: () => homePageApi.homePage.getProfileInfo(),
+//     refetchOnWindowFocus: false,
+//   });
+// };
 
 export const useAddToShoppingCard = () => {
   const queryClient = useQueryClient();
@@ -84,13 +83,13 @@ export const useSearchBooks = (searchType: string, searchKey: string) => {
   });
 };
 
-export const useGetCategoriesWithBooks = () => {
-  return useQuery({
-    queryKey: ["categoriesWithBooks"],
-    queryFn: () => homePageApi.homePage.getCategoriesWithBooks(),
-    refetchOnWindowFocus: false,
-  });
-};
+// export const useGetCategoriesWithBooks = () => {
+//   return useQuery({
+//     queryKey: ["categoriesWithBooks"],
+//     queryFn: () => homePageApi.homePage.getCategoriesWithBooks(),
+//     refetchOnWindowFocus: false,
+//   });
+// };
 
 export const useGEtBooksByCategoryId = (categoryId: string) => {
   return useQuery({

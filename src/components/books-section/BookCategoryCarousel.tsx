@@ -1,10 +1,9 @@
 import { useCallback, useEffect, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
-import { ChevronLeft, ChevronRight, Eye } from "lucide-react";
+import { ChevronLeft, ChevronRight, Eye, FileText } from "lucide-react";
 import React from "react";
 import {
   useAddToShoppingCard,
-  useGetCategoriesWithBooks,
   useNewgetCategoriesWithBooks,
 } from "../../config/client/HomePgeApi.query";
 import { Card, CardContent } from "../ui/card";
@@ -16,23 +15,28 @@ import {
 } from "@radix-ui/react-tooltip";
 import { Button } from "../ui/button";
 import { Link } from "react-router-dom";
-import { toast } from "../../@/hooks/use-toast";
+import { toast } from "../ui/use-toast";
 import BookCardSkeleton from "./BookCardSkeleton";
 import CustomImage from "../ui/custom-image/CustomImage";
+import PDFViewerDialog from "../pdf/PDFViewerDialog";
 
 interface CoursesCardsProps {
   isMobile?: boolean;
   categoryDocIds?: string[];
 }
 
-const CoursesCards = ({ isMobile, categoryDocIds }: CoursesCardsProps) => {
+const CoursesCards = () => {
+  //   // PDF functionality
+  const [pdfDialogOpen, setPdfDialogOpen] = useState<boolean>(false);
+  const [pdfUrl, setPdfUrl] = useState<string | null>(null);
+  const [pdfTitle, setPdfTitle] = useState<string>("");
   const [emblaRef, emblaApi] = useEmblaCarousel({
     slidesToScroll: 1,
     align: "start",
     skipSnaps: false,
   });
-const {data:book, isPending } = useNewgetCategoriesWithBooks();
-console.log('bbb',book)
+  const { data: book, isPending } = useNewgetCategoriesWithBooks();
+  console.log("bbb", book);
   // const { data, isPending } = useGetCategoriesWithBooks();
   const addToCardMutation = useAddToShoppingCard();
 
@@ -85,7 +89,16 @@ console.log('bbb',book)
   if (isPending) {
     return <BookCardSkeleton />;
   }
-
+  const handlePdfClick = (pdfUrl: string, title: string) => {
+    setPdfUrl(pdfUrl);
+    setPdfTitle(title);
+    setPdfDialogOpen(true);
+  };
+  const closePdfDialog = () => {
+    setPdfDialogOpen(false);
+    setPdfUrl(null);
+    setPdfTitle("");
+  };
   // const categoriesWithBooks = data?.data.categories_with_books || [];
 
   return (
@@ -155,6 +168,29 @@ console.log('bbb',book)
                           <p>جزییات</p>
                         </TooltipContent>
                       </Tooltip>
+                      {/* <Tooltip>
+                        <TooltipTrigger
+                          className={`${
+                            book.format === "hard" ? "opacity-0" : "opacity-100"
+                          }`}
+                        >
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => handlePdfClick(book.pdf, book.title)}
+                            disabled={book.format === "hard"}
+                          >
+                            <FileText size={16} />
+                          </Button>
+                        </TooltipTrigger>
+                        <TooltipContent
+                          className={`${
+                            book.format === "hard" ? "opacity-0" : "opacity-100"
+                          }`}
+                        >
+                          <p>خواندن</p>
+                        </TooltipContent>
+                      </Tooltip> */}
                     </TooltipProvider>
                   </div>
                   <div>
@@ -176,7 +212,6 @@ console.log('bbb',book)
               </Card>
             ))
           )}
-
         </div>
       </div>
 
@@ -189,6 +224,13 @@ console.log('bbb',book)
           نمایش همه کتاب‌ها
         </Link>
       </div>
+      {pdfDialogOpen && (
+        <PDFViewerDialog
+          pdfUrl={pdfUrl}
+          title={pdfTitle}
+          onClose={closePdfDialog}
+        />
+      )}
     </div>
   );
 };

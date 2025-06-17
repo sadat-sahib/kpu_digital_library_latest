@@ -6,9 +6,8 @@ import { useParams, Link } from "react-router-dom";
 import {
   useAddToShoppingCard,
   useGetBookDetailById,
-  useGetCategoriesWithBooks,
 } from "../../config/client/HomePgeApi.query";
-import { toast } from "../../@/hooks/use-toast";
+import { toast } from "../ui/use-toast";
 import CustomImage from "../ui/custom-image/CustomImage";
 
 export default function BookDetailPage() {

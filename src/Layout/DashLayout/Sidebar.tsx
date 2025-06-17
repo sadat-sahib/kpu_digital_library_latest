@@ -49,7 +49,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
         },
       }
     ).then((response) => {
-      if (response.data.message === "Logged out successfully") {
+      if (response.status === 200) {
         clearUser();
         navigate(`?tab=adminLogin`);
       }
@@ -168,6 +168,16 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
         { to: "/dashboard?tab=active-employees", icon: Users, label: "کاربران فعال", isActive: isActive("?tab=active-employees") },
       ],
     },
+       {
+      icon: BiAnalyse,
+      label: "گزارشات",
+      items: [
+        { to: "/dashboard?tab=report", icon: BookOpen, label: "گزارش", isActive: isActive("?tab=report") },
+        { to: "/dashboard?tab=book-report", icon: BookOpen, label: "گزارش کتاب‌ها", isActive: isActive("?tab=report") },
+        { to: "/dashboard?tab=student-report", icon: Users, label: "گزارش محصلین", isActive: isActive("?tab=reserve-books") },
+        { to: "/dashboard?tab=borrow-report", icon: BookOpen, label: "گزارش امانات", isActive: isActive("?tab=book-registration") },
+      ],
+    }
   ];
 
   return (

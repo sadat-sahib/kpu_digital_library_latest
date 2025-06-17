@@ -76,7 +76,11 @@ const DASHBOARD_ENDPOINTS = {
     GET_DEPARTMENTS: `/api/dashboard/departments`,
     GET_SECTIONS: '/api/dashboard/sections',
     GET_CATEGORIES: `/api/dashboard/categories`,
+    //book info for edit
     GET_BOOKS_BY_ID: (bookId) => `/api/dashboard/books/${bookId}`,
+    ADD_BOOKS_BY_ID: (bookId) => `/api/dashboard/books/${bookId}`,
+    ADD_BOOKS: `/api/dashboard/books`,
+
     //DASH BOOKS
     GET_DASBOARD_BOOKS: `/api/dashboard/books`,
     DELETE_DASHBOARD_BOOKS: (bookId:string) => `/api/dashboard/books/${bookId}`,
@@ -106,6 +110,16 @@ class DashboardBooksApi {
         getBooksById: async (bookId) => {
             return await authFetcher.get(
                 DASHBOARD_ENDPOINTS.GET_BOOKS_BY_ID(bookId)
+            )
+        },
+        addBooksById: async (bookId) => {
+            return await authFetcher.get(
+                DASHBOARD_ENDPOINTS.ADD_BOOKS_BY_ID(bookId)
+            )
+        },
+        addBooks: async () => {
+            return await authFetcher.get(
+                DASHBOARD_ENDPOINTS.ADD_BOOKS
             )
         },
         getDashboardBooks: async () => {
