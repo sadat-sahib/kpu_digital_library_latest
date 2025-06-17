@@ -111,12 +111,11 @@ const LibraryReport: React.FC<LibraryReportProps> = ({ books, students }) => {
           </head>
           <body>
             <div class="report-header">
-              <h3>پوهنتون پولیتخنک کابل</h3>
-              <div class="filter-info">
-                ${activeTab === 'books' ? 
-                  `Book Filters: ${bookFilters.type ? 'Type: ' + bookFilters.type + '; ' : ''}${bookFilters.status ? 'Status: ' + bookFilters.status : ''}` : 
-                  `Student Filters: ${studentFilters.department ? 'Department: ' + studentFilters.department + '; ' : ''}${studentFilters.year ? 'Year: ' + studentFilters.year : ''}`}
-              </div>
+              <h3>امارت اسلامی افغانستان</h3>
+              <h3>وزارت تحصیلات عالی</h3>
+              <h3>پوهنتون پولی تخنیک کابل</h3>
+              <h3>معاونیت تحقیقات و مجله علمی</h3>
+              <h3>مدیریت عمومی کتابخانه</h3>
             </div>
             
             ${activeTab === 'books' ? `
