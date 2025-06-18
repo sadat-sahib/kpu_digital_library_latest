@@ -148,13 +148,6 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
         { to: "/dashboard?tab=teachers-list", icon: GraduationCap, label: "لست استاد", isActive: isActive("?tab=teachers-list") },
       ],
     },
-    {
-      icon: RiAdminFill,
-      label: "ادمین",
-      items: [
-        { to: "/dashboard?tab=admin-list", icon: RiAdminFill, label: "لست ادمین‌ها", isActive: isActive("?tab=admin-list") },
-      ],
-    },
   ];
 
   const assistantMenuGroups: MenuGroup[] = [
@@ -177,7 +170,14 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
         { to: "/dashboard?tab=student-report", icon: Users, label: "گزارش محصلین", isActive: isActive("?tab=reserve-books") },
         { to: "/dashboard?tab=borrow-report", icon: BookOpen, label: "گزارش امانات", isActive: isActive("?tab=book-registration") },
       ],
-    }
+    },
+        {
+      icon: RiAdminFill,
+      label: "ادمین",
+      items: [
+        { to: "/dashboard?tab=admin-list", icon: RiAdminFill, label: "لست ادمین‌ها", isActive: isActive("?tab=admin-list") },
+      ],
+    },
   ];
 
   return (

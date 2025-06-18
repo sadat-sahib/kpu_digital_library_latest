@@ -5,6 +5,8 @@ import { useAdminAuthStore } from '../../../Store/useAdminAuthStore';
 export interface Student {
   user_id: string;
   username: string;
+  email: string;
+  faculty: string;
   department: string;
   year: number;
   booksCheckedOut: number;
@@ -60,6 +62,7 @@ const StudentsReport: React.FC = () => {
       headers: { Authorization: `Bearer ${token}` }
     })
     .then(response => {
+      console.log('Fetched students:', response.data);
       setStudents(response.data.data || []);
       setLoading(false);
     })
@@ -95,77 +98,75 @@ const StudentsReport: React.FC = () => {
       const facultyName = getFacultyName();
       const departmentName = getDepartmentName();
       
-      const printContent = `
-        <!DOCTYPE html>
-        <html>
-          <head>
-            <title>گزارش محصلین</title>
-            <style>
-              body { font-family: Arial, sans-serif; margin: 0; padding: 20px; color: #333; direction: rtl; }
-              h1 { color: #2c3e50; text-align: center; margin-bottom: 20px; }
-              table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-              th { background-color: #f8f9fa; text-align: right; padding: 8px; border: 1px solid #ddd; }
-              td { padding: 8px; border: 1px solid #ddd; text-align: right; }
-              .book-count-0 { background-color: #d4edda; color: #155724; }
-              .book-count-warning { background-color: #fff3cd; color: #856404; }
-              .book-count-danger { background-color: #f8d7da; color: #721c24; }
-              .report-header { margin-bottom: 20px; text-align: center; }
-              .report-footer { margin-top: 20px; font-size: 12px; text-align: center; color: #6c757d; }
-              .filter-info { margin-bottom: 15px; font-size: 14px; }
-            </style>
-          </head>
-          <body>
-            <div class="report-header">
-                            <h3>امارت اسلامی افغانستان</h3>
-              <h3>وزارت تحصیلات عالی</h3>
-              <h4>پوهنتون پولی تخنیک کابل</h4>
-              <h5>معاونیت تحقیقات و مجله علمی</h5>
-              <h6>مدیریت عمومی کتابخانه</h6>
-              <div class="filter-info">
-                ${facultyName ? 'دانشکده: ' + facultyName + '; ' : ''}
-                ${departmentName ? 'رشته: ' + departmentName : ''}
-              </div>
-            </div>
-            
-            <table>
-              <thead>
-                <tr>
-                  <th>نام</th>
-                  <th>دیپارتمنت</th>
-                  <th>آی‌دی محصل</th>
-                  <th>سال</th>
-                  <th>تعداد کتاب‌ها</th>
-                </tr>
-              </thead>
-              <tbody>
-                ${students.length > 0 ? 
-                  students.map(student => {
-                    const deptName = faculties.flatMap(f => f.departments)
-                      .find(d => d.id.toString() === student.department)?.name || student.department;
-                    return `
-                    <tr>
-                      <td>${student.username}</td>
-                      <td>${deptName}</td>
-                      <td>${student.user_id}</td>
-                      <td>${student.year}</td>
-                      <td class="${student.booksCheckedOut === 0 ? 'book-count-0' : 
-                                   student.booksCheckedOut > 3 ? 'book-count-danger' : 'book-count-warning'}">
-                        ${student.booksCheckedOut}
-                      </td>
-                    </tr>
-                  `}).join('') : `
-                    <tr>
-                      <td colspan="5" style="text-align: center;">هیچ محصل یافت نشد</td>
-                    </tr>
-                  `}
-              </tbody>
-            </table>
-            <div class="report-footer">
-              تاریخ تولید: ${new Date().toLocaleDateString('fa-IR')} | تعداد کل: ${students.length} محصل
-            </div>
-          </body>
-        </html>
-      `;
+const printContent = `
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <title>گزارش محصلین</title>
+      <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; color: #333; direction: rtl; }
+        h1 { color: #2c3e50; text-align: center; margin-bottom: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th { background-color: #f8f9fa; text-align: right; padding: 8px; border: 1px solid #ddd; }
+        td { padding: 8px; border: 1px solid #ddd; text-align: right; }
+        .book-count-0 { background-color: #d4edda; color: #155724; }
+        .book-count-warning { background-color: #fff3cd; color: #856404; }
+        .book-count-danger { background-color: #f8d7da; color: #721c24; }
+        .report-header { margin-bottom: 20px; text-align: center; }
+        .report-footer { margin-top: 20px; font-size: 12px; text-align: center; color: #6c757d; }
+        .filter-info { margin-bottom: 15px; font-size: 14px; }
+      </style>
+    </head>
+    <body>
+      <div class="report-header">
+        <h3>امارت اسلامی افغانستان</h3>
+        <h3>وزارت تحصیلات عالی</h3>
+        <h4>پوهنتون پولی تخنیک کابل</h4>
+        <h5>معاونیت تحقیقات و مجله علمی</h5>
+        <h6>مدیریت عمومی کتابخانه</h6>
+        <div class="filter-info">
+          ${facultyName ? 'دانشکده: ' + facultyName + '; ' : ''}
+          ${departmentName ? 'رشته: ' + departmentName : ''}
+        </div>
+      </div>
+      
+      <table>
+        <thead>
+          <tr>
+            <th>نام</th>
+            <th>دیپارتمنت</th>
+            <th>پوهنځی</th>
+            <th>آی‌دی محصل</th>
+            <th>ایمیل</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${students.length > 0 ? 
+            students.map(student => {
+              const deptName = faculties.flatMap(f => f.departments)
+                .find(d => d.id.toString() === student.department)?.name || student.department;
+              const facultyName = faculties.find(f => f.id.toString() === student.faculty)?.name || student.faculty;
+              return `
+              <tr>
+                <td>${student.username}</td>
+                <td>${deptName}</td>
+                <td>${facultyName}</td>
+                <td>${student.user_id}</td>
+                <td>${student.email}</td>
+              </tr>
+            `}).join('') : `
+              <tr>
+                <td colspan="5" style="text-align: center;">هیچ محصل یافت نشد</td>
+              </tr>
+            `}
+        </tbody>
+      </table>
+      <div class="report-footer">
+        تاریخ تولید: ${new Date().toLocaleDateString('fa-IR')} | تعداد کل: ${students.length} محصل
+      </div>
+    </body>
+  </html>
+`;
 
       printWindow.document.write(printContent);
       printWindow.document.close();
@@ -226,9 +227,9 @@ const StudentsReport: React.FC = () => {
                 <tr>
                   <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider print:px-2 print:py-2 print:text-sm">نام</th>
                   <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider print:px-2 print:py-2 print:text-sm">دیپارتمنت</th>
+                  <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider print:px-2 print:py-2 print:text-sm">پوهنځی</th>
                   <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider print:px-2 print:py-2 print:text-sm">آی‌دی محصل</th>
-                  <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider print:px-2 print:py-2 print:text-sm">سال</th>
-                  <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider print:px-2 print:py-2 print:text-sm">تعداد کتاب‌ها</th>
+                  <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider print:px-2 print:py-2 print:text-sm">ایمیل</th>
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
@@ -242,16 +243,16 @@ const StudentsReport: React.FC = () => {
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 print:px-2 print:py-2 print:text-sm">
                           {deptName}
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 print:px-2 print:py-2 print:text-sm">{student.user_id}</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 print:px-2 print:py-2 print:text-sm">{student.year}</td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 print:px-2 print:py-2 print:text-sm">
                           <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
                             ${student.booksCheckedOut === 0 ? 'bg-green-100 text-green-800 print:book-count-0' : 
                               student.booksCheckedOut > 3 ? 'bg-red-100 text-red-800 print:book-count-danger' : 
                               'bg-yellow-100 text-yellow-800 print:book-count-warning'}`}>
-                            {student.booksCheckedOut}
+                            {student.faculty}
                           </span>
                         </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 print:px-2 print:py-2 print:text-sm">{student.user_id}</td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 print:px-2 print:py-2 print:text-sm">{student.email}</td>
                       </tr>
                     );
                   })
