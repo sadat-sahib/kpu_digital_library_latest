@@ -10,7 +10,7 @@ import UserRegistration from "../../../Pages/UserRegistration";
 import { Loader } from "lucide-react";
 
 interface User {
-  id: number;
+  user_id: number;
   firstName: string;
   lastName: string;
   email: string;
@@ -92,7 +92,7 @@ const DashDeActiveUsers: React.FC = () => {
   };
 
   const handleView = (id: number) => {
-    const userToView = users.find((user) => user.id === id);
+    const userToView = users.find((user) => user.user_id === id);
     if (userToView) {
       setSelectedUser(userToView);
     }
@@ -118,7 +118,7 @@ const DashDeActiveUsers: React.FC = () => {
             Authorization: `Bearer ${token}`,
           },
         });
-        setUsers(users.filter((user) => user.id !== id));
+        setUsers(users.filter((user) => user.user_id !== id));
         Swal.fire("حذف شد", "موفقانه حذف گردید.", "success");
       }
     } catch (error) {

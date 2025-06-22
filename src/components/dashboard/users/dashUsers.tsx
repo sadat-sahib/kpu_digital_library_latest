@@ -62,6 +62,7 @@ const DashUser: React.FC = () => {
         }
       });
       setUsers(response.data.data);
+      console.log("Fetched users:", response.data);
       setError(null);
     } catch (err) {
       setError("Failed to fetch users. Please try again later.");

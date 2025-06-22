@@ -89,7 +89,7 @@ const UserRegistration: React.FC<UserRegistrationProps> = ({userId}) => {
         if (userId) {
             setIsEditing(true);
             console.log("userId: ", userId);
-            axios.get(`api/dashboard/users/activated_users/${userId}`, {
+            axios.get(`api/dashboard/users/edit/${userId}`, {
               headers: { Authorization: `Bearer ${token}` }
             }).then(response => {
               const userData = response.data.data;

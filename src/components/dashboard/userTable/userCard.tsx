@@ -51,6 +51,162 @@ const UserCard = ({ closeModal, id }: Props) => {
     const cardHtml = cardRef.current.innerHTML;
 
     // Create a print-specific HTML document
+    // printWindow.document.write(`
+    //   <!DOCTYPE html>
+    //   <html dir="rtl">
+    //     <head>
+    //       <title>کارت کتابخانه</title>
+    //       <style>
+    //         @page {
+    //           size: 80mm 50mm landscape;
+    //           margin: 0;
+    //         }
+    //         body {
+    //           margin: 0;
+    //           padding: 0;
+    //           font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    //           -webkit-print-color-adjust: exact !important;
+    //           print-color-adjust: exact !important;
+    //         }
+    //         .print-card {
+    //           width: 80mm;
+    //           height: 50mm;
+    //           background: linear-gradient(to bottom right, #3b82f6, #2563eb);
+    //           color: white;
+    //           padding: 16px;
+    //           position: relative;
+    //           overflow: hidden;
+    //           box-sizing: border-box;
+    //         }
+    //         .university-header {
+    //           position: absolute;
+    //           top: 8px;
+    //           right: 8px;
+    //           left: 8px;
+    //           display: flex;
+    //           justify-content: space-between;
+    //           align-items: center;
+    //           font-size: 12px;
+    //           font-weight: 600;
+    //         }
+    //         .logo {
+    //           width: 32px;
+    //           height: 32px;
+    //           background: white;
+    //           border-radius: 50%;
+    //           display: flex;
+    //           align-items: center;
+    //           justify-content: center;
+    //         }
+    //         .logo-inner {
+    //           width: 24px;
+    //           height: 24px;
+    //           background: #3b82f6;
+    //           border-radius: 50%;
+    //         }
+    //         .watermark {
+    //           position: absolute;
+    //           opacity: 0.1;
+    //           left: 110px;
+    //           bottom: 100px;
+    //           font-size: 48px;
+    //           font-weight: bold;
+    //         }
+    //         .card-content {
+    //           display: flex;
+    //           height: 100%;
+    //           padding-top: 40px;
+    //         }
+    //         .user-info {
+    //           flex: 1;
+    //           padding-left: 8px;
+    //           font-size: 12px;
+    //         }
+    //         .user-info div {
+    //           margin-bottom: 4px;
+    //         }
+    //         .photo-section {
+    //           display: flex;
+    //           flex-direction: column;
+    //           align-items: center;
+    //         }
+    //         .photo {
+    //           width: 80px;
+    //           height: 96px;
+    //           border: 2px solid white;
+    //           border-radius: 2px;
+    //           background: white;
+    //           overflow: hidden;
+    //           margin-bottom: 4px;
+    //         }
+    //         .photo img {
+    //           width: 100%;
+    //           height: 100%;
+    //           object-fit: cover;
+    //         }
+    //         .signature {
+    //           width: 80px;
+    //           height: 24px;
+    //           border-top: 1px solid white;
+    //           text-align: center;
+    //           font-size: 8px;
+    //           padding-top: 2px;
+    //         }
+    //         .footer {
+    //           position: absolute;
+    //           bottom: 4px;
+    //           right: 8px;
+    //           left: 8px;
+    //           text-align: center;
+    //           font-size: 6px;
+    //         }
+    //         strong {
+    //           margin-left: 4px;
+    //         }
+    //       </style>
+    //     </head>
+    //     <body>
+    //       <div class="print-card">
+    //         <div class="university-header">
+    //           <div>پوهنتون پولی تخنیک</div>
+    //           <div class="logo">
+    //             <div class="logo-inner"></div>
+    //           </div>
+    //         </div>
+            
+    //         <div class="watermark">KPU</div>
+            
+    //         <div class="card-content">
+    //           <div class="user-info">
+    //             <div><strong style="padding-left:18px;">آی دی:</strong> ${user?.id}</div>
+    //             <div><strong style="padding-left:34px;">نام:</strong> ${user?.firstName} ${user?.lastName}</div>
+    //             <div><strong style="padding-left:9px;">پوهنځی:</strong> ${user?.faculty}</div>
+    //             <div><strong style="padding-left:1px;">دیپارتمنت:</strong> ${user?.department}</div>
+    //             ${user?.phone ? `<div><strong style="padding-left:1px;">نمبر تماس:</strong> ${user.phone}</div>` : ''}
+    //           </div>
+              
+    //           <div class="photo-section">
+    //             <div class="photo">
+    //               <img src="${
+    //                 typeof user?.image === "string"
+    //                   ? user.image
+    //                   : user?.image instanceof File
+    //                   ? URL.createObjectURL(user.image)
+    //                   : ""
+    //               }" alt="عکس ${user?.firstName}" />
+    //             </div>
+    //             <div class="signature">امضا</div>
+    //           </div>
+    //         </div>
+            
+    //         <div class="footer">
+    //           کارت کتابخانه - معتبر با کارت پوهنتون
+    //         </div>
+    //       </div>
+    //     </body>
+    //   </html>
+    // `);
+
     printWindow.document.write(`
       <!DOCTYPE html>
       <html dir="rtl">
@@ -163,6 +319,29 @@ const UserCard = ({ closeModal, id }: Props) => {
             strong {
               margin-left: 4px;
             }
+            .book-table {
+              width: 100%;
+              margin-top: 10px;
+              border-collapse: collapse;
+              font-size: 10px;
+            }
+            .book-table th {
+              background-color: #f0f0f0;
+              padding: 4px;
+              border: 1px solid #ddd;
+              text-align: center;
+            }
+            .book-table td {
+              padding: 4px;
+              border: 1px solid #ddd;
+              height: 20px;
+            }
+            .table-title {
+              font-size: 12px;
+              font-weight: bold;
+              margin-top: 8px;
+              text-align: center;
+            }
           </style>
         </head>
         <body>
@@ -203,6 +382,84 @@ const UserCard = ({ closeModal, id }: Props) => {
               کارت کتابخانه - معتبر با کارت پوهنتون
             </div>
           </div>
+          
+          <div class="table-title">لیست کتابهای امانت گرفته شده</div>
+          <table class="book-table">
+            <thead>
+              <tr>
+                <th>شماره</th>
+                <th>نام کتاب</th>
+                <th>تاریخ امانت</th>
+                <th>تاریخ برگشت</th>
+                <th>امضا</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
         </body>
       </html>
     `);
