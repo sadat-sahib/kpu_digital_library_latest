@@ -24,31 +24,31 @@ import { useGetAllInformation } from "../../config/client/HomePgeApi.query";
 import { BsFilePdf } from "react-icons/bs";
 const historyData = [
   {
-    year: "۱۳۸۴",
+    year: "۱۳۴۲",
     title: "تاسیس",
     description:
-      "به عنوان یک پروژه آزمایشی با ۱۰،۰۰۰ کتاب و مجله دیجیتالی برای پشتیبانی از برنامه‌های آموزش از راه دور تاسیس شد.",
+    " این پوهنتون در ساحه  72 هکتار 360 جریب زمین در مربوطات ناحیه پنجم شاروالی  شهر کابل با اشتراک هیات دولتی داخلی وخارجی تهداب گذاری شد، که شامل تعمیرات تدریسی، لابراتوارها، کتابخانه، لیلیه محصلان، تعمیرات رهایشی استادان، طعام خانه با گنجایش  1000  تن در یک وقت، مسجد شریف با گنجایش حدود 500 نماز گذار در یک وقت، مجتمع ( Complex) سپورتی، تالار کنفرانس ها با گنجایش بیشتر از 1000 تن، ورکشاپ ها، پولیگون ها وساحات تفریحی می‎باشد",
     position: "right",
   },
   {
-    year: "۱۳۸۹",
-    title: "گسترش",
+    year: "۱۳۵۱",
+    title: "اولین فارغ‌التحصیلان",
     description:
-      "مجموعه را برای شامل منابع چندرسانه‌ای، مقالات تحقیقاتی و مشارکت با ۵۰ دانشگاه در سراسر جهان گسترش دادیم.",
+  "بعد از تکمیل بلاک های تدریسی ولابراتوارها در سال 1346 خورشیدی این موسسه به پذیرش اولین دوره محصلین نایل آمده ودر سال1351 خورشیدی برای بار نخست فارغین خود را به سویه تحصیلی لسانس تقدیم جامعه کرده است.",
     position: "left",
   },
   {
-    year: "۱۳۹۴",
-    title: "نوآوری",
+    year: "۱۳۸۱",
+    title: "تغیر نام از انستیتوت به پوهنتون",
     description:
-      "راه‌اندازی اپلیکیشن‌های موبایل، ابزارهای یادگیری تعاملی و دستیاران تحقیقاتی مبتنی بر هوش مصنوعی.",
+  "تا سال 1381 این پوهنتون بنام انستیتوت پولی‎تخنیک کابل مسمی بود که بعد از آن به پوهنتون پولی‎تخنیک کابل تغییر نام داده شد.",
     position: "right",
   },
   {
-    year: "۱۴۰۲",
-    title: "زمان حال",
+    year: "۱۳۷۱",
+    title: "فارغین درجه ماستری",
     description:
-      "اکنون به بیش از ۵۰،۰۰۰ کاربر فعال با ۲ میلیون منبع دیجیتال و ابزارهای پیشرفته تحقیقاتی خدمات ارائه می‌دهیم.",
+     "تا سالهای 1359 خورشیدی فارغین این موسسه سویه تحصیلی لسانس را کسب مینمودند، بعد از آن تا سال 1371 فارغین آن درجه تحصیل ماستر علوم انجنیری را داشت. درهمین دوره کادرهای ملی به سویه های عالی علمی و پیداگوژی تا سطح دکتورا  (PHD  ) نیز در این پوهنتون تربیه میشد و در کل بیشتر از 20 تن از دوکتورای خویش دفاع نموده اند",
     position: "left",
   },
 ];
@@ -64,8 +64,7 @@ export default function AboutPage() {
           درباره کتابخانه دیجیتال ما
         </h1>
         <p className="text-muted-foreground max-w-3xl">
-          توانمندسازی آموزش از طریق دسترسی به دانش و منابع دیجیتال نوآورانه از
-          سال ۱۳۸۴.
+          توانمندسازی آموزش از طریق دسترسی به دانش و منابع مطالعاتی موجود در کتابخانه 
         </p>
       </div>
 
@@ -74,7 +73,7 @@ export default function AboutPage() {
           <h2 className="text-3xl font-bold mb-6">ماموریت ما</h2>
           <p className="text-muted-foreground mb-4">
             کتابخانه دیجیتال پوهنتون متعهد به ارائه دسترسی عادلانه به دانش و
-            تقویت اکتشافات فکری برای دانشجویان، اساتید و محققان در سراسر جهان
+            تقویت اکتشافات فکری برای محصلین، اساتید و محققان در سراسر کشور
             است.
           </p>
           <p className="text-muted-foreground mb-4">
@@ -87,28 +86,28 @@ export default function AboutPage() {
               <div className="bg-primary/10 p-3 rounded-full mb-3">
                 <Book className="h-6 w-6 text-primary" color="blue"/>
               </div>
-              <h3 className="text-xl font-bold">{info?.data.data.information.all_books}+</h3>
+              <h3 className="text-xl font-bold">{info?.data.counts.all_books}+</h3>
               <p className="text-sm text-muted-foreground">منابع کتابخانه</p>
             </div>
             <div className="flex flex-col items-center">
               <div className="bg-primary/10 p-3 rounded-full mb-3">
                 <Users className="h-6 w-6 text-primary" color="blue"/>
               </div>
-              <h3 className="text-xl font-bold">{info?.data.data.information.all_registered_users}</h3>
+              <h3 className="text-xl font-bold">{info?.data.counts.all_registered_users}</h3>
               <p className="text-sm text-muted-foreground">کاربران فعال</p>
             </div>
             <div className="flex flex-col items-center">
               <div className="bg-primary/10 p-3 rounded-full mb-3">
                 <BookA className="h-6 w-6 text-primary" color="blue"/>
               </div>
-              <h3 className="text-xl font-bold">{info?.data.data.information.all_barrowable_books}</h3>
+              <h3 className="text-xl font-bold">{info?.data.counts.all_barrowable_books}</h3>
               <p className="text-sm text-muted-foreground">کتاب های قابل امانت</p>
             </div>
             <div className="flex flex-col items-center">
               <div className="bg-primary/10 p-3 rounded-full mb-3">
                 <BsFilePdf className="h-6 w-6 text-primary" color="blue"/>
               </div>
-              <h3 className="text-xl font-bold">{info?.data.data.information.pdf_books}</h3>
+              <h3 className="text-xl font-bold">{info?.data.counts.pdf_books}</h3>
               <p className="text-sm text-muted-foreground">کتاب های پی دی اف</p>
             </div>
           </div>
@@ -129,7 +128,7 @@ export default function AboutPage() {
       </div>
 
       <div className="mb-20">
-  <h2 className="text-3xl font-bold text-center mb-12">تاریخچه ما</h2>
+  <h2 className="text-3xl font-bold text-center mb-12">تاریخچه پوهنتون پولی تخنیک</h2>
   <div className="relative">
     <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-muted"></div>
     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -171,7 +170,7 @@ export default function AboutPage() {
         <h2 className="text-3xl font-bold text-center mb-12">خدمات ما</h2>
         <Tabs defaultValue="students" className="w-full">
           <TabsList className="grid w-full grid-cols-3 mb-8">
-            <TabsTrigger value="students">برای دانشجویان</TabsTrigger>
+            <TabsTrigger value="students">برای محصلین</TabsTrigger>
             <TabsTrigger value="faculty">برای اساتید</TabsTrigger>
             <TabsTrigger value="researchers">برای محققان</TabsTrigger>
           </TabsList>
@@ -184,8 +183,7 @@ export default function AboutPage() {
                 </CardHeader>
                 <CardContent>
                   <p className="text-muted-foreground">
-                    دسترسی به هزاران کتاب درسی در تمام رشته‌ها، با قابلیت‌های
-                    برجسته‌سازی، یادداشت‌برداری و همکاری.
+           دسترسی به منابع کتابخانه و قابلیت خواندن نسخه های پی دی اف کتاب ها و همچنان قابلیت ثبت درخواست کتاب برای امانت کتاب 
                   </p>
                 </CardContent>
               </Card>
@@ -196,8 +194,7 @@ export default function AboutPage() {
                 </CardHeader>
                 <CardContent>
                   <p className="text-muted-foreground">
-                    آزمون‌های تمرینی، راهنماهای مطالعه و ماژول‌های یادگیری
-                    تعاملی برای کمک به موفقیت شما در دروس.
+                    منابع و کتاب های متفاوت در تمامی رشته ها که برای تمامی محصلین قابل دسترس می باشد 
                   </p>
                 </CardContent>
               </Card>
@@ -208,8 +205,7 @@ export default function AboutPage() {
                 </CardHeader>
                 <CardContent>
                   <p className="text-muted-foreground">
-                    اتاق‌های مطالعه مجازی، انجمن‌های گفتگو و ابزارهای پروژه
-                    گروهی برای ارتباط با همکلاسی‌ها.
+                    فراهم کردن مکان آرام و مناسب برای مطالعات فردی و کار های گروهی که وابسته به کمپیوتر و انترنت هستند
                   </p>
                 </CardContent>
               </Card>

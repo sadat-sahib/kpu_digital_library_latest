@@ -90,10 +90,11 @@ export default function BookDetailPage() {
             alt={detail?.data.data.title}
             fallbackSrc="/no-image.png"
             width="100%"
-            height="100%"
-            className="object-cover w-full h-full"
-            imgClassName="rounded-t-md"
+            height={400} 
+            className="w-full max-w-md mx-auto"
+            imgClassName="object-contain rounded-md"
           />
+
         </div>
 
         {/* Book Details */}

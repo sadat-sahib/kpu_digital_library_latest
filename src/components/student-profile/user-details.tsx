@@ -25,7 +25,7 @@ interface UserDetailsProps {
 export function UserDetails({ user }: UserDetailsProps) {
   const { token, clearUser } = useAuthStore();
   const { data: prof, isPending } = usegetProfile();
-  console.log("prof", prof);
+  // console.log("prof", prof);
 
   // const { data:userata,  } = useGetProfileInfo()
   // console.log('data_for_profile_new',userata);
