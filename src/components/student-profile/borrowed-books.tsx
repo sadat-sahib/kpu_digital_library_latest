@@ -1,7 +1,7 @@
 import { Card, CardContent } from "../ui/card";
 
 import React from "react";
-import { BookCard } from "./book-card";
+import { BookCard } from "./ReserveBookCard";
 import { usegetProfile} from "../../config/client/HomePgeApi.query";
 import { Skeleton } from "../ui/skeleton";
 import { Book } from "./tabs-books";
@@ -12,8 +12,7 @@ interface BorrowedBooksProps {
 
 export function BorrowedBooks({ books }: BorrowedBooksProps) {
   const {data:prof, isPending} = usegetProfile()
-  // console.log('prof',prof)
-  // const { data, isPending } = useGetProfileInfo();
+console.log('reservedBooks',prof?.data.reserved_books)
   if (isPending) {
     return (
       <div>
@@ -29,7 +28,7 @@ export function BorrowedBooks({ books }: BorrowedBooksProps) {
     );
   }
   // const UserBooks = data?.data.books ?? [];
-    const UserBooks = prof?.data.books ?? [];
+    const UserBooks = prof?.data.reserved_books ?? [];
   return (
     <Card className="border-none shadow-none  rounded-none  w-full">
 
@@ -45,8 +44,10 @@ export function BorrowedBooks({ books }: BorrowedBooksProps) {
                 key={index}
                 title={book.book_title}
                 author={book.book_author}
-                date={book.reserve_date}
-                dateLabel="Borrowed on"
+                reserveDate={book.reserve_date}
+                returnDate={book.return_date}
+                reserveLabel="امانت گرفته شده در"
+                returnLabel="برگشت در"
                 image={book.book_image}
               />
             ))}

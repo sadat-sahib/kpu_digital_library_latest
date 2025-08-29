@@ -16,7 +16,7 @@ type CustomImageProps = {
 const CustomImage: React.FC<CustomImageProps> = ({
   src,
   alt = "تصویر",
-  fallbackSrc = '/no-image.png', // ✅ Correct now
+  fallbackSrc = '/no-image.png', 
   width = "100%",
   height = "auto",
   className = "",

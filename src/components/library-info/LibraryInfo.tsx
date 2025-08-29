@@ -19,9 +19,9 @@ export default function LibraryInfo() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           {/* Left Column - Info */}
           <div>
-            <h6 className="text-primary font-medium mb-2">
+            {/* <h6 className="text-primary font-medium mb-2">
               درباره کتابخانه ما
-            </h6>
+            </h6> */}
             <h2 className="text-3xl font-bold mb-6">
               کتابخانه دیجیتال پوهنتون
             </h2>

@@ -4,6 +4,7 @@ import React from "react";
 import { UserDetails } from "./user-details";
 import { UserOverview } from "./user-overview";
 import { TabsBooks } from "./tabs-books";
+import { usegetProfile } from "../../config/client/HomePgeApi.query";
 
 // Mock user data
 const userData = {
@@ -90,6 +91,8 @@ const requestedBooks = [
 ];
 
 export default function UserProfile() {
+    const { data: prof, isPending } = usegetProfile();
+    console.log("prof", prof);
   return (
     <div className="space-y-8 py-5">
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -99,7 +102,7 @@ export default function UserProfile() {
             <UserDetails user={userData} />
           </div>
         </div>
-        <TabsBooks borrowedBooks={borrowedBooks} requestedBooks={requestedBooks} />
+        <TabsBooks borrowedBooks={prof?.data.reserved_books} requestedBooks={prof?.data.requested_books} />
 
       </div>
     </div>

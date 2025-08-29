@@ -1,8 +1,8 @@
 
 import React from "react"
 import { Card, CardContent } from "../ui/card"
-import { BookCard } from "./book-card"
 import { Book } from "./tabs-books"
+import { RequestBookCard } from "./RequestBookCard"
 
 
 interface RequestedBooksProps {
@@ -10,6 +10,7 @@ interface RequestedBooksProps {
 }
 
 export function RequestedBooks({ books }: RequestedBooksProps) {
+  console.log("RequestedBooks", books)
   return (
     <Card className="border-none shadow-none  w-full">
       <CardContent>
@@ -18,13 +19,11 @@ export function RequestedBooks({ books }: RequestedBooksProps) {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 w-full">
             {books.map((book) => (
-              <BookCard
+              <RequestBookCard
                 key={book.id}
-                title={book.title}
-                author={book.author}
-                date={book.requestDate ?? ""}
-                dateLabel="Requested on"
-                image={book.image}
+                title={book.book_title}
+                author={book.book_author}
+                image={book.book_image}
               />
             ))}
           </div>
