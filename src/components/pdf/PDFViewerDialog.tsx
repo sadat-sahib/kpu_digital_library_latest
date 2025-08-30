@@ -14,10 +14,14 @@ interface PDFViewerDialogProps {
   onClose: () => void;
 }
 
-const PDFViewerDialog: React.FC<PDFViewerDialogProps> = ({ pdfUrl, title, onClose }) => {
+const PDFViewerDialog: React.FC<PDFViewerDialogProps> = ({
+  pdfUrl,
+  title,
+  onClose,
+}) => {
   const [numPages, setNumPages] = useState<number | null>(null);
   const [pageWidth, setPageWidth] = useState<number>(window.innerWidth * 0.9);
-  console.log('pdf url', pdfUrl)
+  console.log("pdf url", pdfUrl);
 
   // تنظیم مقیاس صفحه در صورت تغییر اندازه پنجره
   useEffect(() => {
@@ -37,7 +41,9 @@ const PDFViewerDialog: React.FC<PDFViewerDialogProps> = ({ pdfUrl, title, onClos
     <Dialog open={!!pdfUrl} onOpenChange={onClose}>
       <DialogContent className="w-full max-w-full mx-auto p-4">
         <div className="flex justify-between items-center w-full">
-          <DialogTitle className="text-lg font-bold flex-1 text-center">{title}</DialogTitle>
+          <DialogTitle className="text-lg font-bold flex-1 text-center">
+            {title}
+          </DialogTitle>
           <Button onClick={onClose} variant="outline" className="ml-4">
             بستن
           </Button>
@@ -47,9 +53,11 @@ const PDFViewerDialog: React.FC<PDFViewerDialogProps> = ({ pdfUrl, title, onClos
           style={{ maxHeight: "65vh", overflowX: "hidden" }}
         >
           <Document
-            file={pdfUrl}
+            file={pdfUrl} // الان Blob URL است
             onLoadSuccess={onDocumentLoadSuccess}
-            onLoadError={(error) => console.error("Error while loading PDF:", error)}
+            onLoadError={(error) =>
+              console.error("Error while loading PDF:", error)
+            }
             className="w-full"
           >
             {Array.from(new Array(numPages), (_, index) => (
@@ -57,7 +65,7 @@ const PDFViewerDialog: React.FC<PDFViewerDialogProps> = ({ pdfUrl, title, onClos
                 <Page
                   pageNumber={index + 1}
                   className="mx-auto"
-                  width={pageWidth} // تنظیم عرض صفحه
+                  width={pageWidth}
                 />
               </div>
             ))}

@@ -19,6 +19,7 @@ import { toast } from "../ui/use-toast";
 import BookCardSkeleton from "./BookCardSkeleton";
 import CustomImage from "../ui/custom-image/CustomImage";
 import PDFViewerDialog from "../pdf/PDFViewerDialog";
+import axios from "axios";
 
 interface CoursesCardsProps {
   isMobile?: boolean;
@@ -89,16 +90,31 @@ const CoursesCards = () => {
   if (isPending) {
     return <BookCardSkeleton />;
   }
-  const handlePdfClick = (pdfUrl: string, title: string) => {
+const handlePdfClick = async (bookId: number) => {
+  try {
+    const response = await axios.get(`http://localhost:8000/api/get/pdf/${bookId}`);
+
+    console.log("PDF response:", response);
+    
+    const pdfUrl = response.data?.pdf_url;
+
+
     setPdfUrl(pdfUrl);
-    setPdfTitle(title);
     setPdfDialogOpen(true);
-  };
-  const closePdfDialog = () => {
-    setPdfDialogOpen(false);
-    setPdfUrl(null);
-    setPdfTitle("");
-  };
+  } catch (error) {
+    console.error("خطا در گرفتن PDF:", error);
+  }
+};
+
+const closePdfDialog = () => {
+  if (pdfUrl) {
+    URL.revokeObjectURL(pdfUrl); // آزاد کردن blob url
+  }
+  setPdfDialogOpen(false);
+  setPdfUrl(null);
+  setPdfTitle("");
+};
+
   // const categoriesWithBooks = data?.data.categories_with_books || [];
 
   return (
@@ -168,7 +184,7 @@ const CoursesCards = () => {
                           <p>جزییات</p>
                         </TooltipContent>
                       </Tooltip>
-                      {/* <Tooltip>
+                      <Tooltip>
                         <TooltipTrigger
                           className={`${
                             book.format === "hard" ? "opacity-0" : "opacity-100"
@@ -177,7 +193,7 @@ const CoursesCards = () => {
                           <Button
                             variant="ghost"
                             size="sm"
-                            onClick={() => handlePdfClick(book.pdf, book.title)}
+                            onClick={() => handlePdfClick(book.id)}
                             disabled={book.format === "hard"}
                           >
                             <FileText size={16} />
@@ -190,7 +206,7 @@ const CoursesCards = () => {
                         >
                           <p>خواندن</p>
                         </TooltipContent>
-                      </Tooltip> */}
+                      </Tooltip>
                     </TooltipProvider>
                   </div>
                   <div>
