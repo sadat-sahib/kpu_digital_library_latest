@@ -15,12 +15,12 @@ interface Admin {
 
 const Admin: React.FC = () => {
   const [admins, setAdmins] = useState<Admin[]>([]);
-  const { token, permission } = useAdminAuthStore();
+  const { token, type } = useAdminAuthStore();
   const [loading, setLoading] = useState<boolean>(true);
-  console.log("Permission: ", permission);
+  console.log("Type: ", type);
   useEffect(() => {
     setLoading(true);
-    console.log(permission);
+    console.log(type);
     axios
       .get("/api/dashboard/admin/account/employees", {
         headers: {
@@ -82,7 +82,7 @@ const Admin: React.FC = () => {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="grid grid-cols-1 md:grid-cols-1 gap-8">
-        {permission === "main" && (
+        {type === "assistant" && (
           <div className="w-full">
             <AddAdmin onAddAdmin={handleAddAdmin} />
           </div>

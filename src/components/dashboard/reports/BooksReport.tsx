@@ -120,7 +120,6 @@ const BooksReport: React.FC = () => {
         <!DOCTYPE html>
         <html>
           <head>
-            <title>گزارش کتاب‌ها</title>
             <style>
               body { font-family: Arial, sans-serif; margin: 0; padding: 20px; color: #333; direction: rtl; }
               h1 { color: #2c3e50; text-align: center; margin-bottom: 20px; }

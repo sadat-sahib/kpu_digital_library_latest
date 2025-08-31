@@ -81,7 +81,6 @@ const BorrowsReport: React.FC = () => {
         <!DOCTYPE html>
         <html>
           <head>
-            <title>گزارش کتاب های امانت گرفته شده</title>
             <style>
               body { font-family: Arial, sans-serif; margin: 0; padding: 20px; color: #333; direction: rtl; }
               h1 { color: #2c3e50; text-align: center; margin-bottom: 20px; }
@@ -223,7 +222,7 @@ const BorrowsReport: React.FC = () => {
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 print:px-2 print:py-2 print:text-sm">{book.user_id}</td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 print:px-2 print:py-2 print:text-sm">{book.email}</td>
                         <td className={`px-6 py-4 whitespace-nowrap text-sm ${dueDateStatus} print:px-2 print:py-2 print:text-sm`}>
-                          {book.return_by}
+                          {new Date(book.return_by).toLocaleDateString('fa-IR')}
                         </td>
                       </tr>
                     );

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useAdminAuthStore } from "../../Store/useAdminAuthStore";
 import axios from "../../axiosInstance";
-import { ChevronDown, Settings, Users, LogOut, Menu, BookOpen, GraduationCap, Library, ClipboardList } from 'lucide-react';
+import { ChevronDown, Users, LogOut, Menu, BookOpen, GraduationCap, Library, ClipboardList } from 'lucide-react';
 import logo  from './image.png';
 import { RiAdminFill } from "react-icons/ri";
 import { BiAnalyse } from "react-icons/bi";
@@ -97,10 +97,9 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
       icon: BiAnalyse,
       label: "گزارشات",
       items: [
-        { to: "/dashboard?tab=report", icon: BookOpen, label: "گزارش", isActive: isActive("?tab=report") },
-        { to: "/dashboard?tab=book-report", icon: BookOpen, label: "گزارش کتاب‌ها", isActive: isActive("?tab=report") },
-        { to: "/dashboard?tab=student-report", icon: Users, label: "گزارش محصلین", isActive: isActive("?tab=reserve-books") },
-        { to: "/dashboard?tab=borrow-report", icon: BookOpen, label: "گزارش امانات", isActive: isActive("?tab=book-registration") },
+        { to: "/dashboard?tab=book-report", icon: BookOpen, label: "گزارش کتاب‌ها", isActive: isActive("?tab=book-report") },
+        { to: "/dashboard?tab=student-report", icon: Users, label: "گزارش محصلین", isActive: isActive("?tab=student-report") },
+        { to: "/dashboard?tab=borrow-books", icon: BookOpen, label: "گزارش امانات", isActive: isActive("?tab=borrow-report") },
       ],
     },
     {
@@ -128,7 +127,6 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
       items: [
         { to: "/dashboard?tab=borrow", icon: ClipboardList, label: "لست امانات", isActive: isActive("?tab=borrow") },
         { to: "/dashboard?tab=requests", icon: ClipboardList, label: "درخواستی‌ها", isActive: isActive("?tab=requests") },
-        // { to: "/dashboard?tab=returned-books", icon: ClipboardList, label: "بازگشتی", isActive: isActive("?tab=returned-books") },
       ],
     },
     {
@@ -165,10 +163,16 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
       icon: BiAnalyse,
       label: "گزارشات",
       items: [
-        { to: "/dashboard?tab=report", icon: BookOpen, label: "گزارش", isActive: isActive("?tab=report") },
-        { to: "/dashboard?tab=book-report", icon: BookOpen, label: "گزارش کتاب‌ها", isActive: isActive("?tab=report") },
-        { to: "/dashboard?tab=student-report", icon: Users, label: "گزارش محصلین", isActive: isActive("?tab=reserve-books") },
-        { to: "/dashboard?tab=borrow-report", icon: BookOpen, label: "گزارش امانات", isActive: isActive("?tab=book-registration") },
+        { to: "/dashboard?tab=book-report", icon: BookOpen, label: "گزارش کتاب‌ها", isActive: isActive("?tab=book-report") },
+        { to: "/dashboard?tab=student-report", icon: Users, label: "گزارش محصلین", isActive: isActive("?tab=student-report") },
+        { to: "/dashboard?tab=borrow-report", icon: BookOpen, label: "گزارش امانات", isActive: isActive("?tab=borrow-report") },
+      ],
+    },
+        {
+      icon: GraduationCap,
+      label: "استادان",
+      items: [
+        { to: "/dashboard?tab=teachers-list", icon: GraduationCap, label: "لست استاد", isActive: isActive("?tab=teachers-list") },
       ],
     },
         {
@@ -195,7 +199,6 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
          style={{ scrollbarWidth: "none", height: "calc(100vh - 4rem)" }}>
           <nav className="px-4 py-6 space-y-4">
             <MenuItemComponent to="/dashboard?tab=dashboard" icon={Menu} label="داشبورد" isActive={isActive("?tab=dashboard")} />
-            {/* <MenuItemComponent to="/dashboard?tab=report" icon={BiAnalyse} label="گزارش" isActive={isActive("?tab=report")} /> */}
 
             {isEmployee && employeeMenuGroups.map((group, index) => (
               <MenuGroupComponent key={index} {...group} />
@@ -205,8 +208,6 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
               <MenuGroupComponent key={index} {...group} />
             ))}
 
-            {/* <MenuItemComponent to="/dashboard?tab=employee" icon={Users} label="کارمندان" isActive={isActive("?tab=employee")} /> */}
-            <MenuItemComponent to="/dashboard?tab=settings" icon={Settings} label="تنظیمات" isActive={isActive("?tab=settings")} />
           </nav>
         </div>
 
