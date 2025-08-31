@@ -214,7 +214,6 @@ const UserRegistration: React.FC<UserRegistrationProps> = ({ userId }) => {
                focus:border-blue-500 focus:ring focus:ring-blue-200"
                 >
                   <option value="">نقش خود را انتخاب کنید</option>
-                  <option value="admin">مدیر</option>
                   <option value="student">محصل</option>
                   <option value="teacher">استاد</option>
                 </select>
