@@ -1,12 +1,10 @@
-import React from 'react'
-import Analysis from '../Analysis/Analysis';
-import Services from '../Analysis/Services';
+import React from "react";
+import Analysis from "../Analysis/Analysis";
 
-const DashboardComp:React.FC = () => {
+const DashboardComp: React.FC = () => {
   return (
     <>
-      <Analysis/>
-      <Services/>
+      <Analysis />
     </>
   );
 };

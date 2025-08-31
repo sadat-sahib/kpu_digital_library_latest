@@ -1,8 +1,4 @@
-import {
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import homePageApi from "./HomePageApi";
 
 // export const useGetProfileInfo = () => {
@@ -34,7 +30,6 @@ export const useGetShoppingCardInfo = () => {
     queryFn: () => homePageApi.homePage.getShoppingCardBook(),
     refetchOnWindowFocus: false,
     refetchOnMount: true,
-    refetchInterval: 500,
   });
 };
 
@@ -128,7 +123,7 @@ export const useNewgetCategoriesWithBooks = () => {
     queryKey: ["newCategoriesWithBooks"],
     queryFn: () => homePageApi.homePage.NewgetCategoriesWithBooks(),
     refetchOnWindowFocus: false,
-    staleTime: 1000 * 60 * 5
+    staleTime: 1000 * 60 * 5,
   });
 };
 export const usegetFacultyWithDepartments = () => {

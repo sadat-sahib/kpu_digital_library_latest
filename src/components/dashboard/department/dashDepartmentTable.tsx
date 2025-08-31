@@ -27,15 +27,18 @@ const DashDepartmentTable: React.FC<Props> = ({ update }) => {
     const fetchFaculties = async () => {
       setLoading(true);
       try {
-        const response = await axios.get("/api/dashboard/faculties-with-departments", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await axios.get(
+          "/api/dashboard/faculties-with-departments",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
         console.log("API response:", response.data);
 
-        if (response.data && Array.isArray(response.data.faculties)) {
-          setFaculties(response.data.faculties);
+        if (response.data.data && Array.isArray(response.data.data)) {
+          setFaculties(response.data.data);
         } else {
           console.error("Unexpected API response structure:", response.data);
         }
@@ -52,6 +55,7 @@ const DashDepartmentTable: React.FC<Props> = ({ update }) => {
   useEffect(() => {
     console.log("Faculties state updated:", faculties);
   }, [faculties]);
+  console.log(faculties);
 
   return (
     <div className="mt-6">
@@ -77,7 +81,12 @@ const DashDepartmentTable: React.FC<Props> = ({ update }) => {
                       {faculty.departments.length > 0 ? (
                         <ol className="list-decimal pl-6">
                           {faculty.departments.map((department) => (
-                            <li key={department.id} className="my-2 text-gray-700">{department.name}</li>
+                            <li
+                              key={department.id}
+                              className="my-2 text-gray-700"
+                            >
+                              {department.name}
+                            </li>
                           ))}
                         </ol>
                       ) : (
@@ -89,7 +98,9 @@ const DashDepartmentTable: React.FC<Props> = ({ update }) => {
               ))
             ) : (
               <tr>
-                <td colSpan={2} className="text-center py-3">No faculties available</td>
+                <td colSpan={2} className="text-center py-3">
+                  No faculties available
+                </td>
               </tr>
             )}
           </tbody>

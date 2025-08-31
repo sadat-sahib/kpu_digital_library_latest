@@ -14,7 +14,7 @@ import {
   TooltipTrigger,
 } from "@radix-ui/react-tooltip";
 import { Button } from "../ui/button";
-import { Link } from "react-router-dom";
+import { data, Link } from "react-router-dom";
 import { toast } from "../ui/use-toast";
 import BookCardSkeleton from "./BookCardSkeleton";
 import CustomImage from "../ui/custom-image/CustomImage";
@@ -27,7 +27,6 @@ interface CoursesCardsProps {
 }
 
 const CoursesCards = () => {
-  //   // PDF functionality
   const [pdfDialogOpen, setPdfDialogOpen] = useState<boolean>(false);
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
   const [pdfTitle, setPdfTitle] = useState<string>("");
@@ -37,8 +36,7 @@ const CoursesCards = () => {
     skipSnaps: false,
   });
   const { data: book, isPending } = useNewgetCategoriesWithBooks();
-  console.log("bbb", book);
-  // const { data, isPending } = useGetCategoriesWithBooks();
+
   const addToCardMutation = useAddToShoppingCard();
 
   const handleAddToCard = (bookId: string) => {
@@ -87,36 +85,47 @@ const CoursesCards = () => {
     emblaApi.on("select", onSelect);
   }, [emblaApi, onSelect]);
 
+  const handlePdfClick = async (bookId: number, bookTitle: string) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:8000/api/get/pdf/${bookId}`,
+        {
+          responseType: "blob", // This is crucial for handling binary data
+        }
+      );
+
+      // Create a Blob URL from the response
+      const blob = new Blob([response.data], { type: "application/pdf" });
+      const blobUrl = URL.createObjectURL(blob);
+
+      setPdfUrl(blobUrl);
+      setPdfTitle(bookTitle);
+      setPdfDialogOpen(true);
+    } catch (error) {
+      console.error("خطا در گرفتن PDF:", error);
+      toast({
+        title: "خطا!",
+        description: "خطا در بارگذاری PDF",
+        duration: 2000,
+        className:
+          "bg-red-100 text-red-800 border border-red-300 font-semibold",
+      });
+    }
+  };
+
+  const closePdfDialog = () => {
+    if (pdfUrl) {
+      URL.revokeObjectURL(pdfUrl); // Free the blob URL
+    }
+    setPdfDialogOpen(false);
+    setPdfUrl(null);
+    setPdfTitle("");
+  };
+
   if (isPending) {
     return <BookCardSkeleton />;
   }
-const handlePdfClick = async (bookId: number) => {
-  try {
-    const response = await axios.get(`http://localhost:8000/api/get/pdf/${bookId}`);
-
-    console.log("PDF response:", response);
-    
-    const pdfUrl = response.data?.pdf_url;
-
-
-    setPdfUrl(pdfUrl);
-    setPdfDialogOpen(true);
-  } catch (error) {
-    console.error("خطا در گرفتن PDF:", error);
-  }
-};
-
-const closePdfDialog = () => {
-  if (pdfUrl) {
-    URL.revokeObjectURL(pdfUrl); // آزاد کردن blob url
-  }
-  setPdfDialogOpen(false);
-  setPdfUrl(null);
-  setPdfTitle("");
-};
-
-  // const categoriesWithBooks = data?.data.categories_with_books || [];
-
+  // console.log("book", book);
   return (
     <div className="relative py-6" dir="rtl">
       {/* عنوان بالای کارت‌ها */}
@@ -193,7 +202,7 @@ const closePdfDialog = () => {
                           <Button
                             variant="ghost"
                             size="sm"
-                            onClick={() => handlePdfClick(book.id)}
+                            onClick={() => handlePdfClick(book.id, book.title)}
                             disabled={book.format === "hard"}
                           >
                             <FileText size={16} />
