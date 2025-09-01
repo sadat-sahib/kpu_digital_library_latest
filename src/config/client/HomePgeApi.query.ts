@@ -1,52 +1,89 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import homePageApi from "./HomePageApi";
 
-// export const useGetProfileInfo = () => {
-//   return useQuery({
-//     queryKey: ["profileInfo"],
-//     queryFn: () => homePageApi.homePage.getProfileInfo(),
-//     refetchOnWindowFocus: false,
-//   });
-// };
 
-export const useAddToShoppingCard = () => {
+
+// new version
+
+// 📌 گرفتن لیست کتاب‌های داخل کارت
+export const useGetShoppingCartInfo = () => {
+  return useQuery({
+    queryKey: ["shoppingCart"],
+    queryFn: () => homePageApi.homePage.getShoppingCardBook(),
+    refetchOnWindowFocus: true,
+    refetchOnReconnect: true,
+  });
+};
+
+// 📌 اضافه کردن کتاب به کارت
+export const useAddToShoppingCart = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (bookId: string) =>
       homePageApi.homePage.addToShoppingCard(bookId),
-    onSuccess: () => {
-      // وقتی کتاب به کارت اضافه شد، کارت را دوباره fetch کن
-      queryClient.invalidateQueries({ queryKey: ["addToshoppingCard"] }); // ✅ درست
+
+    onMutate: async (bookId) => {
+      await queryClient.cancelQueries({ queryKey: ["shoppingCart"] });
+
+      const previousData = queryClient.getQueryData<any>(["shoppingCart"]);
+
+      queryClient.setQueryData(["shoppingCart"], (old: any) => {
+        // ✅ چک می‌کنیم old ساختارش چی هست
+        const oldItems = old?.data?.data ?? [];
+        return {
+          ...old,
+          data: {
+            ...old?.data,
+            data: [...oldItems, { id: bookId, optimistic: true }],
+          },
+        };
+      });
+
+      return { previousData };
     },
-    onError: (error) => {
-      console.error("❌ خطا در اضافه کردن به کارت:", error);
+
+    onError: (_err, _bookId, context) => {
+      queryClient.setQueryData(["shoppingCart"], context?.previousData);
+    },
+
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["shoppingCart"] });
     },
   });
 };
 
-export const useGetShoppingCardInfo = () => {
-  return useQuery({
-    queryKey: ["shopingCardInfo"],
-    queryFn: () => homePageApi.homePage.getShoppingCardBook(),
-    refetchOnWindowFocus: false,
-    refetchOnMount: true,
-  });
-};
-
-export const useDeleteFromShoppingCard = () => {
+// 📌 حذف کتاب از کارت
+export const useDeleteFromShoppingCart = () => {
   const queryClient = useQueryClient();
-
   return useMutation({
     mutationFn: (bookId: string) =>
       homePageApi.homePage.deleteFromShoppingCard(bookId),
 
-    onSuccess: () => {
-      // وقتی حذف شد، کارت را دوباره fetch کن
-      queryClient.invalidateQueries({ queryKey: ["shoppingCard"] }); // ✅ درست
+    onMutate: async (bookId) => {
+      await queryClient.cancelQueries({ queryKey: ["shoppingCart"] });
+
+      const previousData = queryClient.getQueryData<any>(["shoppingCart"]);
+
+      queryClient.setQueryData(["shoppingCart"], (old: any) => {
+        const oldItems = old?.data?.data ?? [];
+        return {
+          ...old,
+          data: {
+            ...old?.data,
+            data: oldItems.filter((book: any) => book.id !== bookId),
+          },
+        };
+      });
+
+      return { previousData };
     },
 
-    onError: (error) => {
-      console.error("❌ خطا در حذف از کارت:", error);
+    onError: (_err, _bookId, context) => {
+      queryClient.setQueryData(["shoppingCart"], context?.previousData);
+    },
+
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["shoppingCart"] });
     },
   });
 };
@@ -78,13 +115,7 @@ export const useSearchBooks = (searchType: string, searchKey: string) => {
   });
 };
 
-// export const useGetCategoriesWithBooks = () => {
-//   return useQuery({
-//     queryKey: ["categoriesWithBooks"],
-//     queryFn: () => homePageApi.homePage.getCategoriesWithBooks(),
-//     refetchOnWindowFocus: false,
-//   });
-// };
+
 
 export const useGEtBooksByCategoryId = (categoryId: string) => {
   return useQuery({

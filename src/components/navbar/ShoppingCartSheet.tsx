@@ -1,21 +1,21 @@
-
-
 import React, { useEffect, useState } from "react";
 import { Sheet, SheetContent } from "../ui/sheet";
 import { Button } from "../../components/ui/button";
 import { Card, CardContent } from "../../components/ui/card";
 import { toast } from "../ui/use-toast";
-
+import { useQueryClient } from "@tanstack/react-query";
 import { useCartStore } from "../../Store/useCartStore";
 
 import { Trash } from "lucide-react";
 import {
-  useDeleteFromShoppingCard,
-  useGetShoppingCardInfo,
+  useDeleteFromShoppingCart,
+  useGetShoppingCartInfo,
   useReserveBooks,
 } from "../../config/client/HomePgeApi.query";
 import CustomImage from "../ui/custom-image/CustomImage";
 import CardSkeleton from "./ShoppingCardSkeleton";
+import { showToast } from "../../utils/ShowToast";
+
 
 interface ShoppingCartSheetProps {
   open: boolean;
@@ -35,11 +35,10 @@ const ShoppingCartSheet: React.FC<ShoppingCartSheetProps> = ({
   open,
   onOpenChange,
 }) => {
-
   const { cartCount, setCartCount, decrementCart } = useCartStore();
 
-  const { data, isPending, isError } = useGetShoppingCardInfo();
-  const deleteMutation = useDeleteFromShoppingCard();
+  const { data, isPending, isError } = useGetShoppingCartInfo();
+  const deleteMutation = useDeleteFromShoppingCart();
   const reservMutation = useReserveBooks();
 
   useEffect(() => {
@@ -48,69 +47,43 @@ const ShoppingCartSheet: React.FC<ShoppingCartSheetProps> = ({
     }
   }, [data?.data.data.length, cartCount, setCartCount]);
   const handleDelete = (bookId: string) => {
-
     deleteMutation.mutate(bookId, {
-      onSuccess: () => {
-        decrementCart();
-        toast({
-          title: "موفقیت‌آمیز!",
-          description: "کتاب با موفقیت حذف شد.",
-          className:
-            "bg-emerald-100 text-emerald-800 border border-emerald-300 font-semibold",
-          duration: 2000,
-        });
-      },
-      onError: () => {
-        toast({
-          title: "خطا!",
+      onSuccess: () =>
+        showToast({ description: "کتاب با موفقیت حذف شد.", type: "success" }),
+      onError: () =>
+        showToast({
           description: "در حذف کتاب مشکلی پیش آمده است.",
-          className:
-            "bg-red-100 text-red-800 border border-red-300 font-semibold",
-          duration: 2000,
-        });
-      }
+          type: "error",
+        }),
     });
   };
 
+  const queryClient = useQueryClient();
   const handleReserve = (bookId: string) => {
-    
     reservMutation.mutate(bookId, {
       onSuccess: () => {
-        toast({
-          title: "موفقیت آمیز!",
-          description: "درخواست با موفقیت ثبت شد ",
-          duration: 2000,
-          className:
-            "bg-emerald-100 text-emerald-800 border border-emerald-300 font-semibold",
+        showToast({
+          description: "موفقانه به کارت افزورده شد",
+          type: "success",
         });
+        queryClient.invalidateQueries({ queryKey: ["shoppingCart"] });
       },
-      onError: () => {
-        toast({
-          title: "خطا!",
-          description: "خطا در ثبت درخواست",
-          duration: 2000,
-          className:
-            "bg-red-100 text-red-800 border border-red-300 font-semibold",
-        });
-      },
+      onError: () =>
+        showToast({ description: "خطا در افزودن به کارت", type: "error" }),
     });
   };
-
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent className="w-[300px] sm:w-[400px] md:w-[500px] max-h-screen overflow-y-auto">
         <div className="p-4 flex flex-col space-y-4">
-          {
-            isPending ? (
-              <CardSkeleton />
-            ) : isError ? (
-              <div className="text-center text-red-500">
-                خطا در بارگذاری اطلاعات سبد !
-              </div>
-            ) :(
-          
-          data.data.data.length === 0 ? (
+          {isPending ? (
+            <CardSkeleton />
+          ) : isError ? (
+            <div className="text-center text-red-500">
+              خطا در بارگذاری اطلاعات سبد !
+            </div>
+          ) : data.data.data.length === 0 ? (
             <div className="text-center text-gray-500">سبد شما خالی است.</div>
           ) : (
             <div className="flex flex-col space-y-4">
@@ -140,8 +113,7 @@ const ShoppingCartSheet: React.FC<ShoppingCartSheetProps> = ({
                         className="flex items-center justify-center w-full md:w-24 text-sm px-4 py-2"
                         onClick={() => handleReserve(book.id)}
                       >
-  
-                       ثبت درخواست
+                        ثبت درخواست
                       </Button>
                       <Button
                         variant="destructive"
@@ -155,7 +127,7 @@ const ShoppingCartSheet: React.FC<ShoppingCartSheetProps> = ({
                 </Card>
               ))}
             </div>
-          ))}
+          )}
         </div>
       </SheetContent>
     </Sheet>

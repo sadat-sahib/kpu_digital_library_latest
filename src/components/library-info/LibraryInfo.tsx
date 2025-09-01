@@ -11,17 +11,17 @@ import { Button } from "../ui/button";
 import { Card, CardContent } from "../ui/card";
 import React from "react";
 import { Link } from "react-router-dom";
+import { useGetAllInformation } from "../../config/client/HomePgeApi.query";
 
 export default function LibraryInfo() {
+   const { data: info, isPending } = useGetAllInformation();
+    console.log("library info", info);
   return (
     <section className="py-16 bg-muted/30 px-4">
       <div className="container">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           {/* Left Column - Info */}
           <div>
-            {/* <h6 className="text-primary font-medium mb-2">
-              درباره کتابخانه ما
-            </h6> */}
             <h2 className="text-3xl font-bold mb-6">
               کتابخانه دیجیتال پوهنتون
             </h2>
@@ -121,7 +121,7 @@ export default function LibraryInfo() {
               <Card className="bg-blue-500 text-primary-foreground w-full h-36">
                 <CardContent className="p-6 flex flex-col items-center justify-center text-center">
                   <BookMarked className="h-10 w-10 mb-3" />
-                  <span className="text-3xl font-bold">۱۰۰,۰۰۰+</span>
+                  <span className="text-3xl font-bold">{info?.data.counts.all_books}</span>
                   <span className="text-sm">منابع علمی</span>
                 </CardContent>
               </Card>
@@ -129,7 +129,7 @@ export default function LibraryInfo() {
               <Card className="bg-yellow-400 w-full h-36">
                 <CardContent className="p-6 flex flex-col items-center justify-center text-center">
                   <Users className="h-10 w-10 mb-3" />
-                  <span className="text-3xl font-bold">۵۰,۰۰۰+</span>
+                  <span className="text-3xl font-bold">{info?.data.counts.all_registered_users}</span>
                   <span className="text-sm">کاربر فعال</span>
                 </CardContent>
               </Card>

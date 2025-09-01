@@ -4,65 +4,42 @@ import { Button } from "../ui/button";
 import { ShoppingCart, ArrowLeft } from "lucide-react";
 import { useParams, Link } from "react-router-dom";
 import {
-  useAddToShoppingCard,
+  useAddToShoppingCart,
   useGetBookDetailById,
 } from "../../config/client/HomePgeApi.query";
 import { toast } from "../ui/use-toast";
 import CustomImage from "../ui/custom-image/CustomImage";
+import { showToast } from "../../utils/ShowToast";
+import DetailsSkeleton from "./BookDetailSkeleton";
 
 export default function BookDetailPage() {
   const { id } = useParams<{ id: string }>();
-  // console.log('id',id)
-  
-  const {data:detail, isPending } = useGetBookDetailById(id ? Number(id) : undefined)
-  console.log('dt',detail)
-  // const { data, isPending } = useGetCategoriesWithBooks();
-  const addToCardMutation = useAddToShoppingCard();
+
+  const { data: detail, isPending } = useGetBookDetailById(
+    id ? Number(id) : undefined
+  );
+
+  const addToCardMutation = useAddToShoppingCart();
   const handleAddToCard = (bookId: string) => {
     addToCardMutation.mutate(bookId, {
-      onSuccess: () => {
-        toast({
-          title: "موفقیت آمیز!",
+      onSuccess: () =>
+        showToast({
           description: "موفقانه به کارت افزورده شد",
-          duration: 2000,
-          className:
-            "bg-emerald-100 text-emerald-800 border border-emerald-300 font-semibold",
-        });
-      },
-      onError: () => {
-        toast({
-          title: "خطا!",
-          description: "خطا در افزودن به کارت",
-          duration: 2000,
-          className:
-            "bg-red-100 text-red-800 border border-red-300 font-semibold",
-        });
-      },
+          type: "success",
+        }),
+      onError: () =>
+        showToast({ description: "خطا در افزودن به کارت", type: "error" }),
     });
   };
 
   if (isPending) {
     return (
-      <div className="flex justify-center items-center h-screen">
-        Loading...
-      </div>
+      // <div className="flex justify-center items-center h-screen">
+      //   Loading...
+      // </div>
+      <DetailsSkeleton/>
     );
   }
-
-  // const categoriesWithBooks = data?.data.categories_with_books || [];
-
-  // const book = categoriesWithBooks
-  //   .flatMap((category) => category.books.data)
-  //   .find((book) => book.id.toString() === id);
-
-  // if (!book) {
-  //   return (
-  //     <div className="flex justify-center items-center h-screen">
-  //       کتاب پیدا نشد!
-  //     </div>
-  //   );
-  // }
-  
 
   return (
     <div className="mx-auto p-4">
@@ -80,21 +57,15 @@ export default function BookDetailPage() {
       <Card className="flex flex-col lg:flex-row gap-8 p-6 border-none ">
         {/* Book Image */}
         <div className="lg:w-1/2 w-full flex justify-center items-start">
-          {/* <img
-            src={book.image && "/3.jpg"}
-            alt="Book Cover"
-            className="w-full max-w-sm rounded-sm shadow-lg object-cover"
-          /> */}
           <CustomImage
             src={detail?.data.data.image}
             alt={detail?.data.data.title}
             fallbackSrc="/no-image.png"
             width="100%"
-            height={400} 
+            height={400}
             className="w-full max-w-md mx-auto"
             imgClassName="object-contain rounded-md"
           />
-
         </div>
 
         {/* Book Details */}
@@ -105,16 +76,20 @@ export default function BookDetailPage() {
 
           <div className="space-y-2 text-gray-700 text-base">
             <p>
-              <span className="font-semibold">نویسنده:</span> {detail?.data.data.author}
+              <span className="font-semibold">نویسنده:</span>{" "}
+              {detail?.data.data.author}
             </p>
             <p>
-              <span className="font-semibold">ناشر:</span> {detail?.data.data.publisher}
+              <span className="font-semibold">ناشر:</span>{" "}
+              {detail?.data.data.publisher}
             </p>
             <p>
-              <span className="font-semibold">ویرایش:</span> {detail?.data.data.edition}
+              <span className="font-semibold">ویرایش:</span>{" "}
+              {detail?.data.data.edition}
             </p>
             <p>
-              <span className="font-semibold">نوعیت :</span> {detail?.data.data.format}
+              <span className="font-semibold">نوعیت :</span>{" "}
+              {detail?.data.data.format}
             </p>
             <p>
               <span className="font-semibold">مترجم:</span>{" "}

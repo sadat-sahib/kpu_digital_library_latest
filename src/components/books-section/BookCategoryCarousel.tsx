@@ -1,78 +1,70 @@
 import { useCallback, useEffect, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
-import { ChevronLeft, ChevronRight, Eye, FileText } from "lucide-react";
-import React from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { Link } from "react-router-dom";
+import BookCard from "./BookCard";
 import {
-  useAddToShoppingCard,
+  useAddToShoppingCart,
   useNewgetCategoriesWithBooks,
 } from "../../config/client/HomePgeApi.query";
-import { Card, CardContent } from "../ui/card";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@radix-ui/react-tooltip";
-import { Button } from "../ui/button";
-import { data, Link } from "react-router-dom";
-import { toast } from "../ui/use-toast";
-import BookCardSkeleton from "./BookCardSkeleton";
-import CustomImage from "../ui/custom-image/CustomImage";
+import { showToast } from "../../utils/ShowToast";
 import PDFViewerDialog from "../pdf/PDFViewerDialog";
+import BookCardSkeleton from "./BookCardSkeleton";
 import axios from "axios";
 
-interface CoursesCardsProps {
-  isMobile?: boolean;
-  categoryDocIds?: string[];
-}
-
 const CoursesCards = () => {
-  const [pdfDialogOpen, setPdfDialogOpen] = useState<boolean>(false);
+  const [pdfDialogOpen, setPdfDialogOpen] = useState(false);
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
   const [pdfTitle, setPdfTitle] = useState<string>("");
-  const [emblaRef, emblaApi] = useEmblaCarousel({
-    slidesToScroll: 1,
-    align: "start",
-    skipSnaps: false,
-  });
   const { data: book, isPending } = useNewgetCategoriesWithBooks();
-
-  const addToCardMutation = useAddToShoppingCard();
+  const addToCardMutation = useAddToShoppingCart();
 
   const handleAddToCard = (bookId: string) => {
     addToCardMutation.mutate(bookId, {
-      onSuccess: () => {
-        toast({
-          title: "موفقیت آمیز!",
+      onSuccess: () =>
+        showToast({
           description: "موفقانه به کارت افزورده شد",
-          duration: 2000,
-          className:
-            "bg-emerald-100 text-emerald-800 border border-emerald-300 font-semibold",
-        });
-      },
-      onError: () => {
-        toast({
-          title: "خطا!",
-          description: "خطا در افزودن به کارت",
-          duration: 2000,
-          className:
-            "bg-red-100 text-red-800 border border-red-300 font-semibold",
-        });
-      },
+          type: "success",
+        }),
+      onError: () =>
+        showToast({ description: "خطا در افزودن به کارت", type: "error" }),
     });
   };
 
+  const handlePdfClick = async (bookId: number, bookTitle: string) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:8000/api/get/pdf/${bookId}`,
+        { responseType: "blob" }
+      );
+      const blobUrl = URL.createObjectURL(
+        new Blob([response.data], { type: "application/pdf" })
+      );
+      setPdfUrl(blobUrl);
+      setPdfTitle(bookTitle);
+      setPdfDialogOpen(true);
+    } catch (error) {
+      console.error(error);
+      showToast({ description: "خطا در بارگذاری PDF", type: "error" });
+    }
+  };
+
+  const closePdfDialog = () => {
+    if (pdfUrl) URL.revokeObjectURL(pdfUrl);
+    setPdfDialogOpen(false);
+    setPdfUrl(null);
+    setPdfTitle("");
+  };
+
+  const [emblaRef, emblaApi] = useEmblaCarousel({
+    slidesToScroll: 1,
+    align: "start",
+  });
   const [prevBtnDisabled, setPrevBtnDisabled] = useState(true);
   const [nextBtnDisabled, setNextBtnDisabled] = useState(true);
 
-  const scrollNext = useCallback(() => {
-    if (emblaApi) emblaApi.scrollNext();
-  }, [emblaApi]);
-
-  const scrollPrev = useCallback(() => {
-    if (emblaApi) emblaApi.scrollPrev();
-  }, [emblaApi]);
-
+  const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
+  const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
   const onSelect = useCallback(() => {
     if (!emblaApi) return;
     setPrevBtnDisabled(!emblaApi.canScrollPrev());
@@ -85,55 +77,14 @@ const CoursesCards = () => {
     emblaApi.on("select", onSelect);
   }, [emblaApi, onSelect]);
 
-  const handlePdfClick = async (bookId: number, bookTitle: string) => {
-    try {
-      const response = await axios.get(
-        `http://localhost:8000/api/get/pdf/${bookId}`,
-        {
-          responseType: "blob", // This is crucial for handling binary data
-        }
-      );
+  if (isPending) return <BookCardSkeleton />;
 
-      // Create a Blob URL from the response
-      const blob = new Blob([response.data], { type: "application/pdf" });
-      const blobUrl = URL.createObjectURL(blob);
-
-      setPdfUrl(blobUrl);
-      setPdfTitle(bookTitle);
-      setPdfDialogOpen(true);
-    } catch (error) {
-      console.error("خطا در گرفتن PDF:", error);
-      toast({
-        title: "خطا!",
-        description: "خطا در بارگذاری PDF",
-        duration: 2000,
-        className:
-          "bg-red-100 text-red-800 border border-red-300 font-semibold",
-      });
-    }
-  };
-
-  const closePdfDialog = () => {
-    if (pdfUrl) {
-      URL.revokeObjectURL(pdfUrl); // Free the blob URL
-    }
-    setPdfDialogOpen(false);
-    setPdfUrl(null);
-    setPdfTitle("");
-  };
-
-  if (isPending) {
-    return <BookCardSkeleton />;
-  }
-  // console.log("book", book);
   return (
     <div className="relative py-6" dir="rtl">
-      {/* عنوان بالای کارت‌ها */}
       <div className="text-center mb-8">
         <h2 className="text-2xl font-bold text-gray-800 mb-2">کتاب ها</h2>
         <div className="mx-auto w-24 h-1 bg-blue-500 rounded"></div>
       </div>
-
       {/* دکمه چپ */}
       <div className="absolute left-0 top-1/2 z-10 flex -translate-y-1/2 items-center">
         <button
@@ -146,8 +97,7 @@ const CoursesCards = () => {
           <ChevronLeft size={27} />
         </button>
       </div>
-
-      {/* دکمه راست */}
+       {/* دکمه راست */}
       <div className="absolute right-0 top-1/2 z-10 flex -translate-y-1/2 items-center">
         <button
           onClick={scrollNext}
@@ -159,88 +109,21 @@ const CoursesCards = () => {
           <ChevronRight size={27} />
         </button>
       </div>
-
       {/* Carousel */}
       <div className="lg:px-6 overflow-hidden" ref={emblaRef}>
         <div className="flex flex-row-reverse gap-4 py-4">
-          {book?.data.data.map((category) =>
-            category.books.map((book: any) => (
-              <Card
-                key={book.id}
-                className="book-card shadow-md mx-auto w-[90%] sm:w-[150px] md:w-[180px] lg:w-[250px] flex-shrink-0"
-              >
-                <div className="relative h-48 w-full overflow-hidden rounded-t-md">
-                  <CustomImage
-                    src={book.image}
-                    alt={book.title}
-                    fallbackSrc="/no-image.png"
-                    width="100%"
-                    height="100%"
-                    className="object-cover w-full h-full"
-                    imgClassName="rounded-t-md"
-                  />
-                </div>
-                <CardContent>
-                  <div className="flex justify-center items-center py-2">
-                    <TooltipProvider>
-                      <Tooltip>
-                        <TooltipTrigger>
-                          <Link to={`/book-details/${book.id}`}>
-                            <Eye size={16} />
-                          </Link>
-                        </TooltipTrigger>
-                        <TooltipContent className="bg-gray-100 text-gray-800 rounded-md p-2">
-                          <p>جزییات</p>
-                        </TooltipContent>
-                      </Tooltip>
-                      <Tooltip>
-                        <TooltipTrigger
-                          className={`${
-                            book.format === "hard" ? "opacity-0" : "opacity-100"
-                          }`}
-                        >
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => handlePdfClick(book.id, book.title)}
-                            disabled={book.format === "hard"}
-                          >
-                            <FileText size={16} />
-                          </Button>
-                        </TooltipTrigger>
-                        <TooltipContent
-                          className={`${
-                            book.format === "hard" ? "opacity-0" : "opacity-100"
-                          }`}
-                        >
-                          <p>خواندن</p>
-                        </TooltipContent>
-                      </Tooltip>
-                    </TooltipProvider>
-                  </div>
-                  <div>
-                    <h3 className="text-sm font-semibold text-gray-800">
-                      {book.title}
-                    </h3>
-                    <p className="text-xs text-gray-500">
-                      نویسنده : {book.author}
-                    </p>
-                  </div>
-                  <Button
-                    className="w-full mt-4 text-xs bg-blue-600 text-white hover:bg-blue-500 hover:text-white"
-                    variant="outline"
-                    onClick={() => handleAddToCard(book.id)}
-                  >
-                    افزودن به کارت
-                  </Button>
-                </CardContent>
-              </Card>
+          {book?.data.data.map((category: any) =>
+            category.books.map((b: any) => (
+              <BookCard
+                key={b.id}
+                book={b}
+                onAddToCart={handleAddToCard}
+                onReadPdf={handlePdfClick}
+              />
             ))
           )}
         </div>
       </div>
-
-      {/* لینک نمایش بیشتر */}
       <div className="flex justify-center mt-6">
         <Link
           to="/books"
