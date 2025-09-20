@@ -1,29 +1,24 @@
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import FacultyApi from "./DashFacultyApi";
-
-
+import FacultyApi, { Faculty } from "./DashFacultyApi";
 
 export const useGetFaculties = () => {
-    return useQuery({
-        queryKey: ["getFaculty"],
-        queryFn: () => FacultyApi.faculty.getFaculties,
-        refetchOnWindowFocus: false,
-    })    
-}
+  return useQuery<Faculty[], Error>({
+    queryKey: ["faculties"],
+    queryFn: () => FacultyApi.faculty.getFaculties(),
+    refetchOnWindowFocus: false,
+  });
+};
 
-    
-export const useAddFaculties = () => {
-    const queryClient = useQueryClient();
-    return useMutation({
-        mutationFn: () =>
-          FacultyApi.faculty.addFaculties(),
-        onSuccess: () => {
-            // وقتی حذف شد، کارت را دوباره fetch کن
-            queryClient.invalidateQueries({ queryKey: ["addFaculty"] }); // ✅ درست
-        },
-        onError: (error) => {
-            console.error("خطا در اضافه کردن فاکولته", error);
-        },
-    })
-    };
+export const useAddFaculty = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (data: { name: string }) => FacultyApi.faculty.addFaculty(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["faculties"] });
+    },
+    onError: (error) => {
+      console.error("❌ خطا در اضافه کردن پوهنځی", error);
+    },
+  });
+};

@@ -1,44 +1,43 @@
-import fetcher from "./Fetcher";
-import authFetcher from "./AuthFetcher";
+
+
+import DashAuthFetcher from "./DashAuthFetcher";
+
 export type Department = {
-    id: number;
-    name: string;
-  };
-  
-  export type Faculty = {
-    id: number;
-    name: string;
-    departments: Department[];
-  };
+  id: number;
+  name: string;
+};
+
+export type Faculty = {
+  id: number;
+  name: string;
+  departments: Department[];
+};
 
 const DASHBOARD_ENDPOINTS = {
-    //DASH DEPARTMENT REGISTRATION
-    GET_FACULTIES: `/api/dashboard/faculties`,
-    ADD_DEPARMENTS: `/api/dashboard/departments`,
-    //DASH TABLE
-    GET_FACULTIES_WITH_DEPARTMENTS: `/api/dashboard/faculties/with/departments`
+  
+  ADD_DEPARTMENTS: `/api/dashboard/departments`,
+  GET_FACULTIES_WITH_DEPARTMENTS: `/api/dashboard/faculties-with-departments`,
+
 };
 
 class DashboardDepartmentRegistrationApi {
-    department = {
-        getFaculties: async () => {
-            return await fetcher.get(
-                DASHBOARD_ENDPOINTS.GET_FACULTIES
+  department = {
 
-            )
-        },
-        getFacultiesWithDepartments: async () => {
-            return await fetcher.get(
-                DASHBOARD_ENDPOINTS.GET_FACULTIES_WITH_DEPARTMENTS
-
-            )
-        },
-        AddDepartments: async () => {
-            return await fetcher.delete(
-                DASHBOARD_ENDPOINTS.ADD_DEPARMENTS
-            )
-        },
-    }
+    getFacultiesWithDepartments: async (): Promise<Faculty[]> => {
+      const res = await DashAuthFetcher.get(
+        DASHBOARD_ENDPOINTS.GET_FACULTIES_WITH_DEPARTMENTS
+      );
+      return res.data.data;
+    },
+    addDepartment: async (data: { fac_id: number; name: string }) => {
+      const res = await DashAuthFetcher.post(
+        DASHBOARD_ENDPOINTS.ADD_DEPARTMENTS,
+        data
+      );
+      return res.data;
+    },
+  };
 }
-const DashDepartmentRegisterApi = new DashboardDepartmentRegistrationApi()
+
+const DashDepartmentRegisterApi = new DashboardDepartmentRegistrationApi();
 export default DashDepartmentRegisterApi;

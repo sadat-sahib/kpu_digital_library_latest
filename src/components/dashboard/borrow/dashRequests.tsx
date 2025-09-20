@@ -1,11 +1,16 @@
-import React, { useEffect, useState } from "react";
-import axios from "../../../axiosInstance";
+
+
+import React, { useState } from "react";
 import { FaSearch } from "react-icons/fa";
-import { useAdminAuthStore } from "../../../Store/useAdminAuthStore";
+
 import BorrowTable from "../borrowTable/borrowTable";
 import Pagination from "../pagination/pagination";
 import Swal from "sweetalert2";
 import RequestDetails from "../borrowTable/borrowDetails";
+import {
+  useGetInActiveUsersReserves,
+  useDeleteInActiveUsersReserves,
+} from "../../../config/client/DashBorrowApi.query";
 import { Loader } from "lucide-react";
 
 interface Request {
@@ -31,58 +36,27 @@ interface Request {
 }
 
 const DashRequests: React.FC = () => {
-  const [requests, setRequests] = useState<Request[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [requestPerPage] = useState(10);
-  const [reload, setReload] = useState(false);
-  const { token } = useAdminAuthStore();
   const [selectedRequest, setSelectedRequest] = useState<Request | null>(null);
   const [loadingDelete, setLoadingDelete] = useState<number | null>(null);
-  const [loading, setLoading] = useState(true);
-  const refetchData = () => {
-    setReload(!reload);
-  };
-  useEffect(() => {
-    const fetchBooks = async () => {
-      setLoading(true);
-      try {
-        const response = await axios.get(
-          "/api/dashboard/reserves/inactive/users",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        console.log(response.data.data);
-        setRequests(response.data.data);
-      } catch (error) {
-        console.error("Error fetching books:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
 
-    fetchBooks();
-  }, [reload]);
+  const {
+    data,
+    isLoading,
+    isError,
+  } = useGetInActiveUsersReserves();
+  console.log('req',data);
+  const deleteMutation = useDeleteInActiveUsersReserves();
 
-  const handleEdit = (id: number) => {
-    // Implement edit functionality
-    console.log(`Editing user with id: ${id}`);
-  };
-  const handleView = (id: number) => {
-    const userToView = requests.find((request) => request.id === id);
-    if (userToView) {
-      setSelectedRequest(userToView);
-    }
-  };
+  const requests: Request[] = data || [];
 
   const handleDelete = async (id: number) => {
     try {
       const result = await Swal.fire({
-        title: "آیا مطمعن هستید؟",
-        text: "دیتای هذف شده قابل بازیافت نمیباشد!",
+        title: "آیا مطمئن هستید؟",
+        text: "دیتای حذف‌شده قابل بازیافت نمی‌باشد!",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
@@ -93,35 +67,47 @@ const DashRequests: React.FC = () => {
 
       if (result.isConfirmed) {
         setLoadingDelete(id);
-        axios.post(`/api/dashboard/reserves/inactive/user/delete/${id}`, {},{
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        setRequests(requests.filter((request) => request.id !== id));
+        await deleteMutation.mutateAsync(String(id));
         Swal.fire("حذف شد", "موفقانه حذف گردید.", "success");
       }
     } catch (error) {
-      console.error("Error deleting user:", error);
-      Swal.fire("Error", "Failed to delete user", "error");
+      
+      Swal.fire("خطا", "حذف کاربر موفق نشد", "error");
     } finally {
       setLoadingDelete(null);
     }
   };
 
-  const handleReceived = () => {};
+
+  const handleView = (id: number) => {
+    const userToView = requests.find((request) => request.id === id);
+    if (userToView) setSelectedRequest(userToView);
+  };
+
+
+  const handleEdit = (id: number) => {
+    console.log(`Editing user with id: ${id}`);
+  };
+
+  const handleReceived = () => {
+
+  };
+
+
   const filteredRequests = requests.filter((request) =>
     `${request.book_title} ${request.firstName} ${request.lastName}`
       .toLowerCase()
       .includes(searchTerm.toLowerCase())
   );
-  // Pagination
+
+ 
   const indexOfLastRequest = currentPage * requestPerPage;
   const indexOfFirstRequest = indexOfLastRequest - requestPerPage;
   const currentRequests = filteredRequests.slice(
     indexOfFirstRequest,
     indexOfLastRequest
   );
+
   return (
     <div className="px-2 min-h-screen ">
       {selectedRequest && (
@@ -130,6 +116,7 @@ const DashRequests: React.FC = () => {
           onClose={() => setSelectedRequest(null)}
         />
       )}
+
       <header className="flex justify-between mt-4 mb-2 relative">
         <h1 className="text-3xl font-bold text-gray-800">لیست درخواستی‌ها</h1>
         <div className="relative">
@@ -143,9 +130,14 @@ const DashRequests: React.FC = () => {
           <FaSearch className="absolute left-3 top-3 text-gray-400" />
         </div>
       </header>
-      {loading ? (
+
+      {isLoading ? (
         <div className="flex justify-center items-center h-64">
           <Loader size={32} className="animate-spin text-blue-600" />
+        </div>
+      ) : isError ? (
+        <div className="text-red-600 text-center mt-6">
+          خطا در بارگذاری داده‌ها
         </div>
       ) : (
         <>
@@ -157,7 +149,7 @@ const DashRequests: React.FC = () => {
             onReceive={handleReceived}
             loadingDelete={loadingDelete}
             component="Requests"
-            refetchData={refetchData}
+            refetchData={() => {}} 
           />
           <Pagination
             currentPage={currentPage}

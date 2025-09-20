@@ -1,5 +1,4 @@
-import fetcher from "./Fetcher";
-import authFetcher from "./AuthFetcher";
+import DashAuthFetcher from "./DashAuthFetcher";
 export interface Request {
   id: number;
   book_title: string;
@@ -23,47 +22,54 @@ export interface Request {
 }
 
 const DASHBOARD_ENDPOINTS = {
-  //DASH BORROW
-  GET_ACTIVATED_USERS: `/api/dashboard/reserves/activated/users`,
-  DELETE_ACTIVATED_USERS: (bookId) => `/api/dashboard/users/destroy/${bookId}`,
-  //DASH REQUESTS
-  GET_IN_ACTIVE_USERS: `/api/dashboard/reserves/inactive/users`,
-  DELETE_IN_ACTIVE_USERS: (bookId) =>
+  GET_ACTIVATED_USERS_RESERVES: `/api/dashboard/reserves/activated/users`,
+  DELETE_ACTIVATED_USERS: (bookId: number | string) => `/api/dashboard/users/destroy/${bookId}`,
+  GET_IN_ACTIVE_USERS_RESERVES: `/api/dashboard/reserves/inactive/users`,
+  DELETE_IN_ACTIVE_USERS_RESERVES: (bookId: number | string) =>
     `/api/dashboard/reserves/inactive/user/delete/${bookId}`,
-  ADD_REQUEST_BOOK: (selectedRequestId) => `/api/dashboard/reserves/active/${selectedRequestId}`,
-  ADD_RECEIVED_BOOK: (selectedReceivedId) => `/api/dashboard/reserves/return/book/${selectedReceivedId}`
+  ADD_REQUEST_BOOK: (selectedRequestId: number | string) =>
+    `/api/dashboard/reserves/active/${selectedRequestId}`,
+  ADD_RECEIVED_BOOK: (selectedReceivedId: number | string) =>
+    `/api/dashboard/reserves/return/book/${selectedReceivedId}`,
 };
 
 class DashboardBorrowApi {
   borrowPage = {
-    getActivatedUsers: async () => {
-      return await fetcher.get(DASHBOARD_ENDPOINTS.GET_ACTIVATED_USERS);
+    getActivatedUsers: async (): Promise<Request[]> => {
+      const response = await DashAuthFetcher.get<{ data: Request[] }>(
+        DASHBOARD_ENDPOINTS.GET_ACTIVATED_USERS_RESERVES
+      );
+      return response.data.data;
     },
-    deleteActivatedUsers: async (bookId) => {
-      return await fetcher.delete(
+    deleteActivatedUsers: async (bookId: number | string) => {
+      return await DashAuthFetcher.delete(
         DASHBOARD_ENDPOINTS.DELETE_ACTIVATED_USERS(bookId)
       );
     },
-    getInActiveUsers: async () => {
-      return await authFetcher.get(DASHBOARD_ENDPOINTS.GET_IN_ACTIVE_USERS);
+    getInActiveUsers: async (): Promise<Request[]> => {
+      const response = await DashAuthFetcher.get<{ data: Request[] }>(
+        DASHBOARD_ENDPOINTS.GET_IN_ACTIVE_USERS_RESERVES
+      );
+      return response.data.data;
     },
-    deleteInActiveUsers: async (bookId) => {
-      return await authFetcher.get(
-        DASHBOARD_ENDPOINTS.DELETE_IN_ACTIVE_USERS(bookId)
+    deleteInActiveUsers: async (bookId: number | string) => {
+      return await DashAuthFetcher.delete(
+        DASHBOARD_ENDPOINTS.DELETE_IN_ACTIVE_USERS_RESERVES(bookId)
       );
     },
-    addRequestBook: async (selectedRequestId, returnDate) => {
-      return await authFetcher.post(
+    addRequestBook: async (selectedRequestId: number | string, returnDate: string) => {
+      return await DashAuthFetcher.post(
         DASHBOARD_ENDPOINTS.ADD_REQUEST_BOOK(selectedRequestId),
         { return_by: returnDate }
       );
     },
-    addReceivedBook: async (selectedReceivedId) => {
-      return await authFetcher.post(
+    addReceivedBook: async (selectedReceivedId: number | string) => {
+      return await DashAuthFetcher.post(
         DASHBOARD_ENDPOINTS.ADD_RECEIVED_BOOK(selectedReceivedId)
       );
-    }
+    },
   };
 }
+
 const DashBorrowApi = new DashboardBorrowApi();
 export default DashBorrowApi;

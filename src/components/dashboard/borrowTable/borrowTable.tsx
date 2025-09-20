@@ -1,9 +1,10 @@
+
 import { Check, CheckCircle, Loader, Trash, View } from "lucide-react";
 import React, { useState } from "react";
-import axios from "../../../axiosInstance";
-import { useAdminAuthStore } from "../../../Store/useAdminAuthStore";
+
 import ReturnModal from "./returnModal";
 import ReceivedModal from "./receivedModal";
+import { useAddRequestBook, useAddReceivedBook } from "../../../config/client/DashBorrowApi.query";
 
 interface Request {
   id: number;
@@ -47,7 +48,7 @@ const BorrowTable: React.FC<RequestTableProps> = ({
   component,
   refetchData,
 }) => {
-  const { token } = useAdminAuthStore();
+
   const [loadingActivating, setLoadingActivating] = useState<number | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [openReturnDateModal, setOpenReturnDateModal] = useState(false);
@@ -55,51 +56,49 @@ const BorrowTable: React.FC<RequestTableProps> = ({
   const [selectedRequestId, setSelectedRequestId] = useState<number | undefined>(undefined);
   const [selectedReceivedId, setSelectedReceivedId] = useState<number | undefined>(undefined);
 
-  const handleClick = (returnDate: string) => {
+  
+  const addRequestBookMutation = useAddRequestBook();
+  const addReceivedBookMutation = useAddReceivedBook();
+
+  
+  const handleClick = async (returnDate: string) => {
     if (!selectedRequestId) return;
     setLoadingActivating(selectedRequestId);
-    axios
-      .post(
-        `/api/dashboard/reserves/active/${selectedRequestId}`,
-        { return_by: returnDate },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
-      .then((response) => {
-        setSuccessMessage(`Request ${selectedRequestId} activated successfully`);
-        console.log("response", response);
-        refetchData();
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      })
-      .finally(() => {
-        setLoadingActivating(null);
-        setTimeout(() => setSuccessMessage(null), 3000);
+
+    try {
+      await addRequestBookMutation.mutateAsync({
+        selectedRequestId: String(selectedRequestId),
+        returnDate,
       });
+
+      setSuccessMessage(`Request ${selectedRequestId} activated successfully`);
+      refetchData?.();
+    } catch (error) {
+      
+    } finally {
+      setLoadingActivating(null);
+      setTimeout(() => setSuccessMessage(null), 3000);
+    }
   };
 
-  const handleReceive = () => {
-    console.log("receive", selectedReceivedId);
+  
+  const handleReceive = async () => {
     if (!selectedReceivedId) return;
-    axios.post(`/api/dashboard/reserves/return/book/${selectedReceivedId}`,{}, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }).then((response) => {
-      setSuccessMessage(`Request ${selectedReceivedId} activated successfully`);
-      console.log("response", response);
-      refetchData();
-    }).catch((error) => {
-      console.error("Error:", error);
-    }).finally(() => {
-      setLoadingActivating(null);
+    setLoadingActivating(selectedReceivedId);
 
-  });
-  }
+    try {
+      await addReceivedBookMutation.mutateAsync(String(selectedReceivedId));
+
+      setSuccessMessage(`Request ${selectedReceivedId} received successfully`);
+      refetchData?.();
+    } catch (error) {
+      console.error("❌ Error receiving book:", error);
+    } finally {
+      setLoadingActivating(null);
+      setTimeout(() => setSuccessMessage(null), 3000);
+    }
+  };
+
   return (
     <div className="overflow-x-auto bg-white shadow-md rounded-lg">
       <table className="min-w-full table-auto">
@@ -128,6 +127,7 @@ const BorrowTable: React.FC<RequestTableProps> = ({
               <td className="py-3 px-6 text-right">{request.lastName}</td>
               <td className="py-3 px-6 text-center">
                 <div className="flex item-center justify-center">
+              
                   {component === "Requests" && (
                     <button
                       className="p-1 hover:bg-gray-300 rounded-md text-blue-500 hover:text-blue-700"
@@ -144,6 +144,7 @@ const BorrowTable: React.FC<RequestTableProps> = ({
                       )}
                     </button>
                   )}
+
                   {component === "borrow" && (
                     <button
                       className="p-1 hover:bg-gray-300 rounded-md text-blue-500 hover:text-blue-700"
@@ -160,12 +161,16 @@ const BorrowTable: React.FC<RequestTableProps> = ({
                       )}
                     </button>
                   )}
+
+                
                   <button
                     onClick={() => onView(request.id)}
                     className="w-8 h-8 mr-2 transform text-green-400 hover:text-green-500 hover:scale-110 flex items-center justify-center"
                   >
                     <View height={20} width={20} />
                   </button>
+
+                  
                   {component === "R" && (
                     <button
                       onClick={() => onEdit(request.id)}
@@ -174,35 +179,44 @@ const BorrowTable: React.FC<RequestTableProps> = ({
                       <Check height={20} width={20} />
                     </button>
                   )}
-                  {component === "Requests" && (<button
-                    onClick={() => onDelete(request.id)}
-                    className="w-8 h-8 mr-2 transform text-red-400 hover:text-red-500 hover:scale-110 flex items-center justify-center"
-                    disabled={loadingDelete === request.id}
-                  >
-                    {loadingDelete === request.id ? (
-                      <Loader size={20} className="animate-spin text-red-600" />
-                    ) : (
-                      <Trash height={20} width={20} />
-                    )}
-                  </button>)}
+
+                
+                  {component === "Requests" && (
+                    <button
+                      onClick={() => onDelete(request.id)}
+                      className="w-8 h-8 mr-2 transform text-red-400 hover:text-red-500 hover:scale-110 flex items-center justify-center"
+                      disabled={loadingDelete === request.id}
+                    >
+                      {loadingDelete === request.id ? (
+                        <Loader size={20} className="animate-spin text-red-600" />
+                      ) : (
+                        <Trash height={20} width={20} />
+                      )}
+                    </button>
+                  )}
                 </div>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
+
+      
       {openReturnDateModal && (
         <ReturnModal
           closeModal={() => setOpenReturnDateModal(false)}
           onSubmit={handleClick}
         />
       )}
+
+      
       {openReceiveModal && (
         <ReceivedModal
           closeModal={() => setOpenReceivedModal(false)}
           onSubmit={handleReceive}
         />
       )}
+
       {successMessage && (
         <div className="mt-4 text-green-500 text-center">{successMessage}</div>
       )}

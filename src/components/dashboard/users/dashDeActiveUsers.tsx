@@ -1,28 +1,16 @@
-import React, { useEffect, useState } from "react";
-import axios from "../../../axiosInstance";
+
+import React, { useState } from "react";
 import { FaSearch } from "react-icons/fa";
-import { useAdminAuthStore } from "../../../Store/useAdminAuthStore";
 import Pagination from "../pagination/pagination";
 import UserTable from "../userTable/userTable";
 import Swal from "sweetalert2";
 import UserDetails from "../userTable/userDetails";
 import UserRegistration from "../../../Pages/UserRegistration";
 import { Loader } from "lucide-react";
+import { useGetInActiveUsers, useDeleteUser } from "../../../config/client/DashUserApi.query";
+import { useGetFaculties } from "../../../config/client/DashFacultyApi.query";
 
-interface User {
-  id: number;
-  firstName: string;
-  lastName: string;
-  email: string;
-  current_residence: string;
-  original_residence: string;
-  phone: string;
-  type: string;
-  department: string;
-  faculty: string;
-  nic: string;
-  nin: string;
-}
+import { User } from "../../../config/client/DashUserApi";
 
 interface Faculty {
   id: number;
@@ -30,117 +18,61 @@ interface Faculty {
 }
 
 const DashDeActiveUsers: React.FC = () => {
-  const [users, setUsers] = useState<User[]>([]);
-  const [faculties, setFaculties] = useState<Faculty[]>([]);
   const [selectedFaculty, setSelectedFaculty] = useState<string>("");
   const [searchTerm, setSearchTerm] = useState("");
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [reload, setReload] = useState(false);
-  const { token } = useAdminAuthStore();
   const [currentPage, setCurrentPage] = useState(1);
   const [usersPerPage] = useState(10);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
-  const [loadingDelete, setLoadingDelete] = useState<number | null>(null);
   const [editingUserId, setEditingUserId] = useState<number | null>(null);
 
-  const refetchData = () => {
-    setReload(!reload);
-  };
 
-  useEffect(() => {
-    fetchUsers();
-    fetchFaculties();
-  }, [token, reload]);
+  const { data: users = [], isLoading, isError } = useGetInActiveUsers();
+  const { data: faculties = [] } = useGetFaculties();
+  const { mutate: deleteUser, isPending: isDeleting } = useDeleteUser();
 
-  const fetchUsers = async () => {
-    try {
-      setLoading(true);
-      const response = await axios.get(
-        "/api/dashboard/users/inactivated_students",
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      setUsers(response.data.data);
-      setError(null);
-    } catch (err) {
-      console.log(err);
-      setError("Failed to fetch users");
-    } finally {
-      setLoading(false);
-    }
-  };
 
-  const fetchFaculties = async () => {
-    try {
-      const response = await axios.get("/api/dashboard/faculties", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      setFaculties(response.data.data);
-    } catch (error) {
-      console.error("Error fetching faculties:", error);
-    }
-  };
-
-  const handleEdit = async (id: number) => {
+  const handleEdit = (id: number) => {
     setEditingUserId(id);
   };
 
   const handleView = (id: number) => {
     const userToView = users.find((user) => user.id === id);
-    if (userToView) {
-      setSelectedUser(userToView);
-    }
+    if (userToView) setSelectedUser(userToView);
   };
 
   const handleDelete = async (id: number) => {
-    try {
-      const result = await Swal.fire({
-        title: "آیا مطمعن هستید؟",
-        text: "دیتای هذف شده قابل بازیافت نمیباشد!",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        cancelButtonText: "نخیر",
-        confirmButtonText: "بلی",
-      });
+    const result = await Swal.fire({
+      title: "آیا مطمعن هستید؟",
+      text: "دیتای حذف شده قابل بازیافت نمیباشد!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      cancelButtonText: "نخیر",
+      confirmButtonText: "بلی",
+    });
 
-      if (result.isConfirmed) {
-        setLoadingDelete(id);
-        await axios.delete(`/api/dashboard/users/destroy/${id}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        setUsers(users.filter((user) => user.id !== id));
-        Swal.fire("حذف شد", "موفقانه حذف گردید.", "success");
-      }
-    } catch (error) {
-      console.error("Error deleting user:", error);
-      Swal.fire("Error", "Failed to delete user", "error");
-    } finally {
-      setLoadingDelete(null);
+    if (result.isConfirmed) {
+      deleteUser(id, {
+        onSuccess: () => Swal.fire("حذف شد", "موفقانه حذف گردید.", "success"),
+        onError: () => Swal.fire("Error", "Failed to delete user", "error"),
+      });
     }
   };
 
   const handleFacultyChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedFaculty(e.target.value);
-    setCurrentPage(1); // Reset to first page when filter changes
+    setCurrentPage(1);
   };
 
   const filteredUsers = users.filter((user) => {
     const matchesSearch = `${user.firstName} ${user.lastName}`
       .toLowerCase()
       .includes(searchTerm.toLowerCase());
-    
-    const matchesFaculty = selectedFaculty === "" || user.faculty === selectedFaculty;
-    
+
+    const matchesFaculty =
+      selectedFaculty === "" || user.faculty === selectedFaculty;
+
     return matchesSearch && matchesFaculty;
   });
 
@@ -148,7 +80,7 @@ const DashDeActiveUsers: React.FC = () => {
     return <UserRegistration userId={editingUserId} />;
   }
 
-  // Pagination
+
   const indexOfLastUser = currentPage * usersPerPage;
   const indexOfFirstUser = indexOfLastUser - usersPerPage;
   const currentUsers = filteredUsers.slice(indexOfFirstUser, indexOfLastUser);
@@ -156,11 +88,9 @@ const DashDeActiveUsers: React.FC = () => {
   return (
     <div className="container mx-auto px-4 py-8">
       {selectedUser && (
-        <UserDetails
-          user={selectedUser}
-          onClose={() => setSelectedUser(null)}
-        />
+        <UserDetails user={selectedUser} onClose={() => setSelectedUser(null)} />
       )}
+
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
         <h1 className="text-3xl font-bold text-gray-800">کاربران غیرفعال</h1>
         <div className="flex flex-col md:flex-row items-start md:items-center gap-4 w-full md:w-auto">
@@ -171,7 +101,7 @@ const DashDeActiveUsers: React.FC = () => {
               className="w-full bg-white border border-gray-300 rounded-md py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             >
               <option value="">همه پوهنځی ها</option>
-              {faculties.map((faculty) => (
+              {faculties.map((faculty: Faculty) => (
                 <option key={faculty.id} value={faculty.name}>
                   {faculty.name}
                 </option>
@@ -191,12 +121,12 @@ const DashDeActiveUsers: React.FC = () => {
         </div>
       </div>
 
-      {loading ? (
+      {isLoading ? (
         <div className="flex justify-center items-center h-64">
           <Loader size={32} className="animate-spin text-blue-600" />
         </div>
-      ) : error ? (
-        <div className="text-center text-red-500">{error}</div>
+      ) : isError ? (
+        <div className="text-center text-red-500">خطا در گرفتن لیست کاربران</div>
       ) : (
         <>
           <UserTable
@@ -204,9 +134,9 @@ const DashDeActiveUsers: React.FC = () => {
             onEdit={handleEdit}
             onView={handleView}
             onDelete={handleDelete}
-            loadingDelete={loadingDelete}
+            loadingDelete={isDeleting ? -1 : null}
             component="Deactivate-Users"
-            refetchData={refetchData}
+            refetchData={() => {}} 
           />
           <Pagination
             currentPage={currentPage}
