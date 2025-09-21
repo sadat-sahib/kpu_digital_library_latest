@@ -16,12 +16,19 @@ interface Book {
   borrow: string;
   category: string;
   code: string;
+  shelf: number;
+  stock: {
+    total: number;
+    remain: number;
+    status: string;
+  }
 }
 
 const BookDetails: React.FC<{ book: Book; onClose: () => void }> = ({
   book,
   onClose,
 }) => {
+
   return (
     <div className="fixed inset-0 z-50 bg-gray-800 bg-opacity-50 flex items-center justify-center">
       <div className="bg-white p-6 rounded-lg shadow-lg max-w-lg w-full h-auto">
@@ -56,6 +63,9 @@ const BookDetails: React.FC<{ book: Book; onClose: () => void }> = ({
               <strong>شابک:</strong> {book.isbn}
             </p>
             <p>
+              <strong>الماری:</strong> {book.shelf}
+            </p>
+            <p>
               <strong>زبان:</strong> {book.lang}
             </p>
             <p>
@@ -66,6 +76,15 @@ const BookDetails: React.FC<{ book: Book; onClose: () => void }> = ({
             </p>
             <p>
               <strong>کد:</strong> {book.code}
+            </p>
+            <p>
+              <strong>تعداد مجموعی:</strong> {book.stock.total}
+            </p>
+            <p>
+              <strong>تعداد باقی مانده:</strong> {book.stock.remain}
+            </p>
+            <p>
+              <strong>وضعیت:</strong> {book.stock.status}
             </p>
             <p>
               <strong>توضیحات:</strong> {book.description}

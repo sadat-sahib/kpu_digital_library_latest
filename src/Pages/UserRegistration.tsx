@@ -14,27 +14,30 @@ import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 
 const schema = z.object({
-    firstName: z.string().min(1, 'نام الزامی است'),
-    lastName: z.string().min(1, 'نام خانوادگی الزامی است'),
-    email: z.string().email('ایمیل نامعتبر است'),
-    phone: z.number().min(100000000, 'شماره تلفن نامعتبر است').max(9999999999, 'نمبر تماس نباید بیشتر از ۱۰ رقم باشد'),
-    password: z.string().min(8, 'رمز عبور باید حداقل 8 کاراکتر باشد'),
-    nic: z.string().min(1, 'نمبر تذکره ضروری مباشد'),
-    nin: z.string().min(1, 'آی‌دی کارت پوهنتون ضروری میباشد'),
-    current_residence: z.string().min(1, 'آدرس فعلی شما ضروری مباشد'),
-    original_residence: z.string().min(1, 'آدرس قبلی شما ضروری مباشد'),
-    fac_id: z.preprocess((val) => Number(val), z.number()),
-    dep_id: z.preprocess((val) => Number(val), z.number()),
-    // image: z.preprocess((val) => (val instanceof FileList ? val[0] : val), z.instanceof(File, { message: 'لطفاً عکس خود را آپلود کنید' })),
-    image: z.optional(
-        z
-          .instanceof(File)
-          .or(z.instanceof(FileList).transform((val) => val[0]))
-          .refine((val) => val === undefined || val instanceof File, {
-            message: 'لطفاً عکس خود را آپلود کنید',
-          })
-      ),
-    type: z.string().min(1, 'نقش شما ضروری میباشد'),
+  firstName: z.string().min(1, "نام الزامی است"),
+  lastName: z.string().min(1, "نام خانوادگی الزامی است"),
+  email: z.string().email("ایمیل نامعتبر است"),
+  phone: z
+    .number()
+    .min(100000000, "شماره تلفن نامعتبر است")
+    .max(9999999999, "نمبر تماس نباید بیشتر از ۱۰ رقم باشد"),
+  password: z.string().min(8, "رمز عبور باید حداقل 8 کاراکتر باشد"),
+  nic: z.string().min(1, "نمبر تذکره ضروری مباشد"),
+  nin: z.string().min(1, "آی‌دی کارت پوهنتون ضروری میباشد"),
+  current_residence: z.string().min(1, "آدرس فعلی شما ضروری مباشد"),
+  original_residence: z.string().min(1, "آدرس قبلی شما ضروری مباشد"),
+  fac_id: z.preprocess((val) => Number(val), z.number()),
+  dep_id: z.preprocess((val) => Number(val), z.number()),
+  // image: z.preprocess((val) => (val instanceof FileList ? val[0] : val), z.instanceof(File, { message: 'لطفاً عکس خود را آپلود کنید' })),
+  image: z.optional(
+    z
+      .instanceof(File)
+      .or(z.instanceof(FileList).transform((val) => val[0]))
+      .refine((val) => val === undefined || val instanceof File, {
+        message: "لطفاً عکس خود را آپلود کنید",
+      })
+  ),
+  type: z.string().min(1, "نقش شما ضروری میباشد"),
 });
 
 interface Faculty {
@@ -117,77 +120,86 @@ const UserRegistration: React.FC<UserRegistrationProps> = ({ userId }) => {
     setLoading(true);
     const formData = new FormData();
 
-        formData.append('firstName', data.firstName);
-        formData.append('lastName', data.lastName);
-        formData.append('type', data.type);
-        formData.append('email', data.email);
-        formData.append('dep_id', String(data.dep_id));
-        formData.append('fac_id', String(data.fac_id));
-        formData.append('phone', data.phone.toString());
-        formData.append('password', data.password);
-        formData.append('nic', data.nic);
-        formData.append('nin', data.nin);
-        formData.append('current_residence', data.current_residence);
-        formData.append('original_residence', data.original_residence);
-        if(isEditing){
-            formData.append('_method', "PUT");
-            formData.append('status', "active");
+    formData.append("firstName", data.firstName);
+    formData.append("lastName", data.lastName);
+    formData.append("type", data.type);
+    formData.append("email", data.email);
+    formData.append("dep_id", String(data.dep_id));
+    formData.append("fac_id", String(data.fac_id));
+    formData.append("phone", data.phone.toString());
+    formData.append("password", data.password);
+    formData.append("nic", data.nic);
+    formData.append("nin", data.nin);
+    formData.append("current_residence", data.current_residence);
+    formData.append("original_residence", data.original_residence);
+    if (isEditing) {
+      formData.append("_method", "PUT");
+      formData.append("status", "active");
+    }
+    // Append image
+    if (selectedImage) {
+      formData.append("image", selectedImage);
+    }
+    for (const [key, value] of formData.entries()) {
+      console.log(`${key}:`, value);
+    }
+    const url = isEditing
+      ? `/api/dashboard/users/update/${userId}`
+      : "/api/register";
+    const method = isEditing ? axios.post : axios.post;
+
+    method(url, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => {
+        console.log(response);
+        if (response.status === 201 || response.status === 200) {
+          const loggedInUser = {
+            email: response.data.user?.email,
+            status: response.data.user?.status,
+            type: response.data.user?.type,
+          };
+          const userToken = response.data.token;
+          const isLoggedIn = true;
+          setUser(loggedInUser, userToken, isLoggedIn);
+    if (currentPath === "/user-registration") {
+      // ✅ Public registration → redirect, no Swal
+      navigate("/");
+    } else {
+      // ✅ Dashboard (admin) → always show Swal (add + edit)
+      Swal.fire({
+        title: "Success!",
+        text: isEditing
+          ? "اطلاعات کاربر موفقانه ویرایش شد!"
+          : "کاربر جدید موفقانه ثبت شد!",
+        icon: "success",
+        confirmButtonText: "OK",
+      }).then(() => {
+        navigate("/dashboard?tab=users");
+      });
+    }
+          setResponse("");
+          reset();
         }
-        // Append image
-        if (selectedImage) {
-            formData.append("image", selectedImage);
-          }
-          for (const [key, value] of formData.entries()) {
-            console.log(`${key}:`, value);
+      })
+      .catch((err) => {
+        if (err.response) {
+          console.error("Error response:", err.response.data);
+        } else {
+          console.error("Error:", err.message);
         }
-          const url = isEditing
-          ? `/api/dashboard/users/update/${userId}`
-          : "/api/register";
-        const method = isEditing ? axios.post : axios.post;
-    
-        method(url, formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${token}`
-          },
-        })
-         .then((response) => {
-            console.log(response);
-            if(response.status === 201 || response.status === 200) {
-                const loggedInUser = { email: response.data.user?.email, status: response.data.user?.status, type: response.data.user?.type };
-                const userToken = response.data.token;
-                const isLoggedIn = true;
-                setUser(loggedInUser, userToken, isLoggedIn);
-                Swal.fire({
-                    title: 'Success!',
-                    text: 'کاربر موفقانه راجستر گردید!',
-                    icon: 'success',
-                    confirmButtonText: 'OK'
-                  });
-                setLoading(false);
-                if(currentPath === '/register'){
-                    navigate('/')
-                }
-                setResponse('');
-                reset();
-            }
-            }
-        ).catch((err) => {
-            if (err.response) {
-                console.error('Error response:', err.response.data);
-              } else {
-                console.error('Error:', err.message);
-              }
-            if (err){
-            setResponse(err.response?.data?.message || 'An error occurred');
-            setLoading(false);
-            console.log(err);
-            }else{
-                setResponse('');
-               
-            }
-        });
-    };
+        if (err) {
+          setResponse(err.response?.data?.message || "An error occurred");
+          setLoading(false);
+          console.log(err);
+        } else {
+          setResponse("");
+        }
+      });
+  };
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-blue-100 to-blue-200 p-4">
@@ -445,17 +457,16 @@ const UserRegistration: React.FC<UserRegistrationProps> = ({ userId }) => {
                 "ثبت نام"
               )}
             </Button>
-           
-              <p className="mt-4 text-center text-sm text-gray-600">
-                قبلا حساب داشته اید:{" "}
-                <Link
-                  to={"/login"}
-                  className="text-blue-500 hover:underline mt-2"
-                >
-                  ورود{" "}
-                </Link>
-              </p>
-            
+
+            <p className="mt-4 text-center text-sm text-gray-600">
+              قبلا حساب داشته اید:{" "}
+              <Link
+                to={"/login"}
+                className="text-blue-500 hover:underline mt-2"
+              >
+                ورود{" "}
+              </Link>
+            </p>
           </form>
         </div>
       </div>

@@ -35,8 +35,8 @@ const ReservedTable: React.FC<BookTableProps> = ({ books, onView }) => {
                 <div className="font-medium">{book.book_title}</div>
               </td>
               <td className="py-3 px-6 text-right">{book.book_author}</td>
-              <td className="py-3 px-6 text-right">{book.return_date}</td>
               <td className="py-3 px-6 text-right">{book.reserve_date}</td>
+              <td className="py-3 px-6 text-right">{book.return_date}</td>
               <td className="py-3 px-6 text-center">
                 <div className="flex item-center justify-center">
                   <button
