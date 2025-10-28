@@ -8,6 +8,7 @@ import Pagination from "../pagination/pagination";
 import Swal from "sweetalert2";
 import DashBookRegistration from "./DashBookRegistration";
 import { Loader } from "lucide-react";
+import BooksTableSkeleton from "../bookTable/bookTableSkeleton";
 
 interface Book {
   id: number;
@@ -25,6 +26,12 @@ interface Book {
   borrow: string;
   category: string;
   code: string;
+  shelf: number;
+  stock: {
+    total: number;
+    remain: number;
+    status: string;
+  };
 }
 
 interface Faculty {
@@ -74,7 +81,7 @@ const DashBooks: React.FC = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log("Faculties: ", response.data.data);
+      // console.log("Faculties: ", response.data.data);
       setFaculties(response.data.data);
     } catch (error) {
       console.error("Error fetching faculties:", error);
@@ -132,9 +139,10 @@ const DashBooks: React.FC = () => {
     const matchesSearch = `${book.title} ${book.author} ${book.publisher}`
       .toLowerCase()
       .includes(searchTerm.toLowerCase());
-    
-    const matchesFaculty = selectedFaculty === "" || book.faculty === selectedFaculty;
-    
+
+    const matchesFaculty =
+      selectedFaculty === "" || book.faculty === selectedFaculty;
+
     return matchesSearch && matchesFaculty;
   });
 
@@ -147,7 +155,7 @@ const DashBooks: React.FC = () => {
   const indexOfFirstBook = indexOfLastBook - booksPerPage;
   const currentBooks = filteredBooks.slice(indexOfFirstBook, indexOfLastBook);
 
-  const handlePageChange = (pageNumber: number) => setCurrentPage(pageNumber);
+ 
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -157,57 +165,17 @@ const DashBooks: React.FC = () => {
           onClose={() => setSelectedBook(null)}
         />
       )}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
-        <h1 className="text-3xl font-bold text-gray-800">لیست کتابها</h1>
-        <div className="flex flex-col md:flex-row items-start md:items-center gap-4 w-full md:w-auto">
-          <div className="w-full md:w-48">
-            <select
-              value={selectedFaculty}
-              onChange={handleFacultyChange}
-              className="w-full bg-white border border-gray-300 rounded-md py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            >
-              <option value="">همه پوهنځی ها</option>
-              {faculties.map((faculty) => (
-                <option key={faculty.id} value={faculty.name}>
-                  {faculty.name}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="relative w-full md:w-64">
-            <input
-              type="text"
-              placeholder="جستجو..."
-              className="w-full bg-white border border-gray-300 rounded-full py-2 px-4 pr-10 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-            <FaSearch className="absolute left-3 top-3 text-gray-400" />
-          </div>
-        </div>
-      </div>
 
-      {loading ? (
-        <div className="flex justify-center items-center h-64">
-          <Loader size={32} className="animate-spin text-blue-600" />
-        </div>
-      ) : (
-        <>
-          <BookTable
-            books={currentBooks}
-            onEdit={handleEdit}
-            onView={handleView}
-            onDelete={handleDelete}
-            loadingDelete={loadingDelete}
-          />
-          <Pagination
-            currentPage={currentPage}
-            totalItems={filteredBooks.length}
-            itemsPerPage={booksPerPage}
-            onPageChange={handlePageChange}
-          />
-        </>
-      )}
+      <>
+        <BookTable
+          books={currentBooks}
+          onEdit={handleEdit}
+          onView={handleView}
+          onDelete={handleDelete}
+          loadingDelete={loadingDelete}
+          loading={loading}
+        />
+      </>
     </div>
   );
 };

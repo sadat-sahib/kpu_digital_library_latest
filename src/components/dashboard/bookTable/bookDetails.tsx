@@ -78,13 +78,13 @@ const BookDetails: React.FC<{ book: Book; onClose: () => void }> = ({
               <strong>کد:</strong> {book.code}
             </p>
             <p>
-              <strong>تعداد مجموعی:</strong> {book.stock.total}
+              <strong>تعداد مجموعی:</strong> {book.stock?.total ?? 0}
             </p>
             <p>
-              <strong>تعداد باقی مانده:</strong> {book.stock.remain}
+              <strong>تعداد باقی مانده:</strong> {book.stock?.remain ?? 0}
             </p>
             <p>
-              <strong>وضعیت:</strong> {book.stock.status}
+              <strong>وضعیت:</strong> {book.stock?.status ?? 'نامشخص'}
             </p>
             <p>
               <strong>توضیحات:</strong> {book.description}

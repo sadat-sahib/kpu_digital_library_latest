@@ -11,7 +11,8 @@ import {
   useGetInActiveUsersReserves,
   useDeleteInActiveUsersReserves,
 } from "../../../config/client/DashBorrowApi.query";
-import { Loader } from "lucide-react";
+import { BookA, Loader } from "lucide-react";
+import BorrowTableSkeleton from "../borrowTable/borrowTableSkeleton";
 
 interface Request {
   id: number;
@@ -46,6 +47,7 @@ const DashRequests: React.FC = () => {
     data,
     isLoading,
     isError,
+    refetch
   } = useGetInActiveUsersReserves();
   console.log('req',data);
   const deleteMutation = useDeleteInActiveUsersReserves();
@@ -116,7 +118,7 @@ const DashRequests: React.FC = () => {
           onClose={() => setSelectedRequest(null)}
         />
       )}
-
+{/* 
       <header className="flex justify-between mt-4 mb-2 relative">
         <h1 className="text-3xl font-bold text-gray-800">لیست درخواستی‌ها</h1>
         <div className="relative">
@@ -129,19 +131,20 @@ const DashRequests: React.FC = () => {
           />
           <FaSearch className="absolute left-3 top-3 text-gray-400" />
         </div>
-      </header>
-
+      </header> */}
+                            <div className="flex justify-start items-center gap-2 mr-5">
+            <span className="text-2xl font-bold"> کتاب های درخواست شده </span>
+            <BookA size={20} className="text-blue-500" />
+          </div>
       {isLoading ? (
-        <div className="flex justify-center items-center h-64">
-          <Loader size={32} className="animate-spin text-blue-600" />
-        </div>
+  <BorrowTableSkeleton/>
       ) : isError ? (
         <div className="text-red-600 text-center mt-6">
           خطا در بارگذاری داده‌ها
         </div>
       ) : (
         <>
-          <BorrowTable
+          {/* <BorrowTable
             requests={currentRequests}
             onEdit={handleEdit}
             onView={handleView}
@@ -150,13 +153,21 @@ const DashRequests: React.FC = () => {
             loadingDelete={loadingDelete}
             component="Requests"
             refetchData={() => {}} 
-          />
-          <Pagination
+          /> */}
+                  <BorrowTable
+          requests={requests}
+          onView={handleView}
+          onDelete={handleDelete}
+          loadingDelete={loadingDelete}
+          refetchData={refetch}
+          component="Requests"
+        />
+          {/* <Pagination
             currentPage={currentPage}
             totalItems={filteredRequests.length}
             itemsPerPage={requestPerPage}
             onPageChange={setCurrentPage}
-          />
+          /> */}
         </>
       )}
     </div>

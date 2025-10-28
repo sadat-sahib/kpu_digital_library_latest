@@ -1,15 +1,15 @@
-
 import React, { useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import Pagination from "../pagination/pagination";
 import BorrowTable from "../borrowTable/borrowTable";
 import Swal from "sweetalert2";
 import RequestDetails from "../borrowTable/borrowDetails";
-import { Loader } from "lucide-react";
+import { BookA, Loader } from "lucide-react";
 import {
   useGetActivatedUsersReserves,
   useDeleteActiveUsers,
 } from "../../../config/client/DashBorrowApi.query";
+import BorrowTableSkeleton from "../borrowTable/borrowTableSkeleton";
 
 interface Request {
   id: number;
@@ -39,7 +39,6 @@ const DashBorrows: React.FC = () => {
   const [requestPerPage] = useState(10);
   const [selectedRequest, setSelectedRequest] = useState<Request | null>(null);
   const [loadingDelete, setLoadingDelete] = useState<number | null>(null);
-
 
   const { data, isLoading, refetch } = useGetActivatedUsersReserves();
   const deleteMutation = useDeleteActiveUsers();
@@ -73,16 +72,13 @@ const DashBorrows: React.FC = () => {
       if (result.isConfirmed) {
         setLoadingDelete(id);
 
-        
         await deleteMutation.mutateAsync(String(id));
 
         Swal.fire("حذف شد", "موفقانه حذف گردید.", "success");
 
-       
         refetch();
       }
     } catch (error) {
-      
       Swal.fire("Error", "Failed to delete request", "error");
     } finally {
       setLoadingDelete(null);
@@ -111,7 +107,7 @@ const DashBorrows: React.FC = () => {
         />
       )}
 
-      <header className="flex justify-between mt-4 mb-2 relative">
+      {/* <header className="flex justify-between mt-4 mb-2 relative">
         <h1 className="text-3xl font-bold text-gray-800">لیست امانات</h1>
         <div className="relative">
           <input
@@ -123,15 +119,17 @@ const DashBorrows: React.FC = () => {
           />
           <FaSearch className="absolute left-3 top-3 text-gray-400" />
         </div>
-      </header>
+      </header> */}
+      <div className="flex justify-start items-center gap-2 mr-5">
+        <span className="text-2xl font-bold"> کتاب های امانت گرفته شده </span>
+        <BookA size={20} className="text-blue-500" />
+      </div>
 
       {isLoading ? (
-        <div className="flex justify-center items-center h-64">
-          <Loader size={32} className="animate-spin text-blue-600" />
-        </div>
+        <BorrowTableSkeleton />
       ) : (
         <>
-          <BorrowTable
+          {/* <BorrowTable
             requests={currentRequests}
             onEdit={handleEdit}
             onView={handleView}
@@ -140,13 +138,22 @@ const DashBorrows: React.FC = () => {
             loadingDelete={loadingDelete}
             component="borrow"
             refetchData={refetch}
+          /> */}
+          <BorrowTable
+            requests={requests}
+            onView={handleView}
+            onDelete={handleDelete}
+            loadingDelete={loadingDelete}
+            refetchData={refetch}
+             component="borrow"
           />
-          <Pagination
+
+          {/* <Pagination
             currentPage={currentPage}
             totalItems={filteredRequests.length}
             itemsPerPage={requestPerPage}
             onPageChange={setCurrentPage}
-          />
+          /> */}
         </>
       )}
     </div>

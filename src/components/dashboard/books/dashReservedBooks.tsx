@@ -115,7 +115,7 @@ const DashReservedBooks: React.FC = () => {
           onClose={() => setSelectedBook(null)}
         />
       )}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+      {/* <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
         <h1 className="text-3xl font-bold text-gray-800">لیست کتابهای ثبت شده</h1>
         <div className="flex flex-col md:flex-row items-start md:items-center gap-4 w-full md:w-auto">
           <div className="w-full md:w-48">
@@ -143,26 +143,17 @@ const DashReservedBooks: React.FC = () => {
             <FaSearch className="absolute left-3 top-3 text-gray-400" />
           </div>
         </div>
-      </div>
+      </div> */}
 
-      {loading ? (
-        <div className="flex justify-center items-center h-64">
-          <Loader size={32} className="animate-spin text-blue-600" />
-        </div>
-      ) : (
+
         <>
           <ReservedTable
             books={currentBooks}
             onView={handleView}
-          />
-          <Pagination
-            currentPage={currentPage}
-            totalItems={filteredBooks.length}
-            itemsPerPage={booksPerPage}
-            onPageChange={handlePageChange}
+            loading={loading}
           />
         </>
-      )}
+    
     </div>
   );
 };
