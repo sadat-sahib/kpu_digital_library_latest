@@ -1,5 +1,100 @@
-import { Edit, Trash, View } from 'lucide-react';
-import React from 'react';
+// import { Edit, Trash, View } from 'lucide-react';
+// import React from 'react';
+
+// interface Book {
+//   id: number;
+//   title: string;
+//   author: string;
+//   publisher: string;
+//   publicationYear: string;
+// }
+
+// interface BookTableProps {
+//   books: Book[];
+//   onView: (id: number) => void;
+//   onEdit: (id: number) => void;
+//   onDelete: (id: number) => void;
+//   loadingDelete: number | null;
+// }
+
+// const BookTable: React.FC<BookTableProps> = ({ books, onView, onEdit, onDelete, loadingDelete }) => {
+//   console.log(books);
+//   return (
+//     <div className="overflow-x-auto bg-white shadow-md rounded-lg">
+//       <table className="min-w-full table-auto">
+//         <thead>
+//           <tr className="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+//             <th className="py-3 px-6 text-right">آی‌دی</th>
+//             <th className="py-3 px-6 text-right">عنوان</th>
+//             <th className="py-3 px-6 text-right">نویسنده</th>
+//             <th className="py-3 px-6 text-right">ناشر</th>
+//             <th className="py-3 px-6 text-right">تاریخ انتشار</th>
+//             <th className="py-3 px-6 text-center">عملیات</th>
+//           </tr>
+//         </thead>
+//         <tbody className="text-gray-600 text-sm font-light">
+//           {books.map((book) => (
+//             <tr key={book.id} className="border-b border-gray-200 hover:bg-gray-100">
+//               <td className="py-3 px-6 text-right whitespace-nowrap">
+//                 <div className="font-medium">{book.id}</div>
+//               </td>
+//               <td className="py-3 px-6 text-right whitespace-nowrap">
+//                 <div className="font-medium">{book.title}</div>
+//               </td>
+//               <td className="py-3 px-6 text-right">{book.author}</td>
+//               <td className="py-3 px-6 text-right">{book.publisher}</td>
+//               <td className="py-3 px-6 text-right">{book.publicationYear}</td>
+//               <td className="py-3 px-6 text-center">
+//                 <div className="flex item-center justify-center">
+//                   <button
+//                     onClick={() => onView(book.id)}
+//                     className="w-8 h-8 mr-2 transform text-green-400 hover:text-green-500 hover:scale-110 flex items-center justify-center"
+
+//                   >
+//                       <View height={20} width={20}/>
+//                   </button>
+//                   <button
+//                     onClick={() => onEdit(book.id)}
+//                     className="w-8 h-8 mr-2 transform text-blue-400 hover:text-blue-500 hover:scale-110 flex items-center justify-center"
+
+//                   >
+//                       <Edit height={20} width={20}/>
+//                   </button>
+//                   <button
+//                     onClick={() => onDelete(book.id)}
+//                     className="w-8 h-8 mr-2 transform text-red-400 hover:text-red-500 hover:scale-110 flex items-center justify-center"
+//                     disabled={loadingDelete === book.id}
+//                   >
+//                     {loadingDelete === book.id ? (
+//                       <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-red-500"></div>
+//                     ) : (
+//                       <Trash height={20} width={20}/>
+//                     )}
+//                   </button>
+//                 </div>
+//               </td>
+//             </tr>
+//           ))}
+//         </tbody>
+//       </table>
+//     </div>
+//   );
+// };
+
+// export default BookTable;
+
+
+
+import React, { useEffect, useState } from "react";
+import DataTable, { TableColumn } from "react-data-table-component";
+import { Edit, Trash, View } from "lucide-react";
+import { CSVLink } from "react-csv";
+import * as XLSX from "xlsx";
+import { saveAs } from "file-saver";
+import BooksTableSkeleton from "./bookTableSkeleton";
+import axios from "../../../axiosInstance";
+import { useAdminAuthStore } from "../../../Store/useAdminAuthStore";
+import { useGetFaculties } from "../../../config/client/DashFacultyApi.query";
 
 interface Book {
   id: number;
@@ -7,6 +102,12 @@ interface Book {
   author: string;
   publisher: string;
   publicationYear: string;
+  faculty?: string;
+}
+
+interface Faculty {
+  id: number;
+  name: string;
 }
 
 interface BookTableProps {
@@ -15,71 +116,196 @@ interface BookTableProps {
   onEdit: (id: number) => void;
   onDelete: (id: number) => void;
   loadingDelete: number | null;
+  loading: boolean;
 }
 
-const BookTable: React.FC<BookTableProps> = ({ books, onView, onEdit, onDelete, loadingDelete }) => {
-  console.log(books);
+const BookTable: React.FC<BookTableProps> = ({
+  books,
+  onView,
+  onEdit,
+  onDelete,
+  loadingDelete,
+  loading,
+}) => {
+  const [filterText, setFilterText] = useState("");
+  // const [faculties, setFaculties] = useState<Faculty[]>([]);
+  const [selectedFaculty, setSelectedFaculty] = useState("");
+  const { token } = useAdminAuthStore();
+
+  // ✅ Fetch faculties once
+  // useEffect(() => {
+  //   const fetchFaculties = async () => {
+  //     try {
+  //       const response = await axios.get("/api/dashboard/faculties", {
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //       });
+  //       setFaculties(response.data.data || []);
+  //     } catch (error) {
+  //       console.error("Error fetching faculties:", error);
+  //     }
+  //   };
+  //   fetchFaculties();
+  // }, [token]);
+  const { data:faculties=[], isPending } = useGetFaculties() 
+
+  // ✅ Combined filtering logic
+  const filteredBooks = books.filter((book) => {
+    const matchesSearch =
+      book.title.toLowerCase().includes(filterText.toLowerCase()) ||
+      book.author.toLowerCase().includes(filterText.toLowerCase()) ||
+      book.publisher.toLowerCase().includes(filterText.toLowerCase());
+
+    const matchesFaculty =
+      selectedFaculty === "" || book.faculty === selectedFaculty;
+
+    return matchesSearch && matchesFaculty;
+  });
+
+  // ✅ Export to Excel
+  const exportExcel = () => {
+    const worksheet = XLSX.utils.json_to_sheet(filteredBooks);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Books");
+    const excelBuffer = XLSX.write(workbook, { bookType: "xlsx", type: "array" });
+    const blob = new Blob([excelBuffer], { type: "application/octet-stream" });
+    saveAs(blob, "books.xlsx");
+  };
+
+  // ✅ Table columns
+  const columns: TableColumn<Book>[] = [
+    {
+      name: "آی‌دی",
+      selector: (row) => row.id,
+      sortable: true,
+      width: "90px",
+      style: { fontSize: "medium" },
+    },
+    { name: "عنوان کتاب", selector: (row) => row.title, sortable: true },
+    { name: "نویسنده", selector: (row) => row.author, sortable: true },
+    { name: "ناشر", selector: (row) => row.publisher, sortable: true },
+    { name: "سال نشر", selector: (row) => row.publicationYear, sortable: true },
+    {
+      name: "عملیات",
+      cell: (row) => (
+        <div className="flex items-center justify-center gap-2">
+          <button
+            onClick={() => onView(row.id)}
+            className="text-green-500 hover:text-green-600"
+          >
+            <View size={18} />
+          </button>
+          <button
+            onClick={() => onEdit(row.id)}
+            className="text-blue-500 hover:text-blue-600"
+          >
+            <Edit size={18} />
+          </button>
+          <button
+            onClick={() => onDelete(row.id)}
+            disabled={loadingDelete === row.id}
+            className="text-red-500 hover:text-red-600"
+          >
+            {loadingDelete === row.id ? (
+              <div className="animate-spin h-4 w-4 border-2 border-b-0 border-red-500 rounded-full"></div>
+            ) : (
+              <Trash size={18} />
+            )}
+          </button>
+        </div>
+      ),
+      center: true,
+      width: "180px",
+    },
+  ];
+
+  const customStyles = {
+    headRow: {
+      style: {
+        backgroundColor: "#f3f4f6",
+        fontSize: "16px",
+        fontWeight: "bold",
+      },
+    },
+    rows: {
+      style: {
+        minHeight: "50px",
+        "&:nth-child(even)": { backgroundColor: "#f9fafb" },
+        "&:hover": { backgroundColor: "#e0f2fe" },
+      },
+    },
+  };
+
+  // ✅ SubHeader with search + faculty filter + export buttons
+  const SubHeader = (
+    <div className="flex flex-col md:flex-row items-center justify-between w-full gap-3">
+      <div className="flex flex-wrap gap-3 items-center">
+        {/* Search input */}
+        <input
+          type="text"
+          placeholder="جستجو..."
+          className="border border-gray-300 rounded-full py-1 px-3 w-60 focus:ring-1 focus:ring-blue-400 focus:outline-none"
+          value={filterText}
+          onChange={(e) => setFilterText(e.target.value)}
+        />
+
+        {/* Faculty filter */}
+        {faculties.length > 0 && (
+          <select
+            className="border border-gray-300 rounded-full h-9 py-1 px-3 w-52 focus:ring-1 focus:ring-blue-400 focus:outline-none text-gray-700"
+            value={selectedFaculty}
+            onChange={(e) => setSelectedFaculty(e.target.value)}
+          >
+           
+            <option value="">تمام پوهنځی‌ها</option>
+            {faculties?.map((faculty) => (
+              <option key={faculty.id} value={faculty.name}>
+                {faculty.name}
+              </option>
+            ))}
+          </select>
+        )}
+      </div>
+
+      {/* Export buttons */}
+      <div className="flex gap-2">
+        <CSVLink
+          data={filteredBooks}
+          filename="books.csv"
+          className="bg-green-500 text-white py-1 px-3 rounded-md hover:bg-green-600 text-sm"
+        >
+          CSV
+        </CSVLink>
+        <button
+          onClick={exportExcel}
+          className="bg-blue-500 text-white py-1 px-3 rounded-md hover:bg-blue-600 text-sm"
+        >
+          Excel
+        </button>
+      </div>
+    </div>
+  );
+
   return (
-    <div className="overflow-x-auto bg-white shadow-md rounded-lg">
-      <table className="min-w-full table-auto">
-        <thead>
-          <tr className="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
-            <th className="py-3 px-6 text-right">آی‌دی</th>
-            <th className="py-3 px-6 text-right">عنوان</th>
-            <th className="py-3 px-6 text-right">نویسنده</th>
-            <th className="py-3 px-6 text-right">ناشر</th>
-            <th className="py-3 px-6 text-right">تاریخ انتشار</th>
-            <th className="py-3 px-6 text-center">عملیات</th>
-          </tr>
-        </thead>
-        <tbody className="text-gray-600 text-sm font-light">
-          {books.map((book) => (
-            <tr key={book.id} className="border-b border-gray-200 hover:bg-gray-100">
-              <td className="py-3 px-6 text-right whitespace-nowrap">
-                <div className="font-medium">{book.id}</div>
-              </td>
-              <td className="py-3 px-6 text-right whitespace-nowrap">
-                <div className="font-medium">{book.title}</div>
-              </td>
-              <td className="py-3 px-6 text-right">{book.author}</td>
-              <td className="py-3 px-6 text-right">{book.publisher}</td>
-              <td className="py-3 px-6 text-right">{book.publicationYear}</td>
-              <td className="py-3 px-6 text-center">
-                <div className="flex item-center justify-center">
-                  <button
-                    onClick={() => onView(book.id)}
-                    className="w-8 h-8 mr-2 transform text-green-400 hover:text-green-500 hover:scale-110 flex items-center justify-center"
-                    
-                  >
-                      <View height={20} width={20}/>
-                  </button>
-                  <button
-                    onClick={() => onEdit(book.id)}
-                    className="w-8 h-8 mr-2 transform text-blue-400 hover:text-blue-500 hover:scale-110 flex items-center justify-center"
-                    
-                  >
-                      <Edit height={20} width={20}/>
-                  </button>
-                  <button
-                    onClick={() => onDelete(book.id)}
-                    className="w-8 h-8 mr-2 transform text-red-400 hover:text-red-500 hover:scale-110 flex items-center justify-center"
-                    disabled={loadingDelete === book.id}
-                  >
-                    {loadingDelete === book.id ? (
-                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-red-500"></div>
-                    ) : (
-                      <Trash height={20} width={20}/>
-                    )}
-                  </button>
-                </div>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div className="bg-white p-4 rounded-lg shadow-md">
+      <DataTable
+        title="📚 لیست کتاب‌ها"
+        columns={columns}
+        data={loading ? Array(6).fill({}) : filteredBooks}
+        pagination
+        highlightOnHover
+        striped
+        responsive
+        subHeader
+        subHeaderComponent={SubHeader}
+        persistTableHead
+        progressPending={loading}
+        progressComponent={<BooksTableSkeleton />}
+        customStyles={customStyles}
+      />
     </div>
   );
 };
 
 export default BookTable;
-

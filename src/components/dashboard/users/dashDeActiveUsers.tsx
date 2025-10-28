@@ -6,11 +6,12 @@ import UserTable from "../userTable/userTable";
 import Swal from "sweetalert2";
 import UserDetails from "../userTable/userDetails";
 import UserRegistration from "../../../Pages/UserRegistration";
-import { Loader } from "lucide-react";
+import { Loader, Users } from "lucide-react";
 import { useGetInActiveUsers, useDeleteUser } from "../../../config/client/DashUserApi.query";
 import { useGetFaculties } from "../../../config/client/DashFacultyApi.query";
 
 import { User } from "../../../config/client/DashUserApi";
+import UserTableSkeleton from "../userTable/userTableSkeleton";
 
 interface Faculty {
   id: number;
@@ -91,7 +92,7 @@ const DashDeActiveUsers: React.FC = () => {
         <UserDetails user={selectedUser} onClose={() => setSelectedUser(null)} />
       )}
 
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+      {/* <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
         <h1 className="text-3xl font-bold text-gray-800">کاربران غیرفعال</h1>
         <div className="flex flex-col md:flex-row items-start md:items-center gap-4 w-full md:w-auto">
           <div className="w-full md:w-48">
@@ -119,12 +120,14 @@ const DashDeActiveUsers: React.FC = () => {
             <FaSearch className="absolute left-3 top-3 text-gray-400" />
           </div>
         </div>
-      </div>
+      </div> */}
+                      <div className="flex justify-start items-center gap-2 mr-5">
+            <span className="text-2xl font-bold">لیست کاربران غیرفعال</span>
+            <Users size={20} className="text-blue-500" />
+          </div>
 
       {isLoading ? (
-        <div className="flex justify-center items-center h-64">
-          <Loader size={32} className="animate-spin text-blue-600" />
-        </div>
+        <UserTableSkeleton/>
       ) : isError ? (
         <div className="text-center text-red-500">خطا در گرفتن لیست کاربران</div>
       ) : (
@@ -136,14 +139,14 @@ const DashDeActiveUsers: React.FC = () => {
             onDelete={handleDelete}
             loadingDelete={isDeleting ? -1 : null}
             component="Deactivate-Users"
-            refetchData={() => {}} 
+            // refetchData={() => {}} 
           />
-          <Pagination
+          {/* <Pagination
             currentPage={currentPage}
             totalItems={filteredUsers.length}
             itemsPerPage={usersPerPage}
             onPageChange={setCurrentPage}
-          />
+          /> */}
         </>
       )}
     </div>
