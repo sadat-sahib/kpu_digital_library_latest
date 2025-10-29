@@ -27,3 +27,4 @@ const SalesAnalytics: React.FC = () => {
 };
 
 export default SalesAnalytics;
+

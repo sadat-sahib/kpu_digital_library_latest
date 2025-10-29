@@ -262,7 +262,32 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
   ];
 
   const assistantMenuGroups: MenuGroup[] = [
+
     {
+      icon: BiAnalyse,
+      label: "گزارشات",
+      items: [
+        {
+          to: "/dashboard?tab=book-report",
+          icon: BookOpen,
+          label: "گزارش کتاب‌ها",
+          isActive: isActive("?tab=book-report"),
+        },
+        {
+          to: "/dashboard?tab=student-report",
+          icon: Users,
+          label: "گزارش محصلین",
+          isActive: isActive("?tab=student-report"),
+        },
+        {
+          to: "/dashboard?tab=borrow-report",
+          icon: BookOpen,
+          label: "گزارش امانات",
+          isActive: isActive("?tab=borrow-report"),
+        },
+      ],
+    },
+        {
       icon: Users,
       label: "کاربران",
       items: [
@@ -289,30 +314,6 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
           icon: Users,
           label: "کاربران فعال",
           isActive: isActive("?tab=active-employees"),
-        },
-      ],
-    },
-    {
-      icon: BiAnalyse,
-      label: "گزارشات",
-      items: [
-        {
-          to: "/dashboard?tab=book-report",
-          icon: BookOpen,
-          label: "گزارش کتاب‌ها",
-          isActive: isActive("?tab=book-report"),
-        },
-        {
-          to: "/dashboard?tab=student-report",
-          icon: Users,
-          label: "گزارش محصلین",
-          isActive: isActive("?tab=student-report"),
-        },
-        {
-          to: "/dashboard?tab=borrow-report",
-          icon: BookOpen,
-          label: "گزارش امانات",
-          isActive: isActive("?tab=borrow-report"),
         },
       ],
     },

@@ -17,3 +17,5 @@ const FeaturedProduct: React.FC = () => {
 };
 
 export default FeaturedProduct;
+
+
