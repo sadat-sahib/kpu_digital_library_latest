@@ -56,6 +56,7 @@ const DashReservedBooks: React.FC = () => {
         },
       });
       setBooks(response.data.data);
+      console.log('reserved-books',response)
     } catch (error) {
       console.error("Error fetching books:", error);
       Swal.fire("Error", "Failed to fetch books", "error");
@@ -115,35 +116,7 @@ const DashReservedBooks: React.FC = () => {
           onClose={() => setSelectedBook(null)}
         />
       )}
-      {/* <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
-        <h1 className="text-3xl font-bold text-gray-800">لیست کتابهای ثبت شده</h1>
-        <div className="flex flex-col md:flex-row items-start md:items-center gap-4 w-full md:w-auto">
-          <div className="w-full md:w-48">
-            <select
-              value={selectedFaculty}
-              onChange={handleFacultyChange}
-              className="w-full bg-white border border-gray-300 rounded-md py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            >
-              <option value="">همه پوهنځی ها</option>
-              {faculties.map((faculty) => (
-                <option key={faculty.id} value={faculty.name}>
-                  {faculty.name}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="relative w-full md:w-64">
-            <input
-              type="text"
-              placeholder="جستجو..."
-              className="w-full text-black bg-white border border-gray-300 rounded-full py-2 px-4 pr-10 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-            <FaSearch className="absolute left-3 top-3 text-gray-400" />
-          </div>
-        </div>
-      </div> */}
+
 
 
         <>
