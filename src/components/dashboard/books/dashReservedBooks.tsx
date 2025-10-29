@@ -117,8 +117,6 @@ const DashReservedBooks: React.FC = () => {
         />
       )}
 
-
-
         <>
           <ReservedTable
             books={currentBooks}

@@ -66,6 +66,7 @@ import { CSVLink } from "react-csv";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 import ReservedTableSkeleton from "./reservedSkeleton";
+import { toJalaliPersian } from "../../../utils/dateUtils";
 
 interface Book {
   id: number;
@@ -111,25 +112,25 @@ const ReservedTable: React.FC<ReservedTableProps> = ({
   // Define table columns
   const columns: TableColumn<Book>[] = [
     {
-      name: "عنوان کتاب",
-      selector: (row) => row.book_title,
-      sortable: true,
-    },
-    {
-      name: "نویسنده",
-      selector: (row) => row.book_author,
-      sortable: true,
-    },
-    {
-      name: "تاریخ اجرا",
-      selector: (row) => row.reserve_date,
-      sortable: true,
-    },
-    {
-      name: "تاریخ بازگشت",
-      selector: (row) => row.return_date,
-      sortable: true,
-    },
+    name: "عنوان کتاب",
+    selector: (row) => row.book_title,
+    sortable: true,
+  },
+  {
+    name: "نویسنده",
+    selector: (row) => row.book_author,
+    sortable: true,
+  },
+  {
+    name: "تاریخ اجرا",
+    selector: (row) => toJalaliPersian(row.reserve_date), // Convert to Persian
+    sortable: true,
+  },
+  {
+    name: "تاریخ بازگشت",
+    selector: (row) => toJalaliPersian(row.return_date), // Convert to Persian
+    sortable: true,
+  },
     {
       name: "عملیات",
       cell: (row) => (
