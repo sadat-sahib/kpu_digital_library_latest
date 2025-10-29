@@ -168,11 +168,23 @@ import { CSVLink } from "react-csv";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 
+// src/types/User.ts
 export interface User {
   id: number;
   firstName: string;
   lastName: string;
   email: string;
+  current_residence: string;
+  original_residence: string;
+  phone: string;
+  type: string;
+  department: string;
+  faculty: string;
+  nic: string;
+  nin: string;
+}
+
+
   faculty?: string;
 }
 
