@@ -1,10 +1,9 @@
-import React from "react";
-import { ChangeEvent, useEffect, useState } from "react";
+
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link, useNavigate } from "react-router-dom";
-import { useLocation } from "react-router";
 import axios from "../../../axiosInstance";
 import { useAuthStore } from "../../../Store/useAuthStore";
 import Swal from "sweetalert2";
@@ -13,7 +12,6 @@ import { useAdminAuthStore } from "../../../Store/useAdminAuthStore";
 import { Button } from "../../../components/ui/button";
 import { Input } from "../../../components/ui/input";
 import { schema } from "../../../schemas/userSchema";
-
 
 interface Faculty {
   id: number;
@@ -28,19 +26,20 @@ interface Department {
 
 type FormFields = z.infer<typeof schema>;
 
-interface UserRegistrationProps {
-  userId?: number;
+interface UpdateUserProps {
+  userId: number;
+  onClose: () => void;
 }
-const UpdateUser: React.FC<UserRegistrationProps> = ({ userId }) => {
+
+const UpdateUser: React.FC<UpdateUserProps> = ({ userId, onClose }) => {
   const { setUser } = useAuthStore();
   const [loading, setLoading] = useState<boolean>(false);
-  const navigate = useNavigate();
   const [faculties, setFaculties] = useState<Faculty[]>([]);
   const [selectedFac, setSelectedFac] = useState<Faculty>();
-  const [response, setResponse] = useState<string>();
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
-
   const { token } = useAdminAuthStore();
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -51,29 +50,25 @@ const UpdateUser: React.FC<UserRegistrationProps> = ({ userId }) => {
     resolver: zodResolver(schema),
   });
 
-  //const selectedImage = watch('image');
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
       setSelectedImage(e.target.files[0]);
     }
   };
 
-  // Setting department based on the faculty
   const handleDepartment = (e: ChangeEvent<HTMLSelectElement>) => {
     const facultyId = parseInt(e.target.value, 10);
     const selectedFaculty = faculties.find(
       (faculty) => faculty.id === facultyId
     );
-    console.log(selectedFaculty);
     setSelectedFac(selectedFaculty);
   };
+
   useEffect(() => {
     axios.get("/api/home/faculties-with-departments").then((response) => {
       setFaculties(response.data.faculties);
     });
     if (userId) {
-      
-      console.log("userId: ", userId);
       axios
         .get(`api/dashboard/users/edit/${userId}`, {
           headers: { Authorization: `Bearer ${token}` },
@@ -87,86 +82,68 @@ const UpdateUser: React.FC<UserRegistrationProps> = ({ userId }) => {
         });
     }
   }, [userId, setValue, token]);
-  // Submitting the from field
-const onSubmit: SubmitHandler<FormFields> = async (data) => {
-  setLoading(true);
 
-  try {
-    const formData = new FormData();
-    formData.append("firstName", data.firstName);
-    formData.append("lastName", data.lastName);
-    formData.append("type", data.type);
-    formData.append("email", data.email);
-    formData.append("dep_id", String(data.dep_id));
-    formData.append("fac_id", String(data.fac_id));
-    formData.append("phone", data.phone.toString());
-    formData.append("password", data.password);
-    formData.append("nic", data.nic);
-    formData.append("nin", data.nin);
-    formData.append("current_residence", data.current_residence);
-    formData.append("original_residence", data.original_residence);
-    formData.append("status", "active");
-    formData.append("_method", "PUT");
-
-    if (selectedImage) formData.append("image", selectedImage);
-
-    for (const [key, value] of formData.entries()) {
-      console.log(`${key}:`, value);
-    }
-
-    const response = await axios.post(
-      `/api/dashboard/users/update/${userId}`,
-      formData,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${token}`,
-        },
+  const onSubmit: SubmitHandler<FormFields> = async (data) => {
+    setLoading(true);
+    try {
+      const formData = new FormData();
+      for (const [key, value] of Object.entries(data)) {
+        formData.append(key, value as any);
       }
-    );
+      formData.append("_method", "PUT");
+      if (selectedImage) formData.append("image", selectedImage);
 
-    console.log("Update Response:", response.data);
+      const response = await axios.post(
+        `/api/dashboard/users/update/${userId}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
-    if (response.status === 200) {
+      if (response.status === 200) {
+        Swal.fire({
+          title: "موفقیت!",
+          text: "اطلاعات کاربر موفقانه ویرایش شد!",
+          icon: "success",
+          confirmButtonText: "تایید",
+        }).then(() => {
+          onClose(); // ✅ Go back and refresh parent
+        });
+      }
+    } catch (err: any) {
       Swal.fire({
-        title: "موفقیت!",
-        text: "اطلاعات کاربر موفقانه ویرایش شد!",
-        icon: "success",
-        confirmButtonText: "تایید",
-      }).then(() => navigate("/dashboard?tab=users"));
+        title: "خطا!",
+        text: err.response?.data?.message || "ویرایش انجام نشد.",
+        icon: "error",
+        confirmButtonText: "تلاش مجدد",
+      });
+    } finally {
+      setLoading(false);
     }
-  } catch (err: any) {
-    console.error("Update Error:", err.response?.data || err);
-    Swal.fire({
-      title: "خطا!",
-      text: err.response?.data?.message || "ویرایش انجام نشد.",
-      icon: "error",
-      confirmButtonText: "تلاش مجدد",
-    });
-  } finally {
-    setLoading(false);
-  }
-};
+  };
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-blue-100 to-blue-200 p-4">
       <div className="flex w-full max-w-5xl flex-col overflow-hidden rounded-3xl bg-white shadow-xl md:flex-row">
-        {/* فرم ثبت‌نام */}
         <div className="flex flex-1 flex-col justify-center p-8 rtl text-right">
           <form onSubmit={handleSubmit(onSubmit)}>
-            {/* عنوان */}
-            <div className="mb-6 flex flex-col items-center justify-center text-center">
-              <h2 className="text-2xl font-bold text-gray-800">فرم ثبت نام</h2>
-              <p className="mt-1 text-sm text-gray-500">
-                لطفاً تمام معلومات خود را وارد کنید
-              </p>
-            </div>
+           
+             <div className="mb-6 flex flex-col items-center justify-center text-center">
+               <h2 className="text-2xl font-bold text-gray-800">فرم ثبت نام</h2>
+               <p className="mt-1 text-sm text-gray-500">
+                 لطفاً تمام معلومات خود را وارد کنید
+               </p>
+             </div>
 
-            {/* ورودی‌ها */}
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-              {/* نقش شما */}
-              <div>
-                <select
+             {/* ورودی‌ها */}
+             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+               {/* نقش شما */}
+               <div>
+                 <select
                   {...register("type")}
                   id="role"
                   className="w-full rounded-md border border-gray-300 bg-gray-50 px-3 py-2 text-right text-gray-600 
@@ -402,6 +379,14 @@ const onSubmit: SubmitHandler<FormFields> = async (data) => {
                 "افزودن تغیرات"
               ) }
             </Button>
+                        <Button
+              type="button"
+              onClick={onClose}
+              variant="outline"
+              className="mt-3 w-full border border-gray-400"
+            >
+              بازگشت
+            </Button>
 
             <p className="mt-4 text-center text-sm text-gray-600">
               قبلا حساب داشته اید:{" "}
@@ -418,4 +403,5 @@ const onSubmit: SubmitHandler<FormFields> = async (data) => {
     </div>
   );
 };
+
 export default UpdateUser;

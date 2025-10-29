@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router";
 import DashProfile from "../../Components/Dashboard/DashProfile";
 import DashBooks from "../../Components/Dashboard/books/DashBooks";
-import DashUsers from "../../Components/Dashboard/users/DashUsers";
+import DashUsers from "../../components/dashboard/users/dashUsers";
 import DashMonographs from "../../Components/Dashboard/monograph/DashMonographs";
 import DashArticles from "../../Components/article/DashArticles";
 import DashBookRegistration from "../../Components/Dashboard/books/DashBookRegistration";
@@ -26,6 +26,7 @@ import Admin from "../../Components/Dashboard/admin/admin";
 import StudentsReport from "../../components/dashboard/reports/StudentsReport";
 import BooksReport from "../../components/dashboard/reports/BooksReport";
 import BorrowsReport from "../../components/dashboard/reports/BorrowsReport";
+import UpdateUser from "../../components/dashboard/users/dashUpdateUser";
 
 const DashboardContent: React.FC = () => {
   const location = useLocation();
@@ -77,6 +78,10 @@ const DashboardContent: React.FC = () => {
       {tab === "active-users" && <DashActiveUsers />}
       {/* Register users */}
       {tab === "user-registration" && <UserRegistration />}
+      {/* update user */}
+      {tab === "user-update" && <UpdateUser userId={0} onClose={function (): void {
+        throw new Error("Function not implemented.");
+      } } />}
       {/* Faculty */}
       {tab === "faculty" && <DashFaculty />}
       {/* Department */}

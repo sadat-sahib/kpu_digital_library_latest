@@ -527,6 +527,11 @@ const UserRegistration: React.FC<UserRegistrationProps> = ({ userId }) => {
     resolver: zodResolver(schema),
   });
 
+    const location = useLocation();
+  const currentPath = location.pathname;
+  console.log(currentPath);
+ 
+
   //const selectedImage = watch('image');
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -593,8 +598,20 @@ const UserRegistration: React.FC<UserRegistrationProps> = ({ userId }) => {
           const isLoggedIn = true;
           setUser(loggedInUser, userToken, isLoggedIn);
 
- 
+    if (currentPath === "/register") {
+      // ✅ Public registration → redirect, no Swal
       navigate("/");
+    } else {
+      // ✅ Dashboard (admin) → always show Swal (add + edit)
+      Swal.fire({
+        title: "Success!",
+        text: "کاربر جدید موفقانه ثبت شد!",
+        icon: "success",
+        confirmButtonText: "OK",
+      }).then(() => {
+        navigate("/dashboard?tab=users");
+      });
+    }
       Swal.fire({
         title: "Success!",
         text:
