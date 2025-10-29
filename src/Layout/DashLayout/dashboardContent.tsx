@@ -79,9 +79,7 @@ const DashboardContent: React.FC = () => {
       {/* Register users */}
       {tab === "user-registration" && <UserRegistration />}
       {/* update user */}
-      {tab === "user-update" && <UpdateUser userId={0} onClose={function (): void {
-        throw new Error("Function not implemented.");
-      } } />}
+      {tab === "user-update" && <UpdateUser userId={0} />}
       {/* Faculty */}
       {tab === "faculty" && <DashFaculty />}
       {/* Department */}
