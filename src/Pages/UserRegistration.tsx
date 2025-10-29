@@ -601,8 +601,6 @@ const UserRegistration: React.FC<UserRegistrationProps> = ({ userId }) => {
     if (currentPath === "/register") {
       // ✅ Public registration → redirect, no Swal
       navigate("/");
-    } else {
-      // ✅ Dashboard (admin) → always show Swal (add + edit)
       Swal.fire({
         title: "Success!",
         text: "کاربر جدید موفقانه ثبت شد!",

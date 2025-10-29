@@ -7,6 +7,15 @@
 // import UserDetails from "../userTable/userDetails";
 // import UserRegistration from "../../../Pages/UserRegistration";
 
+// import React, { useState } from "react";
+// import { FaSearch } from "react-icons/fa";
+// import Swal from "sweetalert2";
+// import { Loader } from "lucide-react";
+// import Pagination from "../pagination/pagination";
+// import UserTable from "../userTable/userTable";
+// import UserDetails from "../userTable/userDetails";
+// import UserRegistration from "../../../Pages/UserRegistration";
+
 // import {
 //   useGetAllUsers,
 //   useDeleteUser,
@@ -177,10 +186,7 @@ import UserTable, { User } from "../userTable/userTable";
 import UserDetails from "../userTable/userDetails";
 import UpdateUser from "./dashUpdateUser";
 
-import {
-  useGetAllUsers,
-  useDeleteUser,
-} from "../../../config/client/DashUserApi.query";
+import { useGetAllUsers, useDeleteUser } from "../../../config/client/DashUserApi.query";
 import { useGetFaculties } from "../../../config/client/DashFacultyApi.query";
 import UserTableSkeleton from "../userTable/userTableSkeleton";
 

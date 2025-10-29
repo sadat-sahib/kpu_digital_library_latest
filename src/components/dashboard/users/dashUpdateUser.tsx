@@ -4,6 +4,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router";
 import axios from "../../../axiosInstance";
 import { useAuthStore } from "../../../Store/useAuthStore";
 import Swal from "sweetalert2";
@@ -12,6 +13,7 @@ import { useAdminAuthStore } from "../../../Store/useAdminAuthStore";
 import { Button } from "../../../components/ui/button";
 import { Input } from "../../../components/ui/input";
 import { schema } from "../../../schemas/userSchema";
+
 
 interface Faculty {
   id: number;
@@ -26,20 +28,19 @@ interface Department {
 
 type FormFields = z.infer<typeof schema>;
 
-interface UpdateUserProps {
-  userId: number;
-  onClose: () => void;
+interface UserRegistrationProps {
+  userId?: number;
 }
-
-const UpdateUser: React.FC<UpdateUserProps> = ({ userId, onClose }) => {
+const UpdateUser: React.FC<UserRegistrationProps> = ({ userId }) => {
   const { setUser } = useAuthStore();
   const [loading, setLoading] = useState<boolean>(false);
+  const navigate = useNavigate();
   const [faculties, setFaculties] = useState<Faculty[]>([]);
   const [selectedFac, setSelectedFac] = useState<Faculty>();
+  const [response, setResponse] = useState<string>();
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
-  const { token } = useAdminAuthStore();
-  const navigate = useNavigate();
 
+  const { token } = useAdminAuthStore();
   const {
     register,
     handleSubmit,
@@ -50,25 +51,29 @@ const UpdateUser: React.FC<UpdateUserProps> = ({ userId, onClose }) => {
     resolver: zodResolver(schema),
   });
 
+  //const selectedImage = watch('image');
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
       setSelectedImage(e.target.files[0]);
     }
   };
 
+  // Setting department based on the faculty
   const handleDepartment = (e: ChangeEvent<HTMLSelectElement>) => {
     const facultyId = parseInt(e.target.value, 10);
     const selectedFaculty = faculties.find(
       (faculty) => faculty.id === facultyId
     );
+    console.log(selectedFaculty);
     setSelectedFac(selectedFaculty);
   };
-
   useEffect(() => {
     axios.get("/api/home/faculties-with-departments").then((response) => {
       setFaculties(response.data.faculties);
     });
     if (userId) {
+      
+      console.log("userId: ", userId);
       axios
         .get(`api/dashboard/users/edit/${userId}`, {
           headers: { Authorization: `Bearer ${token}` },

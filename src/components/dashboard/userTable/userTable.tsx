@@ -185,6 +185,9 @@ export interface User {
 }
 
 
+  faculty?: string;
+}
+
 interface UserTableProps {
   users: User[];
   onView: (id: number) => void;
