@@ -1,11 +1,12 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import homePageApi from "./HomePageApi";
+import { showToast } from "../../utils/ShowToast"; // Add this import
 
 
 
 // new version
 
-// 📌 گرفتن لیست کتاب‌های داخل کارت
+
 export const useGetShoppingCartInfo = () => {
   return useQuery({
     queryKey: ["shoppingCart"],
@@ -15,7 +16,7 @@ export const useGetShoppingCartInfo = () => {
   });
 };
 
-// 📌 اضافه کردن کتاب به کارت
+
 export const useAddToShoppingCart = () => {
   const queryClient = useQueryClient();
   return useMutation({
@@ -52,7 +53,7 @@ export const useAddToShoppingCart = () => {
   });
 };
 
-// 📌 حذف کتاب از کارت
+
 export const useDeleteFromShoppingCart = () => {
   const queryClient = useQueryClient();
   return useMutation({
@@ -88,18 +89,114 @@ export const useDeleteFromShoppingCart = () => {
   });
 };
 
+// export const useReserveBooks = () => {
+//   const queryClient = useQueryClient();
+//   return useMutation({
+//     mutationFn: (bookId: string) => homePageApi.homePage.reserveBooks(bookId),
+//     onSuccess: () => {
+//       queryClient.invalidateQueries({ queryKey: "reservBook" });
+//     },
+//     onError: (error) => {
+//       console.error("❌ خطا در رزرو کتاب:", error);
+//     },
+//   });
+// };
+
+
+// new updates
+export const useReserveBook = (bookId: string) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: () => homePageApi.homePage.reserveBooks(bookId),
+    onSuccess: () => {
+      showToast({
+        description: "موفقانه به کارت افزوده شد",
+        type: "success",
+      });
+      queryClient.invalidateQueries({ queryKey: ["shoppingCart"] });
+    },
+    onError: (error: any) => {
+      const errorMessage = error.response?.data?.message || "خطا در افزودن به کارت";
+      
+      if (errorMessage.includes("شما این کتاب را دو بار رزرو نمی توانید")) {
+        showToast({ 
+          description: "شما این کتاب را قبلا به سبد ریزرو خود اضافه نموده اید", 
+          type: "error" 
+        });
+      } else if (errorMessage.includes("همه جلد های این کتاب رزرو شده است")) {
+        showToast({ 
+          description: "کتاب مورد نظر فعلا موجود نمی باشد بعدا امتحان کنید", 
+          type: "error" 
+        });
+      } else if (errorMessage.includes("شما کاربر فعال نمی باشید")) {
+        showToast({ 
+          description: "حساب کاربری شما غیرفعال است", 
+          type: "error" 
+        });
+      } else if (errorMessage.includes("کتاب پیدا نشد")) {
+        showToast({ 
+          description: "کتاب مورد نظر یافت نشد", 
+          type: "error" 
+        });
+      } else {
+        showToast({ 
+          description: errorMessage, 
+          type: "error" 
+        });
+      }
+      
+      console.error("❌ خطا در رزرو کتاب:", error);
+    },
+  });
+};
+
+// Keep the original useReserveBooks for other components if needed
 export const useReserveBooks = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (bookId: string) => homePageApi.homePage.reserveBooks(bookId),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: "reservBook" });
+      showToast({
+        description: "موفقانه به کارت افزوده شد",
+        type: "success",
+      });
+      queryClient.invalidateQueries({ queryKey: ["shoppingCart"] });
     },
-    onError: (error) => {
+    onError: (error: any) => {
+      const errorMessage = error.response?.data?.message || "خطا در افزودن به کارت";
+      
+      if (errorMessage.includes("شما این کتاب را دو بار رزرو نمی توانید")) {
+        showToast({ 
+          description: "شما این کتاب را قبلا به سبد ریزرو نموده اید", 
+          type: "error" 
+        });
+      } else if (errorMessage.includes("همه جلد های این کتاب رزرو شده است")) {
+        showToast({ 
+          description: "کتاب مورد نظر فعلا موجود نمی باشد بعدا امتحان کنید", 
+          type: "error" 
+        });
+      } else if (errorMessage.includes("شما کاربر فعال نمی باشید")) {
+        showToast({ 
+          description: "حساب کاربری شما غیرفعال است", 
+          type: "error" 
+        });
+      } else if (errorMessage.includes("کتاب پیدا نشد")) {
+        showToast({ 
+          description: "کتاب مورد نظر یافت نشد", 
+          type: "error" 
+        });
+      } else {
+        showToast({ 
+          description: errorMessage, 
+          type: "error" 
+        });
+      }
+      
       console.error("❌ خطا در رزرو کتاب:", error);
     },
   });
 };
+
 
 export const useSearchBooks = (searchType: string, searchKey: string) => {
   const queryClient = useQueryClient();
