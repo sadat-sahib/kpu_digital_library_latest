@@ -200,6 +200,8 @@ const ReservedTable: React.FC<ReservedTableProps> = ({
         columns={columns}
         data={filteredBooks}
         pagination
+        paginationPerPage={10}
+        paginationRowsPerPageOptions={[5, 10, 20, 50]}
         highlightOnHover
         striped
         responsive

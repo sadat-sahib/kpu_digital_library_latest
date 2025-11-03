@@ -1,4 +1,3 @@
-
 // import { Check, CheckCircle, Loader, Trash, View } from "lucide-react";
 // import React, { useState } from "react";
 
@@ -56,11 +55,9 @@
 //   const [selectedRequestId, setSelectedRequestId] = useState<number | undefined>(undefined);
 //   const [selectedReceivedId, setSelectedReceivedId] = useState<number | undefined>(undefined);
 
-  
 //   const addRequestBookMutation = useAddRequestBook();
 //   const addReceivedBookMutation = useAddReceivedBook();
 
-  
 //   const handleClick = async (returnDate: string) => {
 //     if (!selectedRequestId) return;
 //     setLoadingActivating(selectedRequestId);
@@ -74,14 +71,13 @@
 //       setSuccessMessage(`Request ${selectedRequestId} activated successfully`);
 //       refetchData?.();
 //     } catch (error) {
-      
+
 //     } finally {
 //       setLoadingActivating(null);
 //       setTimeout(() => setSuccessMessage(null), 3000);
 //     }
 //   };
 
-  
 //   const handleReceive = async () => {
 //     if (!selectedReceivedId) return;
 //     setLoadingActivating(selectedReceivedId);
@@ -127,7 +123,7 @@
 //               <td className="py-3 px-6 text-right">{request.lastName}</td>
 //               <td className="py-3 px-6 text-center">
 //                 <div className="flex item-center justify-center">
-              
+
 //                   {component === "Requests" && (
 //                     <button
 //                       className="p-1 hover:bg-gray-300 rounded-md text-blue-500 hover:text-blue-700"
@@ -162,7 +158,6 @@
 //                     </button>
 //                   )}
 
-                
 //                   <button
 //                     onClick={() => onView(request.id)}
 //                     className="w-8 h-8 mr-2 transform text-green-400 hover:text-green-500 hover:scale-110 flex items-center justify-center"
@@ -170,7 +165,6 @@
 //                     <View height={20} width={20} />
 //                   </button>
 
-                  
 //                   {component === "R" && (
 //                     <button
 //                       onClick={() => onEdit(request.id)}
@@ -180,7 +174,6 @@
 //                     </button>
 //                   )}
 
-                
 //                   {component === "Requests" && (
 //                     <button
 //                       onClick={() => onDelete(request.id)}
@@ -201,7 +194,6 @@
 //         </tbody>
 //       </table>
 
-      
 //       {openReturnDateModal && (
 //         <ReturnModal
 //           closeModal={() => setOpenReturnDateModal(false)}
@@ -209,7 +201,6 @@
 //         />
 //       )}
 
-      
 //       {openReceiveModal && (
 //         <ReceivedModal
 //           closeModal={() => setOpenReceivedModal(false)}
@@ -226,7 +217,6 @@
 
 // export default BorrowTable;
 
-
 import React, { useState } from "react";
 import DataTable, { TableColumn } from "react-data-table-component";
 import { View, Trash2, Loader, CheckCircle } from "lucide-react";
@@ -235,7 +225,11 @@ import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 import ReturnModal from "./returnModal";
 import ReceivedModal from "./receivedModal";
-import { useAddRequestBook, useAddReceivedBook } from "../../../config/client/DashBorrowApi.query";
+import {
+  useAddRequestBook,
+  useAddReceivedBook,
+} from "../../../config/client/DashBorrowApi.query";
+import { toJalaliPersian } from "../../../utils/dateUtils";
 
 interface Request {
   id: number;
@@ -267,12 +261,18 @@ const BorrowTable: React.FC<BorrowTableProps> = ({
   component,
 }) => {
   const [filterText, setFilterText] = useState("");
-  const [loadingActivating, setLoadingActivating] = useState<number | null>(null);
+  const [loadingActivating, setLoadingActivating] = useState<number | null>(
+    null
+  );
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [openReturnDateModal, setOpenReturnDateModal] = useState(false);
   const [openReceiveModal, setOpenReceiveModal] = useState(false);
-  const [selectedRequestId, setSelectedRequestId] = useState<number | undefined>(undefined);
-  const [selectedReceivedId, setSelectedReceivedId] = useState<number | undefined>(undefined);
+  const [selectedRequestId, setSelectedRequestId] = useState<
+    number | undefined
+  >(undefined);
+  const [selectedReceivedId, setSelectedReceivedId] = useState<
+    number | undefined
+  >(undefined);
 
   const addRequestBookMutation = useAddRequestBook();
   const addReceivedBookMutation = useAddReceivedBook();
@@ -330,7 +330,10 @@ const BorrowTable: React.FC<BorrowTableProps> = ({
     const worksheet = XLSX.utils.json_to_sheet(requests);
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "BorrowedBooks");
-    const excelBuffer = XLSX.write(workbook, { bookType: "xlsx", type: "array" });
+    const excelBuffer = XLSX.write(workbook, {
+      bookType: "xlsx",
+      type: "array",
+    });
     const blob = new Blob([excelBuffer], { type: "application/octet-stream" });
     saveAs(blob, "borrowed_books.xlsx");
   };
@@ -361,7 +364,7 @@ const BorrowTable: React.FC<BorrowTableProps> = ({
     },
     {
       name: "تاریخ بازگشت",
-      selector: (row) => row.return_date,
+      selector: (row) => toJalaliPersian(row.return_date),
       sortable: true,
     },
     {
@@ -476,6 +479,8 @@ const BorrowTable: React.FC<BorrowTableProps> = ({
         columns={columns}
         data={filteredRequests}
         pagination
+        paginationPerPage={10}
+        paginationRowsPerPageOptions={[5, 10, 20, 50]}
         highlightOnHover
         striped
         responsive

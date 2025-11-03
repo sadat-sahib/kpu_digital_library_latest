@@ -294,6 +294,8 @@ const BookTable: React.FC<BookTableProps> = ({
         columns={columns}
         data={loading ? Array(6).fill({}) : filteredBooks}
         pagination
+        paginationPerPage={10}
+        paginationRowsPerPageOptions={[5, 10, 20, 50]}
         highlightOnHover
         striped
         responsive
