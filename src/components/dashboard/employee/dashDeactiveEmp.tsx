@@ -29,7 +29,7 @@ const DashDeActiveEmp: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [reload, setReload] = useState(false);
-  const { token } = useAdminAuthStore();
+  // const { token } = useAdminAuthStore();
   const [currentPage, setCurrentPage] = useState(1);
   const [usersPerPage] = useState(10);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
@@ -44,9 +44,10 @@ const DashDeActiveEmp: React.FC = () => {
         const response = await axios.get(
           "/api/dashboard/users/inactivated_teachers",
           {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
+            // headers: {
+            //   Authorization: `Bearer ${token}`,
+            // },
+            withCredentials: true
           }
         );
         setUsers(response.data.data);
@@ -59,7 +60,7 @@ const DashDeActiveEmp: React.FC = () => {
     };
 
     fetchUsers();
-  }, [token, reload]);
+  }, [reload]);
   const handleEdit = (id: number) => {
     // Implement edit functionality
     console.log(`Editing user with id: ${id}`);
@@ -87,9 +88,10 @@ const DashDeActiveEmp: React.FC = () => {
       if (result.isConfirmed) {
         setLoadingDelete(id);
         axios.delete(`/api/dashboard/users/destroy/${id}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          // headers: {
+          //   Authorization: `Bearer ${token}`,
+          // },
+          withCredentials: true
         });
         setUsers(users.filter((user) => user.id !== id));
         Swal.fire("حذف شد", "موفقانه حذف گردید.", "success");
@@ -149,7 +151,7 @@ const DashDeActiveEmp: React.FC = () => {
             onDelete={handleDelete}
             loadingDelete={loadingDelete}
             component="Deactivate-Users"
-            refetchData={refetchData}
+            // refetchData={refetchData}
           />
           <Pagination
             currentPage={currentPage}

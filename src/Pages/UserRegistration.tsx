@@ -516,7 +516,7 @@ const UserRegistration: React.FC<UserRegistrationProps> = ({ userId }) => {
   const [response, setResponse] = useState<string>();
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
 
-  const { token } = useAdminAuthStore();
+  // const { token } = useAdminAuthStore();
   const {
     register,
     handleSubmit,
@@ -553,7 +553,7 @@ const UserRegistration: React.FC<UserRegistrationProps> = ({ userId }) => {
       setFaculties(response.data.faculties);
     });
 
-  }, [setValue, token]);
+  }, [setValue]);
   // Submitting the from field
   const onSubmit: SubmitHandler<FormFields> = (data) => {
     console.log(data);
@@ -583,8 +583,9 @@ const UserRegistration: React.FC<UserRegistrationProps> = ({ userId }) => {
     const res =axios.post("/api/register", formData, {
       headers: {
         "Content-Type": "multipart/form-data",
-        Authorization: `Bearer ${token}`,
+        // Authorization: `Bearer ${token}`,
       },
+      withCredentials: true,
     })
       .then((response) => {
         console.log(response);
@@ -606,9 +607,8 @@ const UserRegistration: React.FC<UserRegistrationProps> = ({ userId }) => {
         text: "کاربر جدید موفقانه ثبت شد!",
         icon: "success",
         confirmButtonText: "OK",
-      }).then(() => {
-        navigate("/dashboard?tab=users");
-      });
+      })
+      
     }
       Swal.fire({
         title: "Success!",

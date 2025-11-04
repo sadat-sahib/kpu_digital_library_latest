@@ -39,7 +39,7 @@ const DashReservedBooks: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [booksPerPage] = useState(10);
   const [loading, setLoading] = useState(true);
-  const { token } = useAdminAuthStore();
+  // const { token } = useAdminAuthStore();
   const [selectedBook, setSelectedBook] = useState<Book | null>(null);
 
   useEffect(() => {
@@ -51,9 +51,10 @@ const DashReservedBooks: React.FC = () => {
     try {
       setLoading(true);
       const response = await axios.get("/api/dashboard/reserves/books/in/reserve", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        // headers: {
+        //   Authorization: `Bearer ${token}`,
+        // },
+        withCredentials: true
       });
       setBooks(response.data.data);
       console.log('reserved-books',response)
@@ -68,9 +69,10 @@ const DashReservedBooks: React.FC = () => {
   const fetchFaculties = async () => {
     try {
       const response = await axios.get("/api/dashboard/faculties", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        // headers: {
+        //   Authorization: `Bearer ${token}`,
+        // },
+        withCredentials: true
       });
       console.log("Faculties: ", response.data.data);
       setFaculties(response.data.data);

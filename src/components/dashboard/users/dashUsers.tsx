@@ -177,8 +177,6 @@
 
 
 import React, { useEffect, useState } from "react";
-import { FaSearch } from "react-icons/fa";
-import { Loader, Users } from "lucide-react";
 import Swal from "sweetalert2";
 import { useNavigate, useLocation } from "react-router-dom";
 
@@ -189,6 +187,7 @@ import UpdateUser from "./dashUpdateUser";
 import { useGetAllUsers, useDeleteUser } from "../../../config/client/DashUserApi.query";
 import { useGetFaculties } from "../../../config/client/DashFacultyApi.query";
 import UserTableSkeleton from "../userTable/userTableSkeleton";
+import { Users } from "lucide-react";
 
 interface Faculty {
   id: number;

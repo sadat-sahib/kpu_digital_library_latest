@@ -302,25 +302,27 @@ const BorrowsReport: React.FC = () => {
   );
   const [borrowedBooks, setBorrowedBooks] = useState<BorrowedBook[]>([]);
   const [loading, setLoading] = useState(false);
-  const { token } = useAdminAuthStore();
+  // const { token } = useAdminAuthStore();
   const [searchTerm, setSearchTerm] = useState("");
 
   // Fetch faculties and departments
   useEffect(() => {
     axios
       .get("/api/dashboard/faculties", {
-        headers: { Authorization: `Bearer ${token}` },
+        // headers: { Authorization: `Bearer ${token}` },
+        withCredentials: true,
       })
       .then((res) => setFaculties(res.data.data));
 
     axios
       .get("/api/dashboard/departments", {
-        headers: { Authorization: `Bearer ${token}` },
+        // headers: { Authorization: `Bearer ${token}` },
+        withCredentials: true,
       })
       .then((res) => setDepartments(res.data.data));
 
     fetchBorrowedBooks();
-  }, [token]);
+  }, []);
 
   // Fetch borrowed books
   const fetchBorrowedBooks = (
@@ -335,7 +337,10 @@ const BorrowsReport: React.FC = () => {
           faculty_id: facultyId ? facultyId.toString() : "all",
           dep_id: departmentId ? departmentId.toString() : "all",
         },
-        { headers: { Authorization: `Bearer ${token}` } }
+        { 
+          // headers: { Authorization: `Bearer ${token}` }
+          withCredentials: true
+         }
       )
       .then((response) => {
         setBorrowedBooks(response.data.data || []);
@@ -366,6 +371,8 @@ const BorrowsReport: React.FC = () => {
       b.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
       b.author.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  console.log("Filtered Books:", filteredBooks);
 
   // ✅ Excel Export
   const handleDownloadExcel = () => {

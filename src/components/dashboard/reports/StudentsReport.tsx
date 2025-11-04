@@ -329,7 +329,7 @@ const StudentsReport: React.FC = () => {
   const [students, setStudents] = useState<Student[]>([]);
   const [loading, setLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-  const { token } = useAdminAuthStore();
+  // const { token } = useAdminAuthStore();
 
   // fetch faculties (with departments) on mount
   useEffect(() => {
@@ -354,7 +354,8 @@ const StudentsReport: React.FC = () => {
           dep_id: selectedDepartment || "all",
         },
         {
-          headers: { Authorization: `Bearer ${token}` },
+          // headers: { Authorization: `Bearer ${token}` },
+          withCredentials: true,
         }
       )
       .then((res) => {
@@ -365,7 +366,7 @@ const StudentsReport: React.FC = () => {
         setStudents([]);
         setLoading(false);
       });
-  }, [selectedFaculty, selectedDepartment, token]);
+  }, [selectedFaculty, selectedDepartment]);
 
   // helper names for print header
   const getFacultyName = () =>

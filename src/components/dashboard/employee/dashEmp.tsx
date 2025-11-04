@@ -32,7 +32,7 @@ const DashEmp: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [usersPerPage] = useState(10);
   const [reload, setReload] = useState(false);
-  const { token } = useAdminAuthStore();
+  // const { token } = useAdminAuthStore();
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [loadingDelete, setLoadingDelete] = useState<number | null>(null);
   const [editingUserId, setEditingUserId] = useState<number | null>(null);
@@ -43,9 +43,10 @@ const DashEmp: React.FC = () => {
   useEffect(() => {
     axios
       .get("/api/dashboard/users/activated_teachers", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        // headers: {
+        //   Authorization: `Bearer ${token}`,
+        // },
+        withCredentials: true
       })
       .then((response) => {
         console.log(response.data.data);
@@ -84,9 +85,10 @@ const DashEmp: React.FC = () => {
       if (result.isConfirmed) {
         setLoadingDelete(id);
         axios.delete(`/api/dashboard/users/destroy/${id}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          // headers: {
+          //   Authorization: `Bearer ${token}`,
+          // },
+          withCredentials: true
         });
         setUsers(users.filter((user) => user.id !== id));
         Swal.fire("حذف شد", "موفقانه حذف گردید.", "success");
@@ -150,7 +152,7 @@ const DashEmp: React.FC = () => {
             onDelete={handleDelete}
             loadingDelete={loadingDelete}
             component="Users"
-            refetchData={refetchData}
+            // refetchData={refetchData}
           />
           <Pagination
             currentPage={currentPage}

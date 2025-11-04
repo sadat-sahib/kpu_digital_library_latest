@@ -332,6 +332,7 @@ const UserTable: React.FC<UserTableProps> = ({
         persistTableHead
         noDataComponent="هیچ کاربری یافت نشد"
         customStyles={customStyles}
+        
       />
     </div>
   );

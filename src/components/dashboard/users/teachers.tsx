@@ -32,7 +32,7 @@ const Teachers: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [usersPerPage] = useState(10);
   const [reload, setReload] = useState(false);
-  const { token } = useAdminAuthStore();
+  // const { token } = useAdminAuthStore();
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [loadingDelete, setLoadingDelete] = useState<number | null>(null);
   const [editingUserId, setEditingUserId] = useState<number | null>(null);
@@ -47,9 +47,10 @@ const Teachers: React.FC = () => {
     try {
       setLoading(true);
       const response = await axios.get("/api/dashboard/users/activated_teachers", {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
+        // headers: {
+        //   Authorization: `Bearer ${token}`
+        // }
+        withCredentials: true
       });
       setUsers(response.data.data);
       console.log(response.data.data);
@@ -89,9 +90,10 @@ const Teachers: React.FC = () => {
         setLoadingDelete(id);
         // Implement delete functionality
         axios.delete(`/api/dashboard/users/destroy/${id}`, {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
+          // headers: {
+          //   Authorization: `Bearer ${token}`
+          // }
+          withCredentials: true
         });
         setUsers(users.filter((user) => user.id !== id));
         Swal.fire("حذف شد", "موفقانه حذف گردید.", "success");
@@ -156,7 +158,7 @@ const Teachers: React.FC = () => {
             onDelete={handleDelete}
             loadingDelete={loadingDelete}
             component="Users"
-            refetchData={refetchData}
+            // refetchData={refetchData}
           />
           <Pagination
             currentPage={currentPage}

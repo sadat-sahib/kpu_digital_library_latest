@@ -7,21 +7,21 @@ import DashMonographs from "../../Components/Dashboard/monograph/DashMonographs"
 import DashArticles from "../../Components/article/DashArticles";
 import DashBookRegistration from "../../Components/Dashboard/books/DashBookRegistration";
 import DashboardComp from "../../Components/Dashboard/DashboardComp";
-import DashDeActiveUsers from "../../Components/Dashboard/users/DashDeActiveUsers";
-import DashActiveUsers from "../../Components/Dashboard/users/DashActiveUsers";
+import DashDeActiveUsers from "../../components/dashboard/users/dashDeActiveUsers";
+import DashActiveUsers from "../../components/dashboard/users/dashActiveUsers";
 import DashFaculty from "../../Components/Dashboard/faculty/DashFaculty";
 import DashDepartment from "../../Components/Dashboard/department/DashDepartment";
 import DashSectionRegistration from "../../Components/Dashboard/section/DashSectionRegistration";
 import DashCategoryRegistration from "../../Components/Dashboard/category/DashCategoryRegistration";
 import UserRegistration from "../../Pages/UserRegistration";
-import DashDeActiveEmp from "../../Components/Dashboard/employee/DashDeactiveEmp";
-import DashActiveEmp from "../../Components/Dashboard/employee/DashActiveEmp";
-import DashEmp from "../../Components/Dashboard/employee/DashEmp";
+import DashDeActiveEmp from "../../components/dashboard/employee/dashDeactiveEmp";
+import DashActiveEmp from "../../components/dashboard/employee/dashActiveEmp";
+import DashEmp from "../../components/dashboard/employee/dashEmp";
 import DashReservedBooks from "../../Components/Dashboard/books/DashReservedBooks";
 import DashReserves from "../../Components/Dashboard/borrow/DashBorrows";
 import DashRequests from "../../Components/Dashboard/borrow/DashRequests";
 import DashReturned from "../../Components/Dashboard/borrow/DashReturned";
-import Teachers from "../../Components/Dashboard/users/teachers";
+import Teachers from "../../components/dashboard/users/teachers";
 import Admin from "../../Components/Dashboard/admin/admin";
 import StudentsReport from "../../components/dashboard/reports/StudentsReport";
 import BooksReport from "../../components/dashboard/reports/BooksReport";
@@ -94,6 +94,7 @@ const DashboardContent: React.FC = () => {
       {tab === "book-report" && <BooksReport />}
       {/* Borrow Report */}
       {tab === "borrow-books" && <BorrowsReport />}
+      {tab === "borrow-report" && <BorrowsReport />}
     </div>
   );
 };

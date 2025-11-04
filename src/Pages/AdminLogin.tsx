@@ -188,34 +188,48 @@ const AdminLogin: React.FC = () => {
     resolver: zodResolver(signInSchema),
   });
 
-  const onSubmit = async (data: SignInFormData) => {
-    setLoading(true);
-    try {
-      const res = await axios.post("/api/admin/login", data);
-      if (res.status === 200) {
-        const user = res.data.data;
-
-        const loggedInUser = {
-          email: user.email,
-          status: user.status,
-          type: user.type,
-        };
-
-        const userToken = res.data.token;
-        const userIsAdmin = true;
-        const type = user.type;
-        const permission = user.role;
-
-        setUser(loggedInUser, userToken, userIsAdmin, type, permission);
-        navigate("?tab=dashboard");
+ const onSubmit = async (data: SignInFormData) => {
+  setLoading(true);
+  try {
+    const res = await axios.post(
+      "http://localhost:8000/api/admin/login", // full API URL
+      data,
+      {
+        withCredentials: true, // 👈 Important: allow cookies
       }
-    } catch (err) {
-      console.error(err);
-      setResponse("نام کاربری یا رمز عبور اشتباه است");
-    } finally {
-      setLoading(false);
+    );
+
+    console.log("Response: ", res);
+
+    if (res.status === 200) {
+      const user = res.data.data; // backend returns 'admin' object
+      console.log("User Data: ", user);
+      const loggedInUser = {
+        email: user.email,
+        status: user.status,
+        type: user.type,
+      };
+
+      // ✅ No need to read token manually anymore
+      // Cookie is automatically stored by browser (HttpOnly)
+
+      const userIsAdmin = true;
+      const type = user.type;
+      const permission = user.role;
+
+      // If your context still needs to store auth state
+      setUser(loggedInUser, userIsAdmin, type, permission);
+
+      // Redirect after login
+      navigate("?tab=dashboard");
     }
-  };
+  } catch (err) {
+    console.error(err);
+    setResponse("نام کاربری یا رمز عبور اشتباه است");
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <div className="container mx-auto p-6 max-w-md">

@@ -4,12 +4,12 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link, useNavigate } from "react-router-dom";
-import { useLocation } from "react-router";
+
 import axios from "../../../axiosInstance";
 import { useAuthStore } from "../../../Store/useAuthStore";
 import Swal from "sweetalert2";
 import { Loader2 } from "lucide-react";
-import { useAdminAuthStore } from "../../../Store/useAdminAuthStore";
+
 import { Button } from "../../../components/ui/button";
 import { Input } from "../../../components/ui/input";
 import { schema } from "../../../schemas/userSchema";
@@ -30,8 +30,9 @@ type FormFields = z.infer<typeof schema>;
 
 interface UserRegistrationProps {
   userId?: number;
+  onClose?: () => void;
 }
-const UpdateUser: React.FC<UserRegistrationProps> = ({ userId }) => {
+const UpdateUser: React.FC<UserRegistrationProps> = ({ userId, onClose }) => {
   const { setUser } = useAuthStore();
   const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
@@ -40,7 +41,7 @@ const UpdateUser: React.FC<UserRegistrationProps> = ({ userId }) => {
   const [response, setResponse] = useState<string>();
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
 
-  const { token } = useAdminAuthStore();
+  // const { token } = useAdminAuthStore();
   const {
     register,
     handleSubmit,
@@ -67,6 +68,7 @@ const UpdateUser: React.FC<UserRegistrationProps> = ({ userId }) => {
     console.log(selectedFaculty);
     setSelectedFac(selectedFaculty);
   };
+
   useEffect(() => {
     axios.get("/api/home/faculties-with-departments").then((response) => {
       setFaculties(response.data.faculties);
@@ -76,7 +78,8 @@ const UpdateUser: React.FC<UserRegistrationProps> = ({ userId }) => {
       console.log("userId: ", userId);
       axios
         .get(`api/dashboard/users/edit/${userId}`, {
-          headers: { Authorization: `Bearer ${token}` },
+          // headers: { Authorization: `Bearer ${token}` },
+          withCredentials: true
         })
         .then((response) => {
           const userData = response.data.data;
@@ -86,7 +89,7 @@ const UpdateUser: React.FC<UserRegistrationProps> = ({ userId }) => {
           });
         });
     }
-  }, [userId, setValue, token]);
+  }, [userId, setValue]);
 
   const onSubmit: SubmitHandler<FormFields> = async (data) => {
     setLoading(true);
@@ -104,8 +107,9 @@ const UpdateUser: React.FC<UserRegistrationProps> = ({ userId }) => {
         {
           headers: {
             "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${token}`,
+            // Authorization: `Bearer ${token}`,
           },
+          withCredentials: true
         }
       );
 

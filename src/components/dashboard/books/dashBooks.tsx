@@ -48,7 +48,7 @@ const DashBooks: React.FC = () => {
   const [booksPerPage] = useState(10);
   const [loading, setLoading] = useState(true);
   const [loadingDelete, setLoadingDelete] = useState<number | null>(null);
-  const { token } = useAdminAuthStore();
+  // const { token } = useAdminAuthStore();
   const [editingBookId, setEditingBookId] = useState<number | null>(null);
   const [selectedBook, setSelectedBook] = useState<Book | null>(null);
 
@@ -61,9 +61,10 @@ const DashBooks: React.FC = () => {
     try {
       setLoading(true);
       const response = await axios.get("/api/dashboard/books", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        // headers: {
+        //   Authorization: `Bearer ${token}`,
+        // },
+        withCredentials: true,
       });
       setBooks(response.data.data);
     } catch (error) {
@@ -77,9 +78,10 @@ const DashBooks: React.FC = () => {
   const fetchFaculties = async () => {
     try {
       const response = await axios.get("/api/dashboard/faculties", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        // headers: {
+        //   Authorization: `Bearer ${token}`,
+        // },
+        withCredentials: true
       });
       // console.log("Faculties: ", response.data.data);
       setFaculties(response.data.data);
@@ -115,9 +117,10 @@ const DashBooks: React.FC = () => {
       if (result.isConfirmed) {
         setLoadingDelete(id);
         await axios.delete(`/api/dashboard/books/${id}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          // headers: {
+          //   Authorization: `Bearer ${token}`,
+          // },
+          withCredentials: true
         });
         setBooks(books.filter((book) => book.id !== id));
         Swal.fire("حذف شد", "موفقانه حذف گردید.", "success");

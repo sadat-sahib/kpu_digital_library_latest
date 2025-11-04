@@ -35,7 +35,7 @@ interface MenuGroup {
 
 const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
   const location = useLocation();
-  const { type, clearUser, token } = useAdminAuthStore();
+  const { type, clearUser } = useAdminAuthStore();
   const [openMenus, setOpenMenus] = useState<Record<string, boolean>>({});
   const navigate = useNavigate();
   const isActive = (path: string): boolean => location.search === path;
@@ -48,24 +48,26 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
     }));
   };
 
-  const handleSignout = (): void => {
-    axios
-      .post(
-        "api/dashboard/admin/logout",
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
-      .then((response) => {
-        if (response.status === 200) {
-          clearUser();
-          navigate(`?tab=adminLogin`);
-        }
-      });
-  };
+ const handleSignout = async (): Promise<void> => {
+  try {
+    const response = await axios.post(
+      "http://localhost:8000/api/dashboard/admin/logout",
+      {},
+      {
+        withCredentials: true,
+      }
+    );
+
+    if (response.status === 200) {
+      clearUser();
+      navigate("?tab=adminLogin");
+    } else {
+      console.warn("Unexpected response during logout:", response);
+    }
+  } catch (error) {
+    console.error("Logout failed:", error);
+  }
+};
 
   const MenuItemComponent: React.FC<MenuItem> = ({
     to,

@@ -14,18 +14,19 @@ export const AddAdmin: React.FC<AddAdminProps> = ({ onAddAdmin }) => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
-  const {token} = useAdminAuthStore();
+  // const {token} = useAdminAuthStore();
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
-    console.log(token);
+    // console.log(token);
       axios.post(
         "/api/dashboard/admin/account/new/create",
         {name: name, email: email, password: password}, 
         {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          // headers: {
+          //   Authorization: `Bearer ${token}`,
+          // },
+          withCredentials: true
         }
       )
       .then((response) => {

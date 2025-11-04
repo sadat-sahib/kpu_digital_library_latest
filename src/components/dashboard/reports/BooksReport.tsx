@@ -355,7 +355,7 @@ const BooksReport: React.FC = () => {
   );
   const [books, setBooks] = useState<Book[]>([]);
   const [loading, setLoading] = useState(false);
-  const { token } = useAdminAuthStore();
+  // const { token } = useAdminAuthStore();
   const [statusFilter, setStatusFilter] = useState<"yes" | "no" | "">("");
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -363,19 +363,20 @@ const BooksReport: React.FC = () => {
   useEffect(() => {
     axios
       .get("/api/dashboard/categories", {
-        headers: { Authorization: `Bearer ${token}` },
+        // headers: { Authorization: `Bearer ${token}` },
+        withCredentials: true
       })
       .then((response) => setCategories(response.data.data));
-  }, [token]);
+  }, []);
 
   // Fetch departments
   useEffect(() => {
     axios
       .get("/api/dashboard/departments", {
-        headers: { Authorization: `Bearer ${token}` },
+        withCredentials: true
       })
       .then((response) => setDepartments(response.data.data));
-  }, [token]);
+  }, []);
 
   // Fetch books on filter change
   useEffect(() => {
@@ -389,14 +390,15 @@ const BooksReport: React.FC = () => {
             ? selectedDepartment.toString()
             : "all",
         },
-        { headers: { Authorization: `Bearer ${token}` } }
+        // { headers: { Authorization: `Bearer ${token}` } }
+        { withCredentials: true }
       )
       .then((response) => {
         setBooks(response.data.data || []);
         setLoading(false);
       })
       .catch(() => setLoading(false));
-  }, [selectedCategory, selectedDepartment, token]);
+  }, [selectedCategory, selectedDepartment]);
 
   // Get category & department names
   const getCategoryName = () =>
