@@ -12,6 +12,7 @@ import { useGetFaculties } from "../../../config/client/DashFacultyApi.query";
 
 import { User } from "../../../config/client/DashUserApi";
 import UserTableSkeleton from "../userTable/userTableSkeleton";
+import DeActiveUserTable from "../userTable/deActiveUserTable";
 
 interface Faculty {
   id: number;
@@ -27,9 +28,9 @@ const DashDeActiveUsers: React.FC = () => {
   const [editingUserId, setEditingUserId] = useState<number | null>(null);
 
 
-  const { data: users = [], isLoading, isError } = useGetInActiveUsers();
+  const { data: users = [], isLoading, isError, refetch } = useGetInActiveUsers();
   const { data: faculties = [] } = useGetFaculties();
-  const { mutate: deleteUser, isPending: isDeleting } = useDeleteUser();
+  const { mutate: deleteUser, isPending: isDeleting, } = useDeleteUser();
 
 
   const handleEdit = (id: number) => {
@@ -132,14 +133,14 @@ const DashDeActiveUsers: React.FC = () => {
         <div className="text-center text-red-500">خطا در گرفتن لیست کاربران</div>
       ) : (
         <>
-          <UserTable
+          <DeActiveUserTable
             users={currentUsers}
             onEdit={handleEdit}
             onView={handleView}
             onDelete={handleDelete}
             loadingDelete={isDeleting ? -1 : null}
             component="Deactivate-Users"
-            // refetchData={() => {}} 
+            refetchData={refetch}
           />
           {/* <Pagination
             currentPage={currentPage}

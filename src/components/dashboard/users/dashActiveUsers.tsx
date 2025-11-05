@@ -15,6 +15,7 @@ import {
 import { useGetFaculties } from "../../../config/client/DashFacultyApi.query";
 import { User } from "../../../config/client/DashUserApi";
 import UserTableSkeleton from "../userTable/userTableSkeleton";
+import ActiveUserTable from "../userTable/activeUserTable";
 
 interface Faculty {
   id: number;
@@ -158,7 +159,7 @@ const DashActiveUsers: React.FC = () => {
         <div className="text-center text-red-500">خطا در گرفتن لیست کاربران</div>
       ) : (
         <>
-          <UserTable
+          <ActiveUserTable
             users={currentUsers}
             onEdit={handleEdit}
             onView={handleView}

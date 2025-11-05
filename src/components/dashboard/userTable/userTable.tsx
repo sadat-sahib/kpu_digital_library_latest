@@ -160,13 +160,21 @@
 
 // export default UserTable;
 
-
 import React, { useState } from "react";
 import DataTable, { TableColumn } from "react-data-table-component";
-import { CheckCircle, Edit, Loader, Printer, Trash, Users, View } from "lucide-react";
+import {
+  CheckCircle,
+  Edit,
+  Loader,
+  Printer,
+  Trash,
+  Users,
+  View,
+} from "lucide-react";
 import { CSVLink } from "react-csv";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
+import UserCard from "./userCard";
 
 // src/types/User.ts
 export interface User {
@@ -183,9 +191,6 @@ export interface User {
   nic: string;
   nin: string;
 }
-
-
-
 
 interface UserTableProps {
   users: User[];
@@ -207,12 +212,15 @@ const UserTable: React.FC<UserTableProps> = ({
   const [filterText, setFilterText] = useState("");
   const [facultyFilter, setFacultyFilter] = useState("");
 
+  const [openPrintModal, setOpenPrintModal] = useState(false);
+  const [userId, setUserId] = useState<number | undefined>();
+
   // Filter users by search + faculty
   const filteredUsers = users.filter(
     (u) =>
       (u.firstName.toLowerCase().includes(filterText.toLowerCase()) ||
-       u.lastName.toLowerCase().includes(filterText.toLowerCase()) ||
-       u.email.toLowerCase().includes(filterText.toLowerCase())) &&
+        u.lastName.toLowerCase().includes(filterText.toLowerCase()) ||
+        u.email.toLowerCase().includes(filterText.toLowerCase())) &&
       (!facultyFilter || u.faculty === facultyFilter)
   );
 
@@ -221,9 +229,22 @@ const UserTable: React.FC<UserTableProps> = ({
     const worksheet = XLSX.utils.json_to_sheet(filteredUsers);
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "Users");
-    const excelBuffer = XLSX.write(workbook, { type: "array", bookType: "xlsx" });
+    const excelBuffer = XLSX.write(workbook, {
+      type: "array",
+      bookType: "xlsx",
+    });
     const blob = new Blob([excelBuffer], { type: "application/octet-stream" });
     saveAs(blob, "users.xlsx");
+  };
+
+  const handlePrint = (id: number | undefined) => {
+    setOpenPrintModal(true);
+    setUserId(id);
+  };
+
+  const closePrintModal = () => {
+    setOpenPrintModal(false);
+    setUserId(undefined);
   };
 
   const columns: TableColumn<User>[] = [
@@ -236,19 +257,34 @@ const UserTable: React.FC<UserTableProps> = ({
       name: "عملیات",
       cell: (row) => (
         <div className="flex items-center justify-center gap-2">
-          <button onClick={() => onView(row.id)} className="text-green-500 hover:text-green-600">
+          {component === "Users" && (
+            <button
+              onClick={() => handlePrint(row.id)} // ✅ added print button
+              className="text-blue-500 hover:text-blue-600"
+            >
+              <Printer size={18} />
+            </button>
+          )}
+          <button
+            onClick={() => onView(row.id)}
+            className="text-green-500 hover:text-green-600"
+          >
             <View size={18} />
           </button>
-          <button onClick={() => onEdit(row.id)} className="text-blue-500 hover:text-blue-600">
+          <button
+            onClick={() => onEdit(row.id)}
+            className="text-blue-500 hover:text-blue-600"
+          >
             <Edit size={18} />
           </button>
-          <button
+
+          {/* <button
             onClick={() => onDelete(row.id)}
             disabled={loadingDelete === row.id}
             className="text-red-500 hover:text-red-600"
           >
             {loadingDelete === row.id ? <Loader size={18} className="animate-spin" /> : <Trash size={18} />}
-          </button>
+          </button> */}
         </div>
       ),
       center: true,
@@ -257,7 +293,13 @@ const UserTable: React.FC<UserTableProps> = ({
   ];
 
   const customStyles = {
-    headRow: { style: { backgroundColor: "#f3f4f6", fontSize: "16px", fontWeight: "bold" } },
+    headRow: {
+      style: {
+        backgroundColor: "#f3f4f6",
+        fontSize: "16px",
+        fontWeight: "bold",
+      },
+    },
     headCells: { style: { paddingLeft: "16px", paddingRight: "16px" } },
     cells: { style: { paddingLeft: "16px", paddingRight: "16px" } },
     rows: {
@@ -285,11 +327,13 @@ const UserTable: React.FC<UserTableProps> = ({
         className="w-full md:w-48 border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
       >
         <option value="">همه پوهنځی‌ها</option>
-        {Array.from(new Set(users.map((u) => u.faculty).filter(Boolean))).map((faculty) => (
-          <option key={faculty} value={faculty}>
-            {faculty}
-          </option>
-        ))}
+        {Array.from(new Set(users.map((u) => u.faculty).filter(Boolean))).map(
+          (faculty) => (
+            <option key={faculty} value={faculty}>
+              {faculty}
+            </option>
+          )
+        )}
       </select>
 
       <div className="flex gap-2">
@@ -332,8 +376,8 @@ const UserTable: React.FC<UserTableProps> = ({
         persistTableHead
         noDataComponent="هیچ کاربری یافت نشد"
         customStyles={customStyles}
-        
       />
+      {openPrintModal && <UserCard closeModal={closePrintModal} id={userId} />}
     </div>
   );
 };

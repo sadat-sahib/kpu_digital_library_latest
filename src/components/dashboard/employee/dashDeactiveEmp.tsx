@@ -7,6 +7,7 @@ import UserDetails from "../userTable/userDetails";
 import UserTable from "../userTable/userTable";
 import Swal from "sweetalert2";
 import { Loader } from "lucide-react";
+import DeActiveEmployeeTable from "./deActiveEmployeeTable";
 
 interface User {
   id: number;
@@ -144,14 +145,14 @@ const DashDeActiveEmp: React.FC = () => {
         <div className="text-center text-red-500">{error}</div>
       ) : (
         <>
-          <UserTable
+          <DeActiveEmployeeTable
             users={currentUsers}
             onEdit={handleEdit}
             onView={handleView}
             onDelete={handleDelete}
             loadingDelete={loadingDelete}
             component="Deactivate-Users"
-            // refetchData={refetchData}
+            refetchData={refetchData}
           />
           <Pagination
             currentPage={currentPage}

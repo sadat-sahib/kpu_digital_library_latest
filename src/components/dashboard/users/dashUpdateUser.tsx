@@ -120,7 +120,7 @@ const UpdateUser: React.FC<UserRegistrationProps> = ({ userId, onClose }) => {
           icon: "success",
           confirmButtonText: "تایید",
         }).then(() => {
-          onClose(); // ✅ Go back and refresh parent
+          onClose?.(); // ✅ Go back and refresh parent
         });
       }
     } catch (err: any) {
