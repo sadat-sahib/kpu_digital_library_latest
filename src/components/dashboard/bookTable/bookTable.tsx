@@ -130,7 +130,7 @@ const BookTable: React.FC<BookTableProps> = ({
   const [filterText, setFilterText] = useState("");
   // const [faculties, setFaculties] = useState<Faculty[]>([]);
   const [selectedFaculty, setSelectedFaculty] = useState("");
-  const { token } = useAdminAuthStore();
+  // const { token } = useAdminAuthStore();
 
   // ✅ Fetch faculties once
   // useEffect(() => {
@@ -202,7 +202,7 @@ const BookTable: React.FC<BookTableProps> = ({
           >
             <Edit size={18} />
           </button>
-          <button
+          {/* <button
             onClick={() => onDelete(row.id)}
             disabled={loadingDelete === row.id}
             className="text-red-500 hover:text-red-600"
@@ -212,7 +212,7 @@ const BookTable: React.FC<BookTableProps> = ({
             ) : (
               <Trash size={18} />
             )}
-          </button>
+          </button> */}
         </div>
       ),
       center: true,
