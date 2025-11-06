@@ -56,7 +56,7 @@ const DashBookRegistration: React.FC<DashBookRegistrationProps> = ({
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
-  const { token } = useAdminAuthStore();
+  // const { token } = useAdminAuthStore();
   const [bookFormat, setBookFormat] = useState("hard");
   const [isEditing, setIsEditing] = useState(false);
   const {
@@ -82,18 +82,20 @@ const DashBookRegistration: React.FC<DashBookRegistrationProps> = ({
   useEffect(() => {
     axios
       .get("/api/dashboard/departments", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        // headers: {
+        //   Authorization: `Bearer ${token}`,
+        // },
+        withCredentials: true,
       })
       .then((response) => {
         setFaculties(response.data.data);
       });
     axios
       .get("/api/dashboard/sections", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        // headers: {
+        //   Authorization: `Bearer ${token}`,
+        // },
+        withCredentials: true,
       })
       .then((response) => {
         setShelves(response.data.data);
@@ -101,9 +103,10 @@ const DashBookRegistration: React.FC<DashBookRegistrationProps> = ({
       });
     axios
       .get("/api/dashboard/categories", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        // headers: {
+        //   Authorization: `Bearer ${token}`,
+        // },
+        withCredentials: true,
       })
       .then((response) => {
         setCategories(response.data.data);
@@ -114,7 +117,8 @@ const DashBookRegistration: React.FC<DashBookRegistrationProps> = ({
       console.log("bookId: ", bookId);
       axios
         .get(`/api/dashboard/books/${bookId}`, {
-          headers: { Authorization: `Bearer ${token}` },
+          // headers: { Authorization: `Bearer ${token}` },
+          withCredentials: true,
         })
         .then((response) => {
           const bookData = response.data.data;
@@ -125,7 +129,7 @@ const DashBookRegistration: React.FC<DashBookRegistrationProps> = ({
           setBookFormat(bookData.format);
         });
     }
-  }, [bookId, setValue, token]);
+  }, [bookId, setValue]);
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -184,7 +188,8 @@ const DashBookRegistration: React.FC<DashBookRegistrationProps> = ({
     method(url, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
-        Authorization: `Bearer ${token}`,
+        // Authorization: `Bearer ${token}`,
+        withCredentials: true,
       },
     })
       .then((response) => {
