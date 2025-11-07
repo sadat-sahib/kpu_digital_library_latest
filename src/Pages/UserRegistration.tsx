@@ -555,9 +555,96 @@ const UserRegistration: React.FC<UserRegistrationProps> = ({ userId }) => {
 
   }, [setValue]);
   // Submitting the from field
-  const onSubmit: SubmitHandler<FormFields> = (data) => {
+  // const onSubmit: SubmitHandler<FormFields> = (data) => {
+  //   console.log(data);
+  //   setLoading(true);
+  //   const formData = new FormData();
+
+  //   formData.append("firstName", data.firstName);
+  //   formData.append("lastName", data.lastName);
+  //   formData.append("type", data.type);
+  //   formData.append("email", data.email);
+  //   formData.append("dep_id", String(data.dep_id));
+  //   formData.append("fac_id", String(data.fac_id));
+  //   formData.append("phone", data.phone.toString());
+  //   formData.append("password", data.password);
+  //   formData.append("nic", data.nic);
+  //   formData.append("nin", data.nin);
+  //   formData.append("current_residence", data.current_residence);
+  //   formData.append("original_residence", data.original_residence);
+ 
+  //   // Append image
+  //   if (selectedImage) {
+  //     formData.append("image", selectedImage);
+  //   }
+  //   for (const [key, value] of formData.entries()) {
+  //     console.log(`${key}:`, value);
+  //   }
+  //   const res =axios.post("/api/register", formData, {
+  //     headers: {
+  //       "Content-Type": "multipart/form-data",
+  //       // Authorization: `Bearer ${token}`,
+  //     },
+  //     withCredentials: true,
+  //   })
+  //     .then((response) => {
+  //       console.log(response);
+  //       if (response.status === 201 || response.status === 200) {
+  //         const loggedInUser = {
+  //           email: response.data.user?.email,
+  //           status: response.data.user?.status,
+  //           type: response.data.user?.type,
+  //         };
+  //         const userToken = response.data.token;
+  //         const isLoggedIn = true;
+  //         setUser(loggedInUser, userToken, isLoggedIn);
+  //                 console.log(currentPath);
+
+  //   if (currentPath === "/register") {
+  //     // ✅ Public registration → redirect, no Swal
+  //     navigate("/");
+  //     Swal.fire({
+  //       title: "Success!",
+  //       text: "کاربر جدید موفقانه ثبت شد!",
+  //       icon: "success",
+  //       confirmButtonText: "OK",
+  //     })
+      
+  //   }
+  //     Swal.fire({
+  //       title: "Success!",
+  //       text:
+  //          "کاربر جدید موفقانه ثبت شد!",
+  //       icon: "success",
+  //       confirmButtonText: "OK",
+  //     })
+
+  //         setResponse("");
+  //         reset();
+  //       }
+  //     })
+  //     .catch((err) => {
+  //       if (err.response) {
+  //         console.error("Error response:", err.response.data);
+  //       } else {
+  //         console.error("Error:", err.message);
+  //       }
+  //       if (err) {
+  //         setResponse(err.response?.data?.message || "An error occurred");
+  //         setLoading(false);
+  //         console.log(err);
+  //       } else {
+  //         setResponse("");
+  //       }
+  //     });
+  //     console.log('res',res);
+  // };
+
+  const onSubmit: SubmitHandler<FormFields> = async (data) => {
+  try {
     console.log(data);
     setLoading(true);
+
     const formData = new FormData();
 
     formData.append("firstName", data.firstName);
@@ -572,72 +659,57 @@ const UserRegistration: React.FC<UserRegistrationProps> = ({ userId }) => {
     formData.append("nin", data.nin);
     formData.append("current_residence", data.current_residence);
     formData.append("original_residence", data.original_residence);
- 
-    // Append image
+
     if (selectedImage) {
       formData.append("image", selectedImage);
     }
+
+    // Debug: log all form fields
     for (const [key, value] of formData.entries()) {
       console.log(`${key}:`, value);
     }
-    const res =axios.post("/api/register", formData, {
+
+    const response = await axios.post("/api/register", formData, {
       headers: {
         "Content-Type": "multipart/form-data",
-        // Authorization: `Bearer ${token}`,
       },
       withCredentials: true,
-    })
-      .then((response) => {
-        console.log(response);
-        if (response.status === 201 || response.status === 200) {
-          const loggedInUser = {
-            email: response.data.user?.email,
-            status: response.data.user?.status,
-            type: response.data.user?.type,
-          };
-          const userToken = response.data.token;
-          const isLoggedIn = true;
-          setUser(loggedInUser, userToken, isLoggedIn);
+    });
 
-    if (currentPath === "/register") {
-      // ✅ Public registration → redirect, no Swal
+    console.log(response);
+
+    if (response.status === 201 || response.status === 200) {
+      const loggedInUser = {
+        email: response.data.user?.email,
+        status: response.data.user?.status,
+        type: response.data.user?.type,
+      };
+      const userToken = response.data.token;
+      const isLoggedIn = true;
+
+      // Save user info (assuming setUser is your context setter)
+      setUser(loggedInUser, userToken, isLoggedIn);
+
+      // ✅ Redirect to home page after success
       navigate("/");
-      Swal.fire({
-        title: "Success!",
-        text: "کاربر جدید موفقانه ثبت شد!",
-        icon: "success",
-        confirmButtonText: "OK",
-      })
-      
-    }
-      Swal.fire({
-        title: "Success!",
-        text:
-           "کاربر جدید موفقانه ثبت شد!",
-        icon: "success",
-        confirmButtonText: "OK",
-      })
 
-          setResponse("");
-          reset();
-        }
-      })
-      .catch((err) => {
-        if (err.response) {
-          console.error("Error response:", err.response.data);
-        } else {
-          console.error("Error:", err.message);
-        }
-        if (err) {
-          setResponse(err.response?.data?.message || "An error occurred");
-          setLoading(false);
-          console.log(err);
-        } else {
-          setResponse("");
-        }
-      });
-      console.log('res',res);
-  };
+      // Reset form state
+      setResponse("");
+      reset();
+    }
+  } catch (err: any) {
+    console.error("Error:", err.response?.data || err.message);
+
+    if (err.response) {
+      setResponse(err.response.data.message || "An error occurred");
+    } else {
+      setResponse("An error occurred");
+    }
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-blue-100 to-blue-200 p-4">

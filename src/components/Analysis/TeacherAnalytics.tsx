@@ -1,33 +1,3 @@
-// import React from "react";
-// import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
-
-// const data = [
-//   { year: 2015, sales: 50, profit: 40 },
-//   { year: 2016, sales: 60, profit: 50 },
-//   { year: 2017, sales: 55, profit: 45 },
-//   { year: 2018, sales: 70, profit: 60 },
-//   { year: 2019, sales: 85, profit: 75 },
-// ];
-
-// const SalesAnalytics: React.FC = () => {
-//   return (
-//     <div className="bg-white p-4 rounded-lg shadow text-center">
-//       <h3 className="text-lg font-semibold">Request Analytics</h3>
-//       <ResponsiveContainer width="100%" height={200}>
-//         <LineChart data={data}>
-//           <XAxis dataKey="year" />
-//           <YAxis />
-//           <Tooltip />
-//           <Line type="monotone" dataKey="sales" stroke="#3B82F6" strokeWidth={2} />
-//           <Line type="monotone" dataKey="profit" stroke="#10B981" strokeWidth={2} />
-//         </LineChart>
-//       </ResponsiveContainer>
-//     </div>
-//   );
-// };
-
-// export default SalesAnalytics;
-
 
 import { MoreHorizontal, Users } from "lucide-react";
 import { RadialBarChart, RadialBar, Legend, ResponsiveContainer } from "recharts";
@@ -38,11 +8,12 @@ const data = [
   { name: "Boys", count: 53, fill: "#C3EBFA" },
 ];
 
-const SalesAnalytics = () => {
+const TeacherAnalytics
+ = () => {
   return (
     <div className="bg-white rounded-xl w-full h-full p-2">
       <div className="flex justify-start items-center mr-2">
-        <h1 className="text-lg font-semibold">شاگردان</h1>
+        <h1 className="text-lg font-semibold">استادان</h1>
         {/* <MoreHorizontal size={18} /> */}
       </div>
 
@@ -90,4 +61,5 @@ const SalesAnalytics = () => {
     </div>
   );
 };
-export default SalesAnalytics;
+export default TeacherAnalytics
+;

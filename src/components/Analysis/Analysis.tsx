@@ -1,8 +1,8 @@
 import React from "react";
 import StatsCard from "./StatsCard";
-import CustomerStats from "./CostumerStats";
-import FeaturedProduct from "./FeaturedProduct";
-import SalesAnalytics from "./SalesAnalytics";
+import BookAnalytics from "./BookAnalytics";
+import TeacherAnalytics from "./TeacherAnalytics";
+import StudentAnalytics from "./StudentAnalytics";
 import { Book, BookA, BookAIcon, BookCheck, Users } from "lucide-react";
 
 const Dashboard: React.FC = () => {
@@ -15,11 +15,10 @@ const Dashboard: React.FC = () => {
         <StatsCard title="کتاب های ثبت شده" value="2,040" change="1.8%" icon={<BookCheck size={18}/>} />
       </div>
 
-
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <FeaturedProduct />
-         <CustomerStats />
-        <SalesAnalytics />
+        <TeacherAnalytics />
+         <BookAnalytics />
+        <StudentAnalytics />
       </div>
     </div>
   );

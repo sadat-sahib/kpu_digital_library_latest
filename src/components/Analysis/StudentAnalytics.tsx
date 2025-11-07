@@ -1,23 +1,3 @@
-// import React from "react";
-
-// const FeaturedProduct: React.FC = () => {
-//   return (
-//     <div className="bg-white p-4 rounded-lg shadow text-center">
-//       <h3 className="text-lg font-semibold">New added books</h3>
-//       <div className="my-4">
-//         {/* Placeholder for product image or icon */}
-//         <div className="w-full h-20 bg-gray-200 rounded-lg flex items-center justify-center text-gray-500">
-//           <span>Image Here</span>
-//         </div>
-//       </div>
-//       <p className="text-md font-semibold mt-2">Information system 2019</p>
-//       <p className="text-blue-500 text-lg font-semibold">$89.00</p>
-//     </div>
-//   );
-// };
-
-// export default FeaturedProduct;
-
 
 
 import { MoreHorizontal, Users } from "lucide-react";
@@ -29,11 +9,11 @@ const data = [
   { name: "Boys", count: 53, fill: "#C3EBFA" },
 ];
 
-const FeaturedProduct = () => {
+const StudentAnalytics = () => {
   return (
     <div className="bg-white rounded-xl w-full h-full p-2">
       <div className="flex justify-start items-center mr-2">
-        <h1 className="text-lg font-semibold">استادان</h1>
+        <h1 className="text-lg font-semibold">شاگردان</h1>
         {/* <MoreHorizontal size={18} /> */}
       </div>
 
@@ -81,4 +61,4 @@ const FeaturedProduct = () => {
     </div>
   );
 };
-export default FeaturedProduct;
+export default StudentAnalytics;
