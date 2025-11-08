@@ -33,11 +33,11 @@ const ReceivedModal: React.FC<ReceivedModalProps> = ({ closeModal, onSubmit }) =
           <div className="flex justify-start space-x-4 space-x-reverse">
             <button
               type="submit"
-              onClick={onSubmit}
               className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
             >
               تایید دریافت 
             </button>
+
             <button
               type="button"
               onClick={closeModal}
