@@ -1,16 +1,29 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import homePageApi from "./HomePageApi";
 import { showToast } from "../../utils/ShowToast"; // Add this import
+import { useAuthStore } from "../../Store/useAuthStore";
 
 
 
 // new version
 
 
+// export const useGetShoppingCartInfo = () => {
+//   return useQuery({
+//     queryKey: ["shoppingCart"],
+//     queryFn: () => homePageApi.homePage.getShoppingCardBook(),
+//     refetchOnWindowFocus: true,
+//     refetchOnReconnect: true,
+//   });
+// };
+
 export const useGetShoppingCartInfo = () => {
+  const { token } = useAuthStore();
+
   return useQuery({
     queryKey: ["shoppingCart"],
     queryFn: () => homePageApi.homePage.getShoppingCardBook(),
+    enabled: !!token, // ✅ only fetch if token exists
     refetchOnWindowFocus: true,
     refetchOnReconnect: true,
   });
@@ -235,10 +248,22 @@ export const usegetHomeData = () => {
     refetchOnWindowFocus: false,
   });
 };
+// export const usegetProfile = () => {
+//   return useQuery({
+//     queryKey: ["getProfile"],
+//     queryFn: () => homePageApi.homePage.getProfile(),
+//     refetchOnWindowFocus: false,
+//   });
+// };
+
+
 export const usegetProfile = () => {
+  const { token } = useAuthStore();
+
   return useQuery({
     queryKey: ["getProfile"],
     queryFn: () => homePageApi.homePage.getProfile(),
+    enabled: !!token, // ✅ only fetch when logged in
     refetchOnWindowFocus: false,
   });
 };

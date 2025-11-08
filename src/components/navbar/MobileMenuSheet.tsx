@@ -3,9 +3,15 @@ import { Button } from "../ui/button";
 import { ShoppingCart, User, Home, Info, Phone, BookA } from "lucide-react";
 import ShoppingCartSheet from "./ShoppingCartSheet";
 import ProfileSheet from "./ProfileSheet";
-import { Sheet, SheetContent } from "../ui/sheet";
-import { useCartStore } from "../../Store/useCartStore"; // Import Cart Store
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+} from "../ui/sheet"; // ✅ import SheetHeader & SheetTitle
+import { useCartStore } from "../../Store/useCartStore";
 import { Link } from "react-router-dom";
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden"; // ✅ import this
 
 interface MobileMenuSheetProps {
   open: boolean;
@@ -16,24 +22,24 @@ const MobileMenuSheet: React.FC<MobileMenuSheetProps> = ({
   open,
   onOpenChange,
 }) => {
-  const [isCartSheetOpen, setIsCartSheetOpen] = useState(false); // For ShoppingCartSheet
-  const [isProfileSheetOpen, setIsProfileSheetOpen] = useState(false); // For ProfileSheet
-  const { cartCount } = useCartStore(); // Get cart count from Zustand Store
+  const [isCartSheetOpen, setIsCartSheetOpen] = useState(false);
+  const [isProfileSheetOpen, setIsProfileSheetOpen] = useState(false);
+  const { cartCount } = useCartStore();
 
-  // Toggle the Shopping Cart Sheet
-  const toggleCartSheet = () => {
-    setIsCartSheetOpen(!isCartSheetOpen);
-  };
-
-  // Toggle the Profile Sheet
-  const toggleProfileSheet = () => {
-    setIsProfileSheetOpen(!isProfileSheetOpen);
-  };
+  const toggleCartSheet = () => setIsCartSheetOpen(!isCartSheetOpen);
+  const toggleProfileSheet = () => setIsProfileSheetOpen(!isProfileSheetOpen);
 
   return (
     <>
       <Sheet open={open} onOpenChange={onOpenChange}>
         <SheetContent>
+          {/* ✅ Add hidden accessible title */}
+          <SheetHeader>
+            <VisuallyHidden>
+              <SheetTitle>Mobile Navigation Menu</SheetTitle>
+            </VisuallyHidden>
+          </SheetHeader>
+
           <div className="p-4 flex flex-col items-center space-y-6">
             {/* Links in Mobile */}
             <div className="flex flex-col space-y-4 text-center">
@@ -63,23 +69,10 @@ const MobileMenuSheet: React.FC<MobileMenuSheetProps> = ({
               </a>
             </div>
 
-            {/* Shopping Cart and Profile in Mobile */}
-            <div className="flex space-x-4  justify-center ">
-              {/* <Button
-                variant="ghost"
-                className="relative"
-                onClick={toggleCartSheet}
-              >
-                <ShoppingCart size={20} />
-                {cartCount && (
-                  <span className="absolute top-0 right-0 bg-red-500 text-white text-xs w-4 h-4 flex items-center justify-center rounded-full">
-                    {cartCount}
-                  </span>
-                )}
-              </Button> */}
-
+            {/* Shopping Cart and Profile */}
+            <div className="flex space-x-4 justify-center">
               <Link
-                to={"/student-profile"}
+                to="/student-profile"
                 className="relative group text-gray-700 hover:text-blue-500 font-black ml-8 flex gap-2 justify-center items-center"
               >
                 <User size={20} /> <span>پروفایل</span>
