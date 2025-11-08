@@ -2,27 +2,27 @@ import React from "react";
 import { Skeleton } from "../../ui/skeleton";
 
 const ReservedTableSkeleton = () => {
-  // Simulated rows
+  
   const rows = Array.from({ length: 8 });
 
-  // Match actual column widths (approximation based on your table)
-  const columns = [
-    { label: "عنوان کتاب", width: "w-[240px]" },
-    { label: "نویسنده", width: "w-[200px]" },
-    { label: "تاریخ اجرا", width: "w-[160px]" },
-    { label: "تاریخ بازگشت", width: "w-[160px]" },
-    { label: "عملیات", width: "w-[100px]" },
-  ];
+
+  // const columns = [
+  //   { label: "عنوان کتاب", width: "w-[240px]" },
+  //   { label: "نویسنده", width: "w-[200px]" },
+  //   { label: "تاریخ اجرا", width: "w-[160px]" },
+  //   { label: "تاریخ بازگشت", width: "w-[160px]" },
+  //   { label: "عملیات", width: "w-[100px]" },
+  // ];
 
   return (
     <div className="bg-white  rounded-lg shadow-md w-full">
  
 
-      {/* Table container */}
+    
       <div className="border border-gray-200 overflow-hidden w-full">
 
 
-        {/* Table body */}
+ 
         <div className="divide-y divide-gray-200">
           {rows.map((_, i) => (
             <div

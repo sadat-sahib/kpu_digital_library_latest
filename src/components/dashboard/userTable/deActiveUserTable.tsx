@@ -1,7 +1,7 @@
 
 import React, { useState } from "react";
 import DataTable, { TableColumn } from "react-data-table-component";
-import { CheckCircle, Edit, Loader, Printer, Trash, Users, View } from "lucide-react";
+import { CheckCircle, Loader, View } from "lucide-react";
 import { CSVLink } from "react-csv";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
@@ -124,16 +124,6 @@ const DeActiveUserTable: React.FC<UserTableProps> = ({
       <button onClick={() => onView(row.id)} className="text-green-500 hover:text-green-600">
         <View size={18} />
       </button>
-      {/* <button onClick={() => onEdit(row.id)} className="text-blue-500 hover:text-blue-600">
-        <Edit size={18} />
-      </button>
-      <button
-        onClick={() => onDelete(row.id)}
-        disabled={loadingDelete === row.id}
-        className="text-red-500 hover:text-red-600"
-      >
-        {loadingDelete === row.id ? <Loader size={18} className="animate-spin" /> : <Trash size={18} />}
-      </button> */}
     </div>
   ),
   center: true,
@@ -165,18 +155,6 @@ const DeActiveUserTable: React.FC<UserTableProps> = ({
         onChange={(e) => setFilterText(e.target.value)}
       />
 
-      {/* <select
-        value={facultyFilter}
-        onChange={(e) => setFacultyFilter(e.target.value)}
-        className="w-full md:w-48 border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
-      >
-        <option value="">همه پوهنځی‌ها</option>
-        {Array.from(new Set(users.map((u) => u.faculty).filter(Boolean))).map((faculty) => (
-          <option key={faculty} value={faculty}>
-            {faculty}
-          </option>
-        ))}
-      </select> */}
 
       <div className="flex gap-2">
         <CSVLink
@@ -199,12 +177,6 @@ const DeActiveUserTable: React.FC<UserTableProps> = ({
   return (
     <div className="bg-white p-4 rounded-lg shadow-md">
       <DataTable
-        // title={
-        //   <div className="flex justify-start items-center gap-2">
-        //     <span className="text-2xl font-bold">لیست کاربران</span>
-        //     <Users size={20} className="text-blue-500" />
-        //   </div>
-        // }
         columns={columns}
         data={filteredUsers}
         pagination

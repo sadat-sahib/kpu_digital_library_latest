@@ -1,10 +1,8 @@
 import React, { useState } from "react";
-import { FaSearch } from "react-icons/fa";
-import Pagination from "../pagination/pagination";
 import BorrowTable from "../borrowTable/borrowTable";
 import Swal from "sweetalert2";
 import RequestDetails from "../borrowTable/borrowDetails";
-import { BookA, Loader } from "lucide-react";
+import { BookA } from "lucide-react";
 import {
   useGetActivatedUsersReserves,
   useDeleteActiveUsers,
@@ -106,20 +104,6 @@ const DashBorrows: React.FC = () => {
           onClose={() => setSelectedRequest(null)}
         />
       )}
-
-      {/* <header className="flex justify-between mt-4 mb-2 relative">
-        <h1 className="text-3xl font-bold text-gray-800">لیست امانات</h1>
-        <div className="relative">
-          <input
-            type="text"
-            placeholder="جستجو..."
-            className="bg-white border border-gray-300 rounded-full py-2 px-4 pr-10 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-          <FaSearch className="absolute left-3 top-3 text-gray-400" />
-        </div>
-      </header> */}
       <div className="flex justify-start items-center gap-2 mr-5">
         <span className="text-2xl font-bold"> کتاب های امانت گرفته شده </span>
         <BookA size={20} className="text-blue-500" />
@@ -129,16 +113,6 @@ const DashBorrows: React.FC = () => {
         <BorrowTableSkeleton />
       ) : (
         <>
-          {/* <BorrowTable
-            requests={currentRequests}
-            onEdit={handleEdit}
-            onView={handleView}
-            onDelete={handleDelete}
-            onReceive={(id) => console.log("Received request with id:", id)}
-            loadingDelete={loadingDelete}
-            component="borrow"
-            refetchData={refetch}
-          /> */}
           <BorrowTable
             requests={requests}
             onView={handleView}
@@ -147,13 +121,6 @@ const DashBorrows: React.FC = () => {
             refetchData={refetch}
              component="borrow"
           />
-
-          {/* <Pagination
-            currentPage={currentPage}
-            totalItems={filteredRequests.length}
-            itemsPerPage={requestPerPage}
-            onPageChange={setCurrentPage}
-          /> */}
         </>
       )}
     </div>

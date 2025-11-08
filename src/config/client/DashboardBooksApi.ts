@@ -77,8 +77,8 @@ const DASHBOARD_ENDPOINTS = {
     GET_SECTIONS: '/api/dashboard/sections',
     GET_CATEGORIES: `/api/dashboard/categories`,
     //book info for edit
-    GET_BOOKS_BY_ID: (bookId) => `/api/dashboard/books/${bookId}`,
-    ADD_BOOKS_BY_ID: (bookId) => `/api/dashboard/books/${bookId}`,
+    GET_BOOKS_BY_ID: (bookId:number | string) => `/api/dashboard/books/${bookId}`,
+    ADD_BOOKS_BY_ID: (bookId: number | string) => `/api/dashboard/books/${bookId}`,
     ADD_BOOKS: `/api/dashboard/books`,
 
     //DASH BOOKS
@@ -107,12 +107,12 @@ class DashboardBooksApi {
                 DASHBOARD_ENDPOINTS.GET_CATEGORIES
             )
         },
-        getBooksById: async (bookId) => {
+        getBooksById: async (bookId: number | string) => {
             return await authFetcher.get(
                 DASHBOARD_ENDPOINTS.GET_BOOKS_BY_ID(bookId)
             )
         },
-        addBooksById: async (bookId) => {
+        addBooksById: async (bookId: number | string) => {
             return await authFetcher.get(
                 DASHBOARD_ENDPOINTS.ADD_BOOKS_BY_ID(bookId)
             )
@@ -127,7 +127,7 @@ class DashboardBooksApi {
                 DASHBOARD_ENDPOINTS.GET_DASBOARD_BOOKS
             )
         },
-        deleteDashboardBooks: async (bookId) => {
+        deleteDashboardBooks: async (bookId:string) => {
             return await authFetcher.delete(
                 DASHBOARD_ENDPOINTS.DELETE_DASHBOARD_BOOKS(bookId)
             )

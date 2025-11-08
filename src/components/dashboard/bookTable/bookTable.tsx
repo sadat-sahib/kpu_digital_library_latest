@@ -150,7 +150,7 @@ const BookTable: React.FC<BookTableProps> = ({
   // }, [token]);
   const { data:faculties=[], isPending } = useGetFaculties() 
 
-  // ✅ Combined filtering logic
+  
   const filteredBooks = books.filter((book) => {
     const matchesSearch =
       book.title.toLowerCase().includes(filterText.toLowerCase()) ||
@@ -163,7 +163,7 @@ const BookTable: React.FC<BookTableProps> = ({
     return matchesSearch && matchesFaculty;
   });
 
-  // ✅ Export to Excel
+  
   const exportExcel = () => {
     const worksheet = XLSX.utils.json_to_sheet(filteredBooks);
     const workbook = XLSX.utils.book_new();
@@ -173,7 +173,7 @@ const BookTable: React.FC<BookTableProps> = ({
     saveAs(blob, "books.xlsx");
   };
 
-  // ✅ Table columns
+  
   const columns: TableColumn<Book>[] = [
     {
       name: "آی‌دی",
@@ -237,11 +237,11 @@ const BookTable: React.FC<BookTableProps> = ({
     },
   };
 
-  // ✅ SubHeader with search + faculty filter + export buttons
+
   const SubHeader = (
     <div className="flex flex-col md:flex-row items-center justify-between w-full gap-3">
       <div className="flex flex-wrap gap-3 items-center">
-        {/* Search input */}
+      
         <input
           type="text"
           placeholder="جستجو..."
@@ -250,7 +250,7 @@ const BookTable: React.FC<BookTableProps> = ({
           onChange={(e) => setFilterText(e.target.value)}
         />
 
-        {/* Faculty filter */}
+       
         {faculties.length > 0 && (
           <select
             className="border border-gray-300 rounded-full h-9 py-1 px-3 w-52 focus:ring-1 focus:ring-blue-400 focus:outline-none text-gray-700"
@@ -268,7 +268,7 @@ const BookTable: React.FC<BookTableProps> = ({
         )}
       </div>
 
-      {/* Export buttons */}
+     
       <div className="flex gap-2">
         <CSVLink
           data={filteredBooks}

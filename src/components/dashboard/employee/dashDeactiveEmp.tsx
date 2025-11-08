@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "../../../axiosInstance";
 import { FaSearch } from "react-icons/fa";
-import { useAdminAuthStore } from "../../../Store/useAdminAuthStore";
-import Pagination from "../pagination/pagination";
 import UserDetails from "../userTable/userDetails";
-import UserTable from "../userTable/userTable";
 import Swal from "sweetalert2";
 import { Loader } from "lucide-react";
 import DeActiveEmployeeTable from "./deActiveEmployeeTable";
@@ -30,7 +27,6 @@ const DashDeActiveEmp: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [reload, setReload] = useState(false);
-  // const { token } = useAdminAuthStore();
   const [currentPage, setCurrentPage] = useState(1);
   const [usersPerPage] = useState(10);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
@@ -45,9 +41,6 @@ const DashDeActiveEmp: React.FC = () => {
         const response = await axios.get(
           "/api/dashboard/users/inactivated_teachers",
           {
-            // headers: {
-            //   Authorization: `Bearer ${token}`,
-            // },
             withCredentials: true
           }
         );
@@ -89,9 +82,6 @@ const DashDeActiveEmp: React.FC = () => {
       if (result.isConfirmed) {
         setLoadingDelete(id);
         axios.delete(`/api/dashboard/users/destroy/${id}`, {
-          // headers: {
-          //   Authorization: `Bearer ${token}`,
-          // },
           withCredentials: true
         });
         setUsers(users.filter((user) => user.id !== id));
@@ -154,12 +144,12 @@ const DashDeActiveEmp: React.FC = () => {
             component="Deactivate-Users"
             refetchData={refetchData}
           />
-          <Pagination
+          {/* <Pagination
             currentPage={currentPage}
             totalItems={filteredUsers.length}
             itemsPerPage={usersPerPage}
             onPageChange={setCurrentPage}
-          />
+          /> */}
         </>
       )}
     </div>

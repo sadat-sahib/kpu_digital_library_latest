@@ -84,7 +84,7 @@ export const useAddReceivedBook = () => {
       DashBorrowApi.borrowPage.addReceivedBook(selectedReceivedId),
     onSuccess: () => {
      
-      queryClient.invalidateQueries({ queryKey: ["getActivatedUsers"] });
+      queryClient.invalidateQueries({ queryKey: ["addreceiveBook"] });
     },
     onError: (error) => {
       console.error("❌ خطا در ارسال کتاب گرفته شده", error);

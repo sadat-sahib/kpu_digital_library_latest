@@ -19,7 +19,8 @@ const ProfileSheet: React.FC<ProfileSheetProps> = ({ open, onOpenChange }) => {
   const { token, clearUser } = useAuthStore();
 
   const { data, isPending, error } = usegetProfile()
-  // console.log('data_for_profile_new',data);
+
+  console.log('data_for_profile_new',data);
 
   const handleSignout = () => {
     axios.post("/api/logout", {}, {

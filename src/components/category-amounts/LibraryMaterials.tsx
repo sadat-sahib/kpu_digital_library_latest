@@ -10,7 +10,6 @@ export default function LibraryResources() {
   const { data: info, isPending } = useGetAllInformation();
   console.log("library info", info);
 
-  // چک کردن برای بارگذاری
   if (isPending) {
     return (
       <section className="w-full py-10 px-4 md:px-12 bg-muted">

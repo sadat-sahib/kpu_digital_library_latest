@@ -4,7 +4,7 @@ import { Skeleton } from "../../ui/skeleton";
 const BorrowTableSkeleton: React.FC = () => {
   return (
     <div className="bg-white dark:bg-gray-900 p-6 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 space-y-5 animate-pulse">
-      {/* 🔹 Search & Export Header */}
+      
       <div className="flex flex-col md:flex-row items-center justify-between w-full gap-3 px-3 py-3 rounded-lg shadow-sm">
         <Skeleton className="w-72 h-10 rounded-full" />
         <div className="flex gap-2">
@@ -13,7 +13,7 @@ const BorrowTableSkeleton: React.FC = () => {
         </div>
       </div>
 
-      {/* 🔹 Table Header */}
+      
       <div className="border border-gray-200 rounded-xl overflow-hidden">
         <div className="grid grid-cols-6 bg-gray-100 dark:bg-gray-800 py-3 px-3 font-semibold text-gray-600 dark:text-gray-200 text-sm">
           <div className="text-center ">عنوان کتاب</div>
@@ -24,7 +24,7 @@ const BorrowTableSkeleton: React.FC = () => {
           <div className="text-center">عملیات</div>
         </div>
 
-        {/* 🔹 Table Rows Skeleton (10 rows) */}
+        
         {Array.from({ length: 10 }).map((_, i) => (
           <div
             key={i}
@@ -55,7 +55,7 @@ const BorrowTableSkeleton: React.FC = () => {
         ))}
       </div>
 
-      {/* 🔹 Pagination Placeholder */}
+      
       <div className="flex justify-between items-center pt-4">
         <Skeleton className="w-24 h-6 rounded-md" />
         <div className="flex gap-2">

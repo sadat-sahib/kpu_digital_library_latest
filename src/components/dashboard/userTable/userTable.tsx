@@ -163,12 +163,8 @@
 import React, { useState } from "react";
 import DataTable, { TableColumn } from "react-data-table-component";
 import {
-  CheckCircle,
   Edit,
-  Loader,
   Printer,
-  Trash,
-  Users,
   View,
 } from "lucide-react";
 import { CSVLink } from "react-csv";

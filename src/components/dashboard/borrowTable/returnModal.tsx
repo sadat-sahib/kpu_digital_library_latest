@@ -1,4 +1,4 @@
-// src/components/.../returnModal.tsx
+
 import React, { useState } from "react"
 import { XIcon, CalendarIcon } from "lucide-react"
 import DatePicker from "react-multi-date-picker"
@@ -39,7 +39,7 @@ const ReturnModal: React.FC<ReturnDateModalProps> = ({ closeModal, onSubmit }) =
     closeModal()
   }
 
-  // Set minimum date to today
+
   const today = new Date()
   const minDate = new Date()
   minDate.setHours(0, 0, 0, 0)
@@ -50,7 +50,7 @@ const ReturnModal: React.FC<ReturnDateModalProps> = ({ closeModal, onSubmit }) =
       dir="rtl"
     >
       <div className="bg-white rounded-lg shadow-xl w-full max-w-md mx-4">
-        {/* Header */}
+        
         <div className="flex justify-between items-center p-6 border-b border-gray-200">
           <h2 className="text-xl font-semibold text-gray-900">تعیین تاریخ بازگشت</h2>
           <button 
@@ -61,7 +61,7 @@ const ReturnModal: React.FC<ReturnDateModalProps> = ({ closeModal, onSubmit }) =
           </button>
         </div>
 
-        {/* Form */}
+        
         <form onSubmit={handleSubmit} className="p-6">
           <div className="mb-6">
             <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -95,17 +95,7 @@ const ReturnModal: React.FC<ReturnDateModalProps> = ({ closeModal, onSubmit }) =
             )}
           </div>
 
-          {/* Selected Date Preview */}
-          {/* {returnDate && (
-            <div className="mb-4 p-3 bg-blue-50 rounded-md border border-blue-200">
-              <p className="text-sm text-blue-700">
-                <span className="font-medium">تاریخ انتخابی:</span>{" "}
-                {returnDate.format ? returnDate.format("YYYY/MM/DD") : returnDate.toString()}
-              </p>
-            </div>
-          )} */}
-
-          {/* Buttons */}
+          
           <div className="flex justify-start space-x-4 space-x-reverse">
             <button
               type="submit"

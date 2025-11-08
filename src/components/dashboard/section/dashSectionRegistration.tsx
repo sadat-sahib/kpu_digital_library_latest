@@ -1,5 +1,3 @@
-
-
 import { zodResolver } from "@hookform/resolvers/zod";
 import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -16,23 +14,28 @@ const Schema = z.object({
 type FormFields = z.infer<typeof Schema>;
 
 const DashSectionRegistration: React.FC = () => {
-  const { register, handleSubmit, formState: { errors }} =
-    useForm<FormFields>({
-      resolver: zodResolver(Schema),
-    });
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormFields>({
+    resolver: zodResolver(Schema),
+  });
 
   const { mutate, isPending, isError, error } = useAddSection();
 
   const onSubmit: SubmitHandler<FormFields> = (data) => {
     mutate(data, {
-
-            onSuccess: () =>
-              showToast({
-                description: "بخش موفقانه اضافه گردید!",
-                type: "success",
-              }),
-            onError: () =>
-              showToast({ description: "اضافه کردن بخش موفقانه نبود.", type: "error" }),
+      onSuccess: () =>
+        showToast({
+          description: "بخش موفقانه اضافه گردید!",
+          type: "success",
+        }),
+      onError: () =>
+        showToast({
+          description: "اضافه کردن بخش موفقانه نبود.",
+          type: "error",
+        }),
     });
   };
 

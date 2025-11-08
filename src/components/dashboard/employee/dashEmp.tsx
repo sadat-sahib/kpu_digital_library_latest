@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "../../../axiosInstance";
 import { FaSearch } from "react-icons/fa";
-import { useAdminAuthStore } from "../../../Store/useAdminAuthStore";
 import Pagination from "../pagination/pagination";
 import Swal from "sweetalert2";
 import UserDetails from "../userTable/userDetails";
@@ -32,7 +31,6 @@ const DashEmp: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [usersPerPage] = useState(10);
   const [reload, setReload] = useState(false);
-  // const { token } = useAdminAuthStore();
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [loadingDelete, setLoadingDelete] = useState<number | null>(null);
   const [editingUserId, setEditingUserId] = useState<number | null>(null);
@@ -43,9 +41,6 @@ const DashEmp: React.FC = () => {
   useEffect(() => {
     axios
       .get("/api/dashboard/users/activated_teachers", {
-        // headers: {
-        //   Authorization: `Bearer ${token}`,
-        // },
         withCredentials: true
       })
       .then((response) => {

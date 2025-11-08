@@ -1,18 +1,14 @@
-import React from 'react'
-import { useAuthStore } from '../../Store/useAuthStore'
-import { Navigate, Outlet } from 'react-router-dom'
-
+import React from "react";
+import { useAuthStore } from "../../Store/useAuthStore";
+import { Navigate, Outlet } from "react-router-dom";
 
 const StudentPrivateRoute = () => {
-    const { token } = useAuthStore()
+  const { token } = useAuthStore();
 
-    if(!token){
-        return <Navigate to={'/login'} replace/>
-    }
-  return <Outlet />
+  if (!token) {
+    return <Navigate to={"/login"} replace />;
+  }
+  return <Outlet />;
+};
 
-  
-}
-
-export default StudentPrivateRoute
-
+export default StudentPrivateRoute;

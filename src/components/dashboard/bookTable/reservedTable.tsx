@@ -89,14 +89,14 @@ const ReservedTable: React.FC<ReservedTableProps> = ({
 }) => {
   const [filterText, setFilterText] = useState("");
 
-  // Filtered list by search
+  
   const filteredBooks = books.filter(
     (book) =>
       book.book_title.toLowerCase().includes(filterText.toLowerCase()) ||
       book.book_author.toLowerCase().includes(filterText.toLowerCase())
   );
 
-  // Export to Excel
+
   const exportExcel = () => {
     const worksheet = XLSX.utils.json_to_sheet(books);
     const workbook = XLSX.utils.book_new();
@@ -109,7 +109,7 @@ const ReservedTable: React.FC<ReservedTableProps> = ({
     saveAs(blob, "reserved_books.xlsx");
   };
 
-  // Define table columns
+ 
   const columns: TableColumn<Book>[] = [
     {
     name: "عنوان کتاب",
@@ -165,7 +165,7 @@ const ReservedTable: React.FC<ReservedTableProps> = ({
     },
   };
 
-  // Custom header for search + export
+
   const SubHeader = (
     <div className="flex flex-col md:flex-row items-center justify-between w-full gap-3 px-2">
       <input

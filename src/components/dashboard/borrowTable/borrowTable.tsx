@@ -277,7 +277,6 @@ const BorrowTable: React.FC<BorrowTableProps> = ({
   const addRequestBookMutation = useAddRequestBook();
   const addReceivedBookMutation = useAddReceivedBook();
 
-  // 🟢 Handle return submission
   const handleClick = async (returnDate: string) => {
     if (!selectedRequestId) return;
     setLoadingActivating(selectedRequestId);
@@ -298,7 +297,7 @@ const BorrowTable: React.FC<BorrowTableProps> = ({
     }
   };
 
-  // 🟢 Handle receive submission
+  
   const handleReceive = async () => {
     if (!selectedReceivedId) return;
     setLoadingActivating(selectedReceivedId);
@@ -307,7 +306,7 @@ const BorrowTable: React.FC<BorrowTableProps> = ({
       await addReceivedBookMutation.mutateAsync(String(selectedReceivedId));
 
       setSuccessMessage(`Request ${selectedReceivedId} received successfully`);
-      refetchData?.();
+      // refetchData?.();
     } catch (error) {
       console.error("❌ Error receiving book:", error);
     } finally {
@@ -316,7 +315,7 @@ const BorrowTable: React.FC<BorrowTableProps> = ({
     }
   };
 
-  // 🔍 Search filter
+  
   const filteredRequests = requests.filter(
     (req) =>
       req.book_title.toLowerCase().includes(filterText.toLowerCase()) ||
@@ -325,7 +324,7 @@ const BorrowTable: React.FC<BorrowTableProps> = ({
       req.lastName.toLowerCase().includes(filterText.toLowerCase())
   );
 
-  // 📘 Export to Excel
+  
   const exportExcel = () => {
     const worksheet = XLSX.utils.json_to_sheet(requests);
     const workbook = XLSX.utils.book_new();
@@ -338,7 +337,7 @@ const BorrowTable: React.FC<BorrowTableProps> = ({
     saveAs(blob, "borrowed_books.xlsx");
   };
 
-  // 🧱 Table columns
+ 
   const columns: TableColumn<Request>[] = [
     {
       name: "عنوان کتاب",
@@ -371,7 +370,7 @@ const BorrowTable: React.FC<BorrowTableProps> = ({
       name: "عملیات",
       cell: (row) => (
         <div className="flex items-center justify-center gap-3">
-          {/* ✅ Check button logic restored */}
+          
           {component === "Requests" && (
             <button
               className="p-1 rounded-md text-blue-500 hover:text-blue-700 hover:bg-gray-100"

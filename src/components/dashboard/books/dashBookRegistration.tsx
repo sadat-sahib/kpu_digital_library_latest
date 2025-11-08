@@ -1,7 +1,6 @@
 import axios from "../../../axiosInstance";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { useAdminAuthStore } from "../../../Store/useAdminAuthStore";
 import Swal from "sweetalert2";
 import { Loader2 } from "lucide-react";
 import { useParams } from "react-router";
@@ -56,7 +55,6 @@ const DashBookRegistration: React.FC<DashBookRegistrationProps> = ({
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
-  // const { token } = useAdminAuthStore();
   const [bookFormat, setBookFormat] = useState("hard");
   const [isEditing, setIsEditing] = useState(false);
   const {
@@ -85,7 +83,7 @@ const DashBookRegistration: React.FC<DashBookRegistrationProps> = ({
         // headers: {
         //   Authorization: `Bearer ${token}`,
         // },
-        withCredentials: true,
+        withCredentials: true
       })
       .then((response) => {
         setFaculties(response.data.data);
@@ -95,7 +93,7 @@ const DashBookRegistration: React.FC<DashBookRegistrationProps> = ({
         // headers: {
         //   Authorization: `Bearer ${token}`,
         // },
-        withCredentials: true,
+        withCredentials: true
       })
       .then((response) => {
         setShelves(response.data.data);
@@ -106,7 +104,7 @@ const DashBookRegistration: React.FC<DashBookRegistrationProps> = ({
         // headers: {
         //   Authorization: `Bearer ${token}`,
         // },
-        withCredentials: true,
+        withCredentials: true
       })
       .then((response) => {
         setCategories(response.data.data);
@@ -118,7 +116,7 @@ const DashBookRegistration: React.FC<DashBookRegistrationProps> = ({
       axios
         .get(`/api/dashboard/books/${bookId}`, {
           // headers: { Authorization: `Bearer ${token}` },
-          withCredentials: true,
+          withCredentials: true
         })
         .then((response) => {
           const bookData = response.data.data;
@@ -189,8 +187,8 @@ const DashBookRegistration: React.FC<DashBookRegistrationProps> = ({
       headers: {
         "Content-Type": "multipart/form-data",
         // Authorization: `Bearer ${token}`,
-        withCredentials: true,
       },
+      withCredentials: true
     })
       .then((response) => {
         setResponse(response.data.message);

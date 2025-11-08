@@ -1,7 +1,6 @@
 import React from 'react';
 import axios from "../../../axiosInstance";
 import { useEffect, useRef, useState } from "react";
-import { useAdminAuthStore } from "../../../Store/useAdminAuthStore";
 import { Loader } from "lucide-react";
 
 interface Props {

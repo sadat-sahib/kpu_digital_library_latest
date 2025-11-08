@@ -15,7 +15,7 @@ interface Admin {
 
 const Admin: React.FC = () => {
   const [admins, setAdmins] = useState<Admin[]>([]);
-  const { token, type } = useAdminAuthStore();
+  const { type } = useAdminAuthStore();
   const [loading, setLoading] = useState<boolean>(true);
   console.log("Type: ", type);
   useEffect(() => {
@@ -23,9 +23,8 @@ const Admin: React.FC = () => {
     console.log(type);
     axios
       .get("/api/dashboard/admin/account/employees", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+
+        withCredentials: true
       })
       .then((response) => {
         setLoading(false);
@@ -37,7 +36,7 @@ const Admin: React.FC = () => {
       .finally(() => {
         setLoading(false);
       });
-  }, [token]);
+  }, []);
 
   const handleAddAdmin = (newAdmin: { name: string; email: string }) => {
     const admin: Admin = {
@@ -62,12 +61,10 @@ const Admin: React.FC = () => {
   
         if (result.isConfirmed) {
           setLoading(true);
-          // Implement delete functionality
+        
           await new Promise((resolve) => setTimeout(resolve, 1000));
           axios.post(`/api/dashboard/admin/account/delete/employee/${id}`,{}, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
+            withCredentials: true
           });
           setAdmins(admins.filter((admin) => admin.id !== id));
           Swal.fire("حذف شد", "موفقانه حذف گردید.", "success");
