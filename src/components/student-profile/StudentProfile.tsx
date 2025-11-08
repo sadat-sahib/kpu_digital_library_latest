@@ -23,75 +23,75 @@ import StudentProfileSkeleton from "./StudentProfileSkeleton";
 // };
 
 // Mock borrowed books data
-const borrowedBooks = [
-  {
-    id: "book1",
-    title: "The Design of Everyday Things",
-    author: "Don Norman",
-    borrowDate: "2023-10-15",
-    image: "/1.jpg",
-  },
-  {
-    id: "book2",
-    title: "Atomic Habits",
-    author: "James Clear",
-    borrowDate: "2023-11-02",
-    image: "/1.jpg",
-  },
-  {
-    id: "book3",
-    title: "Thinking, Fast and Slow",
-    author: "Daniel Kahneman",
-    borrowDate: "2023-11-10",
-    image: "/1.jpg",
-  },
-];
+// const borrowedBooks = [
+//   {
+//     id: "book1",
+//     title: "The Design of Everyday Things",
+//     author: "Don Norman",
+//     borrowDate: "2023-10-15",
+//     image: "/1.jpg",
+//   },
+//   {
+//     id: "book2",
+//     title: "Atomic Habits",
+//     author: "James Clear",
+//     borrowDate: "2023-11-02",
+//     image: "/1.jpg",
+//   },
+//   {
+//     id: "book3",
+//     title: "Thinking, Fast and Slow",
+//     author: "Daniel Kahneman",
+//     borrowDate: "2023-11-10",
+//     image: "/1.jpg",
+//   },
+// ];
 
 // Mock requested books data
-const requestedBooks = [
-  {
-    id: "req1",
-    title: "Sapiens: A Brief History of Humankind",
-    author: "Yuval Noah Harari",
-    requestDate: "2023-11-15",
-    image: "/1.jpg",
-  },
-  {
-    id: "req2",
-    title: "The Psychology of Money",
-    author: "Morgan Housel",
-    requestDate: "2023-11-18",
-    image: "/1.jpg",
-  },
-  {
-    id: "req2",
-    title: "The Psychology of Money",
-    author: "Morgan Housel",
-    requestDate: "2023-11-18",
-    image: "/1.jpg",
-  },
-  {
-    id: "req1",
-    title: "Sapiens: A Brief History of Humankind",
-    author: "Yuval Noah Harari",
-    requestDate: "2023-11-15",
-    image: "/1.jpg",
-  },
-  {
-    id: "req2",
-    title: "The Psychology of Money",
-    author: "Morgan Housel",
-    requestDate: "2023-11-18",
-    image: "/1.jpg",
-  },
-  {
-    id: "req2",
-    title: "The Psychology of Money",
-    author: "Morgan Housel",
-    requestDate: "2023-11-18",
-    image: "/1.jpg",
-  },
-];
+// const requestedBooks = [
+//   {
+//     id: "req1",
+//     title: "Sapiens: A Brief History of Humankind",
+//     author: "Yuval Noah Harari",
+//     requestDate: "2023-11-15",
+//     image: "/1.jpg",
+//   },
+//   {
+//     id: "req2",
+//     title: "The Psychology of Money",
+//     author: "Morgan Housel",
+//     requestDate: "2023-11-18",
+//     image: "/1.jpg",
+//   },
+//   {
+//     id: "req2",
+//     title: "The Psychology of Money",
+//     author: "Morgan Housel",
+//     requestDate: "2023-11-18",
+//     image: "/1.jpg",
+//   },
+//   {
+//     id: "req1",
+//     title: "Sapiens: A Brief History of Humankind",
+//     author: "Yuval Noah Harari",
+//     requestDate: "2023-11-15",
+//     image: "/1.jpg",
+//   },
+//   {
+//     id: "req2",
+//     title: "The Psychology of Money",
+//     author: "Morgan Housel",
+//     requestDate: "2023-11-18",
+//     image: "/1.jpg",
+//   },
+//   {
+//     id: "req2",
+//     title: "The Psychology of Money",
+//     author: "Morgan Housel",
+//     requestDate: "2023-11-18",
+//     image: "/1.jpg",
+//   },
+// ];
 
 export default function UserProfile() {
     

@@ -1,4 +1,4 @@
-import React from "react";
+
 import { Card, CardContent } from "../ui/card";
 import { Button } from "../ui/button";
 import { ShoppingCart, ArrowLeft } from "lucide-react";
@@ -7,7 +7,6 @@ import {
   useAddToShoppingCart,
   useGetBookDetailById,
 } from "../../config/client/HomePgeApi.query";
-import { toast } from "../ui/use-toast";
 import CustomImage from "../ui/custom-image/CustomImage";
 import { showToast } from "../../utils/ShowToast";
 import DetailsSkeleton from "./BookDetailSkeleton";

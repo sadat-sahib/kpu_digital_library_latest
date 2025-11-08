@@ -1,4 +1,4 @@
-import React from "react";
+
 import { Card, CardContent } from "../ui/card";
 import { Button } from "../ui/button";
 import { Link } from "react-router-dom";
@@ -12,7 +12,7 @@ interface BookCardProps {
   onReadPdf: (bookId: number, bookTitle: string) => void;
 }
 
-const BookCard: React.FC<BookCardProps> = ({ book, onAddToCart, onReadPdf }) => {
+const BookCard = ({ book, onAddToCart, onReadPdf }:BookCardProps) => {
   return (
     <Card className="book-card shadow-md mx-auto w-[90%] sm:w-[150px] md:w-[180px] lg:w-[250px] flex-shrink-0">
       <div className="relative h-48 w-full overflow-hidden rounded-t-md">

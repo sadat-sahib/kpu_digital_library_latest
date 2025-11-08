@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button } from "../ui/button";
-import { ShoppingCart, User, Menu, Home, Info, Contact, Book, Phone, BookA } from "lucide-react";
+import { ShoppingCart, User, Menu, Home, Info, Book, Phone, BookA } from "lucide-react";
 import MobileMenuSheet from "./MobileMenuSheet";
 import ShoppingCartSheet from "./ShoppingCartSheet";
 import ProfileSheet from "./ProfileSheet";

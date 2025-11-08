@@ -9,12 +9,11 @@ import {
 } from "lucide-react";
 import { Button } from "../ui/button";
 import { Card, CardContent } from "../ui/card";
-import React from "react";
 import { Link } from "react-router-dom";
 import { useGetAllInformation } from "../../config/client/HomePgeApi.query";
 
 export default function LibraryInfo() {
-   const { data: info, isPending } = useGetAllInformation();
+   const { data: info } = useGetAllInformation();
     console.log("library info", info);
   return (
     <section className="py-16 bg-muted/30 px-4">

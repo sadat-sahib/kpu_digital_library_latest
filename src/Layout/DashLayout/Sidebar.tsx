@@ -299,12 +299,12 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
           label: "تمام کاربران",
           isActive: isActive("?tab=employees"),
         },
-        {
-          to: "/dashboard?tab=user-registration",
-          icon: Users,
-          label: "اضافه کردن کاربر",
-          isActive: isActive("?tab=user-registration"),
-        },
+        // {
+        //   to: "/dashboard?tab=user-registration",
+        //   icon: Users,
+        //   label: "اضافه کردن کاربر",
+        //   isActive: isActive("?tab=user-registration"),
+        // },
         {
           to: "/dashboard?tab=deactive-employees",
           icon: Users,

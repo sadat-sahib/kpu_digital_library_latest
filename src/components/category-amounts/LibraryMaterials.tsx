@@ -2,7 +2,6 @@
 
 import { Card, CardContent } from "../ui/card";
 import { BookOpen, BookCopy, BookMarked, Users } from "lucide-react";
-import React from "react";
 import { useGetAllInformation } from "../../config/client/HomePgeApi.query";
 import { Skeleton } from "../ui/skeleton";
 

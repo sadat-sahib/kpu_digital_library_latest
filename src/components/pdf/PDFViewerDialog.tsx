@@ -17,11 +17,11 @@ interface PDFViewerDialogProps {
   onClose: () => void;
 }
 
-const PDFViewerDialog: React.FC<PDFViewerDialogProps> = ({
+const PDFViewerDialog = ({
   pdfUrl,
   title,
   onClose,
-}) => {
+}:PDFViewerDialogProps) => {
   const [numPages, setNumPages] = useState<number | null>(null);
   const [pageNumber, setPageNumber] = useState<number>(1);
   const [pageWidth, setPageWidth] = useState<number>(window.innerWidth * 0.9);

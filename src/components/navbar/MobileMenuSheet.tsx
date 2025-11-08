@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { Button } from "../ui/button";
-import { ShoppingCart, User, Home, Info, Phone, BookA } from "lucide-react";
+import { User, Home, Info, Phone, BookA } from "lucide-react";
 import ShoppingCartSheet from "./ShoppingCartSheet";
 import ProfileSheet from "./ProfileSheet";
 import {
@@ -18,10 +17,10 @@ interface MobileMenuSheetProps {
   onOpenChange: (open: boolean) => void;
 }
 
-const MobileMenuSheet: React.FC<MobileMenuSheetProps> = ({
+const MobileMenuSheet = ({
   open,
   onOpenChange,
-}) => {
+}:MobileMenuSheetProps) => {
   const [isCartSheetOpen, setIsCartSheetOpen] = useState(false);
   const [isProfileSheetOpen, setIsProfileSheetOpen] = useState(false);
   const { cartCount } = useCartStore();

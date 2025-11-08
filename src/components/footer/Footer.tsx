@@ -1,8 +1,6 @@
 
 import { Facebook, Phone, Mail, Linkedin } from "lucide-react";
-import React from "react";
 import { Link } from "react-router-dom";
-import "tailwindcss/tailwind.css";
 
 const Footer = () => {
   return (

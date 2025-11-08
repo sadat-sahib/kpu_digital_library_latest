@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import { useAuthStore } from "../../Store/useAuthStore";
-import React from "react";
 
 export default function AdBanner() {
   const { token } = useAuthStore();

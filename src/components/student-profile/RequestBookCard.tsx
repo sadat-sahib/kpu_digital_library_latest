@@ -1,5 +1,4 @@
 import { Clock } from "lucide-react";
-import React from "react";
 import { Card, CardContent } from "../ui/card";
 import CustomImage from "../ui/custom-image/CustomImage";
 

@@ -1,7 +1,6 @@
 
 import { useGetAllCategories } from "../../config/client/HomePgeApi.query";
 import { Card, CardContent } from "../ui/card";
-import React from "react";
 import CategoryAmountsCartSkeleton from "./CategorySkeleton";
 
 export default function CategoryAmountsCart() {

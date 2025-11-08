@@ -1,4 +1,4 @@
-import React from "react";
+
 import {
   Sheet,
   SheetContent,
@@ -15,7 +15,7 @@ interface ProfileSheetProps {
   onOpenChange: (isOpen: boolean) => void;
 }
 
-const ProfileSheet: React.FC<ProfileSheetProps> = ({ open, onOpenChange }) => {
+const ProfileSheet = ({ open, onOpenChange }:ProfileSheetProps) => {
   const { token, clearUser } = useAuthStore();
 
   const { data, isPending, error } = usegetProfile()

@@ -529,7 +529,7 @@ const UserRegistration: React.FC<UserRegistrationProps> = ({ userId }) => {
 
     const location = useLocation();
   const currentPath = location.pathname;
-  console.log(currentPath);
+  console.log('current path',currentPath);
  
 
   //const selectedImage = watch('image');
@@ -691,7 +691,13 @@ const UserRegistration: React.FC<UserRegistrationProps> = ({ userId }) => {
       setUser(loggedInUser, userToken, isLoggedIn);
 
       // ✅ Redirect to home page after success
-      navigate("/");
+      if (currentPath === "/register") {
+        navigate("/");
+      }
+      else {
+         navigate("/dashboard?tab=users");
+      }
+     
 
       // Reset form state
       setResponse("");

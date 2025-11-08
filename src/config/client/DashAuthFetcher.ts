@@ -1,5 +1,4 @@
 import axios from "axios";
-import { useAdminAuthStore } from "../../Store/useAdminAuthStore";
 
 
 const authFetcher = axios.create({

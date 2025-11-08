@@ -1,18 +1,10 @@
-import React from "react";
+
 import { Link } from "react-router-dom";
 import { Card, CardContent } from "../ui/card";
 import { Avatar, AvatarImage, AvatarFallback } from "../ui/avatar";
 import { Badge } from "../ui/badge";
 import { BsPatchCheckFill } from "react-icons/bs";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "../ui/tooltip";
-import { usegetProfile } from "../../config/client/HomePgeApi.query";
 import { ArrowRight } from "lucide-react";
-import { Skeleton } from "../ui/skeleton";
 
 interface User {
   firstName: string;

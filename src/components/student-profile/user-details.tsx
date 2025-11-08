@@ -1,9 +1,7 @@
-import React from "react";
+
 import { Card, CardContent } from "../ui/card";
 
 import { BsPatchCheckFill } from "react-icons/bs";
-import { usegetProfile } from "../../config/client/HomePgeApi.query";
-import { Skeleton } from "../ui/skeleton";
 import { Button } from "../ui/button";
 import { LogOutIcon } from "lucide-react";
 import { useAuthStore } from "../../Store/useAuthStore";

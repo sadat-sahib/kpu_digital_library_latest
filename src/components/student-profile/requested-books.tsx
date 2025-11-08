@@ -1,5 +1,4 @@
 
-import React from "react"
 import { Card, CardContent } from "../ui/card"
 import { Book } from "./tabs-books"
 import { RequestBookCard } from "./RequestBookCard"

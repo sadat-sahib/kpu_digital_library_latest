@@ -6,8 +6,6 @@ import {
   BookOpen,
   Award,
   Globe,
-  BookCopy,
-  BookMarked,
   BookA,
 } from "lucide-react";
 import React from "react";
@@ -294,46 +292,6 @@ export default function AboutPage() {
         </Tabs>
       </div>
 
-      {/* <div className="mb-20">
-        <h2 className="text-3xl font-bold text-center mb-12">تیم ما</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          {[
-            {
-              name: "دکتر سارا جهانی",
-              role: "مدیر کتابخانه",
-              image: "/1.jpg",
-            },
-            {
-              name: "پروفسور محمد حسینی",
-              role: "مسئول مجموعه‌های دیجیتال",
-              image: "/1.jpg",
-            },
-            {
-              name: "دکتر آزاده پارسا",
-              role: "خدمات پژوهشی",
-              image: "/1.jpg",
-            },
-            {
-              name: "جواد نادری",
-              role: "مدیر فنی",
-              image: "/1.jpg",
-            },
-          ].map((member, index) => (
-            <div key={index} className="flex flex-col items-center">
-              <div className="relative w-40 h-40 rounded-full overflow-hidden mb-4">
-                <img
-                  src={member.image || "/placeholder.svg"}
-                  alt={member.name}
-                  className="object-cover h-full w-full rounded-full"
-                />
-              </div>
-              <h3 className="text-xl font-semibold">{member.name}</h3>
-              <p className="text-muted-foreground">{member.role}</p>
-            </div>
-          ))}
-        </div>
-      </div> */}
-
       <div className="bg-muted/30 rounded-xl p-8 md:p-12">
         <div className="text-center mb-8">
           <h2 className="text-3xl font-bold mb-4">به جامعه ما بپیوندید</h2>
@@ -349,12 +307,6 @@ export default function AboutPage() {
           >
             تماس با ما
           </a>
-          {/* <a
-            href="#"
-            className="inline-flex h-10 items-center justify-center rounded-md border border-input bg-background px-8 text-sm font-medium shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground"
-          >
-            اطلاعات بیشتر
-          </a> */}
         </div>
       </div>
     </div>
