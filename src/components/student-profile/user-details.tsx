@@ -129,8 +129,25 @@ interface UserDetailsProps {
 //   );
 // }
 
+interface UserData {
 
-export function UserDetails({ user }) {
+}
+interface User {
+  id: string | number,
+  firstName: string,
+  lastName: string,
+  fatherName: string,
+  email: string,
+  phone: string | "+1 (555) 123-4567",
+  status: string,
+  profileImage: string,
+}
+
+interface UserOverviewProps {
+  user: User;
+}
+
+export function UserDetails({ user }: UserOverviewProps) {
   const { token, clearUser } = useAuthStore();
 
   const handleSignout = async () => {

@@ -18,6 +18,9 @@ interface User {
   firstName: string;
   lastName: string;
   email: string;
+  status: string
+  type: string,
+  image: string
   accountStatus: string;
   accountType: string;
   profileImage: string;
@@ -109,7 +112,7 @@ interface UserOverviewProps {
 //   );
 // }
 
-export function UserOverview({ user }) {
+export function UserOverview({ user }:UserOverviewProps) {
   if (!user) return null;
 
   return (
