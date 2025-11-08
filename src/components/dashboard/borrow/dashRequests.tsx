@@ -33,9 +33,9 @@ interface Request {
 }
 
 const DashRequests: React.FC = () => {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
-  const [requestPerPage] = useState(10);
+  // const [searchTerm, setSearchTerm] = useState("");
+  // const [currentPage, setCurrentPage] = useState(1);
+  // const [requestPerPage] = useState(10);
   const [selectedRequest, setSelectedRequest] = useState<Request | null>(null);
   const [loadingDelete, setLoadingDelete] = useState<number | null>(null);
 
@@ -75,24 +75,24 @@ const DashRequests: React.FC = () => {
     if (userToView) setSelectedRequest(userToView);
   };
 
-  const handleEdit = (id: number) => {
-    console.log(`Editing user with id: ${id}`);
-  };
+  // const handleEdit = (id: number) => {
+  //   console.log(`Editing user with id: ${id}`);
+  // };
 
-  const handleReceived = () => {};
+  // const handleReceived = () => {};
 
-  const filteredRequests = requests.filter((request) =>
-    `${request.book_title} ${request.firstName} ${request.lastName}`
-      .toLowerCase()
-      .includes(searchTerm.toLowerCase())
-  );
+  // const filteredRequests = requests.filter((request) =>
+  //   `${request.book_title} ${request.firstName} ${request.lastName}`
+  //     .toLowerCase()
+  //     .includes(searchTerm.toLowerCase())
+  // );
 
-  const indexOfLastRequest = currentPage * requestPerPage;
-  const indexOfFirstRequest = indexOfLastRequest - requestPerPage;
-  const currentRequests = filteredRequests.slice(
-    indexOfFirstRequest,
-    indexOfLastRequest
-  );
+  // const indexOfLastRequest = currentPage * requestPerPage;
+  // const indexOfFirstRequest = indexOfLastRequest - requestPerPage;
+  // const currentRequests = filteredRequests.slice(
+  //   indexOfFirstRequest,
+  //   indexOfLastRequest
+  // );
 
   return (
     <div className="px-2 min-h-screen ">

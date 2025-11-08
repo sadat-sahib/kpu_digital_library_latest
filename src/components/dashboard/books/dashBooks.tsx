@@ -1,14 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "../../../axiosInstance";
-import { FaSearch } from "react-icons/fa";
-import { useAdminAuthStore } from "../../../Store/useAdminAuthStore";
 import BookTable from "../bookTable/bookTable";
 import BookDetails from "../bookTable/bookDetails";
-import Pagination from "../pagination/pagination";
 import Swal from "sweetalert2";
-import DashBookRegistration from "./DashBookRegistration";
-import { Loader } from "lucide-react";
-import BooksTableSkeleton from "../bookTable/bookTableSkeleton";
+import DashBookRegistration from "./dashBookRegistration";
+
 
 interface Book {
   id: number;

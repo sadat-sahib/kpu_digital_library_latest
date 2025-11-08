@@ -1,6 +1,7 @@
 import React from "react";
 import { Skeleton } from "../../ui/skeleton";
 
+
 const BorrowTableSkeleton: React.FC = () => {
   return (
     <div className="bg-white dark:bg-gray-900 p-6 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 space-y-5 animate-pulse">

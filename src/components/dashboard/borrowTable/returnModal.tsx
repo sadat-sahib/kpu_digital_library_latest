@@ -40,7 +40,7 @@ const ReturnModal: React.FC<ReturnDateModalProps> = ({ closeModal, onSubmit }) =
   }
 
 
-  const today = new Date()
+  // const today = new Date()
   const minDate = new Date()
   minDate.setHours(0, 0, 0, 0)
 

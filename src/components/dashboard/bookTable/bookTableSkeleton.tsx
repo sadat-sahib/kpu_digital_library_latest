@@ -5,16 +5,6 @@ const BooksTableSkeleton = () => {
   
   const rows = Array.from({ length: 8 });
 
-  
-  const columns = [
-    "w-[90px]",  
-    "w-[200px]",  
-    "w-[180px]",  
-    "w-[160px]",  
-    "w-[120px]",  
-    "w-[180px]",  
-  ];
-
   return (
     <div className="bg-white rounded-lg shadow-md w-full">
 

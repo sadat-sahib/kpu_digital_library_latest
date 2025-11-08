@@ -1,18 +1,9 @@
-import React from "react";
+
 import { Skeleton } from "../../ui/skeleton";
 
 const ReservedTableSkeleton = () => {
   
   const rows = Array.from({ length: 8 });
-
-
-  // const columns = [
-  //   { label: "عنوان کتاب", width: "w-[240px]" },
-  //   { label: "نویسنده", width: "w-[200px]" },
-  //   { label: "تاریخ اجرا", width: "w-[160px]" },
-  //   { label: "تاریخ بازگشت", width: "w-[160px]" },
-  //   { label: "عملیات", width: "w-[100px]" },
-  // ];
 
   return (
     <div className="bg-white  rounded-lg shadow-md w-full">

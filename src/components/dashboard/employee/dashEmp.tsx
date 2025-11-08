@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "../../../axiosInstance";
 import { FaSearch } from "react-icons/fa";
-import Pagination from "../pagination/pagination";
+// import Pagination from "../pagination/pagination";
 import Swal from "sweetalert2";
 import UserDetails from "../userTable/userDetails";
 import UserTable from "../userTable/userTable";
@@ -149,12 +149,12 @@ const DashEmp: React.FC = () => {
             component="Users"
             // refetchData={refetchData}
           />
-          <Pagination
+          {/* <Pagination
             currentPage={currentPage}
             totalItems={filteredUsers.length}
             itemsPerPage={usersPerPage}
             onPageChange={setCurrentPage}
-          />
+          /> */}
         </>
       )}
     </div>

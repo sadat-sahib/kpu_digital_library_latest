@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import axios from "../../../axiosInstance";
 import { FaSearch } from "react-icons/fa";
 import Swal from "sweetalert2";
-import Pagination from "../pagination/pagination";
 import UserDetails from "../userTable/userDetails";
 import UserTable from "../userTable/userTable";
 import { Loader } from "lucide-react";

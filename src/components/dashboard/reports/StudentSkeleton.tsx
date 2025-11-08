@@ -1,6 +1,7 @@
 import React from "react";
 import { Skeleton } from "../../ui/skeleton";
 
+
 const StudentsReportTableSkeleton = () => {
   // Simulate 8 loading rows
   const rows = Array.from({ length: 8 });
