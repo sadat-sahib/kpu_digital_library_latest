@@ -83,18 +83,6 @@ const DashBorrows: React.FC = () => {
     }
   };
 
-  // const filteredRequests = requests.filter((request) =>
-  //   `${request.book_title} ${request.firstName} ${request.lastName}`
-  //     .toLowerCase()
-  //     .includes(searchTerm.toLowerCase())
-  // );
-
-  // const indexOfLastRequest = currentPage * requestPerPage;
-  // const indexOfFirstRequest = indexOfLastRequest - requestPerPage;
-  // const currentRequests = filteredRequests.slice(
-  //   indexOfFirstRequest,
-  //   indexOfLastRequest
-  // );
 
   return (
     <div className="px-2 min-h-screen">

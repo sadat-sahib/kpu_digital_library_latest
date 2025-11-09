@@ -128,19 +128,6 @@ const Teachers: React.FC = () => {
           onClose={() => setSelectedUser(null)}
         />
       )}
-      <header className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold text-gray-800">لیست استادان</h1>
-        <div className="relative">
-          <input
-            type="text"
-            placeholder="جستجو..."
-            className="bg-white border border-gray-300 rounded-full py-2 px-4 pr-10 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-          <FaSearch className="absolute left-3 top-3 text-gray-400" />
-        </div>
-      </header>
 
       {loading ? (
         <div className="flex justify-center items-center h-64">
