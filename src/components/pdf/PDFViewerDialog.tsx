@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { Dialog, DialogContent, DialogTitle } from "../ui/dialog";
 import { Document, Page, pdfjs } from "react-pdf";
 import { Button } from "../ui/button";
-import React from "react";
 
 // Import the required CSS styles
 import "react-pdf/dist/Page/AnnotationLayer.css";

@@ -12,7 +12,7 @@ import {
   Library,
   ClipboardList,
 } from "lucide-react";
-import logo from "./image.png";
+import logo from "../../assets/image.png";
 import { RiAdminFill } from "react-icons/ri";
 import { BiAnalyse } from "react-icons/bi";
 interface SidebarProps {
