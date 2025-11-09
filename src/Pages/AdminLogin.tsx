@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -7,6 +7,8 @@ import axios from "../axiosInstance";
 import { useAdminAuthStore } from "../Store/useAdminAuthStore";
 import { Loader } from "lucide-react";
 import { useNavigate } from "react-router";
+import ReCAPTCHA from "react-google-recaptcha";
+
 
 const signInSchema = z.object({
   email: z.string().min(1, "Email is required").email("Invalid email format"),
@@ -21,16 +23,24 @@ const AdminLogin: React.FC = () => {
   const [response, setResponse] = useState("");
   const navigate = useNavigate();
 
+  const recaptchaRef = useRef<ReCAPTCHA>(null);
+
   const { register, handleSubmit, formState: { errors } } = useForm<SignInFormData>({
     resolver: zodResolver(signInSchema),
   });
 
  const onSubmit = async (data: SignInFormData) => {
+
+  const recaptchaToken = recaptchaRef.current?.getValue();
+  if (!recaptchaToken) {
+    setResponse("لطفاً تأیید کنید که ربات نیستید.");
+    return;
+  }
   setLoading(true);
   try {
     const res = await axios.post(
       "http://localhost:8000/api/admin/login", // full API URL
-      data,
+      {...data, recaptcha_token: recaptchaToken },
       {
         withCredentials: true, // 👈 Important: allow cookies
       }
@@ -114,6 +124,15 @@ const AdminLogin: React.FC = () => {
               {errors.password.message}
             </p>
           )}
+        </div>
+
+
+        <div className="mb-4 flex justify-center">
+          <ReCAPTCHA
+            ref={recaptchaRef}
+            sitekey="6LfztPcrAAAAAJL1S78kxqVz9hk1f4yltv9szvNw" // 👈 YOUR SITE KEY HERE
+            hl="fa" // Persian/RTL support
+          />
         </div>
 
         <button
