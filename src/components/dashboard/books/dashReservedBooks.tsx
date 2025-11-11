@@ -29,10 +29,10 @@ interface Faculty {
 
 const DashReservedBooks: React.FC = () => {
   const [books, setBooks] = useState<Book[]>([]);
-  const [faculties, setFaculties] = useState<Faculty[]>([]);
-  const [selectedFaculty, setSelectedFaculty] = useState<string>("");
-  const [searchTerm, setSearchTerm] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
+  const [_faculties, setFaculties] = useState<Faculty[]>([]);
+  const [selectedFaculty, _setSelectedFaculty] = useState<string>("");
+  const [searchTerm, _setSearchTerm] = useState("");
+  const [currentPage, _setCurrentPage] = useState(1);
   const [booksPerPage] = useState(10);
   const [loading, setLoading] = useState(true);
   // const { token } = useAdminAuthStore();
@@ -84,10 +84,10 @@ const DashReservedBooks: React.FC = () => {
     }
   };
 
-  const handleFacultyChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedFaculty(e.target.value);
-    setCurrentPage(1);
-  };
+  // const handleFacultyChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  //   setSelectedFaculty(e.target.value);
+  //   setCurrentPage(1);
+  // };
 
   const filteredBooks = books.filter((book) => {
     const matchesSearch = `${book.book_title} ${book.book_author}`
@@ -104,7 +104,7 @@ const DashReservedBooks: React.FC = () => {
   const indexOfFirstBook = indexOfLastBook - booksPerPage;
   const currentBooks = filteredBooks.slice(indexOfFirstBook, indexOfLastBook);
 
-  const handlePageChange = (pageNumber: number) => setCurrentPage(pageNumber);
+  // const handlePageChange = (pageNumber: number) => setCurrentPage(pageNumber);
 
   return (
     <div className="container mx-auto px-4 py-8">

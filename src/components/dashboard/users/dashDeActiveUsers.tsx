@@ -7,21 +7,20 @@ import {
   useGetInActiveUsers,
   useDeleteUser,
 } from "../../../config/client/DashUserApi.query";
-import { useGetFaculties } from "../../../config/client/DashFacultyApi.query";
 
 import { User } from "../../../config/client/DashUserApi";
 import UserTableSkeleton from "../userTable/userTableSkeleton";
 import DeActiveUserTable from "../userTable/deActiveUserTable";
 
-interface Faculty {
-  id: number;
-  name: string;
-}
+// interface Faculty {
+//   id: number;
+//   name: string;
+// }
 
 const DashDeActiveUsers: React.FC = () => {
-  const [selectedFaculty, setSelectedFaculty] = useState<string>("");
-  const [searchTerm, setSearchTerm] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
+  const [selectedFaculty, _setSelectedFaculty] = useState<string>("");
+  const [searchTerm, _setSearchTerm] = useState("");
+  const [currentPage, _setCurrentPage] = useState(1);
   const [usersPerPage] = useState(10);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [editingUserId, setEditingUserId] = useState<number | null>(null);
@@ -32,7 +31,7 @@ const DashDeActiveUsers: React.FC = () => {
     isError,
     refetch,
   } = useGetInActiveUsers();
-  const { data: faculties = [] } = useGetFaculties();
+  // const { data: faculties = [] } = useGetFaculties();
   const { mutate: deleteUser, isPending: isDeleting } = useDeleteUser();
 
   const handleEdit = (id: number) => {
@@ -64,10 +63,10 @@ const DashDeActiveUsers: React.FC = () => {
     }
   };
 
-  const handleFacultyChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedFaculty(e.target.value);
-    setCurrentPage(1);
-  };
+  // const handleFacultyChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  //   setSelectedFaculty(e.target.value);
+  //   setCurrentPage(1);
+  // };
 
   const filteredUsers = users.filter((user) => {
     const matchesSearch = `${user.firstName} ${user.lastName}`

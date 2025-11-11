@@ -28,15 +28,15 @@ const DashEmp: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, _setCurrentPage] = useState(1);
   const [usersPerPage] = useState(10);
-  const [reload, setReload] = useState(false);
+  const [reload, _setReload] = useState(false);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [loadingDelete, setLoadingDelete] = useState<number | null>(null);
   const [editingUserId, setEditingUserId] = useState<number | null>(null);
-  const refetchData = () => {
-    setReload(!reload);
-  };
+  // const refetchData = () => {
+  //   setReload(!reload);
+  // };
 
   useEffect(() => {
     axios

@@ -1,4 +1,4 @@
-import React from "react"
+
 import { BorrowedBooks } from "./borrowed-books"
 import { RequestedBooks } from "./requested-books"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs"
@@ -11,7 +11,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs"
     // borrowDate?: string
     // requestDate?: string
     // image: string
-      id: string
+    id: string
     book_author: string
     book_title: string
     book_image: string
@@ -25,7 +25,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs"
     requestedBooks: Book[]
   }
   
-  export function TabsBooks({ borrowedBooks, requestedBooks }: TabsBooksProps) {
+  export function TabsBooks({ requestedBooks }: TabsBooksProps) {
     return (
       <div className="lg:col-span-2 w-full space-y-8 "> 
         <Tabs defaultValue="borrowed" className="w-full">
@@ -35,7 +35,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs"
           </TabsList>
   
           <TabsContent value="borrowed" className="w-full h-[75vh] overflow-y-auto  space-y-4 scrollbar-hide">
-            <BorrowedBooks books={borrowedBooks} />
+            <BorrowedBooks />
           </TabsContent>
   
           <TabsContent value="requested" className="w-full h-[75vh] overflow-y-auto  space-y-4 scrollbar-hide" >

@@ -1,7 +1,7 @@
 import { CalendarIcon } from "lucide-react"
 import { Card, CardContent } from "../ui/card"
 import CustomImage from "../ui/custom-image/CustomImage"
-import { toJalaliPersian } from "../../utils/dateUtils" // 👈 import both helpers
+import { toJalaliPersian } from "../../utils/dateUtils" 
 
 interface BookCardProps {
   title: string

@@ -20,16 +20,15 @@ const ProfileSheet = ({ open, onOpenChange }:ProfileSheetProps) => {
 
   const { data, isPending, error } = usegetProfile()
 
-  console.log('data_for_profile_new',data);
-
+  
   const handleSignout = () => {
     axios.post("/api/logout", {}, {
       headers: {
         Authorization: `Bearer ${token}`
       }
-    }).then((response) => {
+    }).then(() => {
       clearUser();
-      console.log('log out res', response);
+      
     });
     onOpenChange(false);
   };

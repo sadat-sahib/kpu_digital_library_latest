@@ -7,23 +7,15 @@ import { LogOutIcon } from "lucide-react";
 import { useAuthStore } from "../../Store/useAuthStore";
 import axios from "../../axiosInstance";
 
-interface User {
-  firstName: string;
-  lastName: string;
-  fatherName: string;
-  email: string;
-  phone: string;
-  accountStatus: string;
-}
+// interface User {
+//   firstName: string;
+//   lastName: string;
+//   fatherName: string;
+//   email: string;
+//   phone: string;
+//   accountStatus: string;
+// }
 
-interface UserDetailsProps {
-  user: User;
-}
-
-
-interface UserData {
-
-}
 interface User {
   id: string | number,
   firstName: string,
@@ -49,7 +41,7 @@ export function UserDetails({ user }: UserOverviewProps) {
       });
       clearUser();
     } catch (err) {
-      console.error("Logout failed", err);
+      
     }
   };
 

@@ -29,7 +29,7 @@ type FormFields = z.infer<typeof schema>;
 interface UserRegistrationProps {
   userId?: number;
 }
-const UserRegistration: React.FC<UserRegistrationProps> = ({ userId }) => {
+const UserRegistration: React.FC<UserRegistrationProps> = () => {
 
 // Add state and ref
 const { setUser } = useAuthStore();

@@ -33,9 +33,6 @@ export default function BookDetailPage() {
 
   if (isPending) {
     return (
-      // <div className="flex justify-center items-center h-screen">
-      //   Loading...
-      // </div>
       <DetailsSkeleton/>
     );
   }

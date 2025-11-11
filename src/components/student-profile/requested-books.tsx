@@ -9,7 +9,6 @@ interface RequestedBooksProps {
 }
 
 export function RequestedBooks({ books }: RequestedBooksProps) {
-  console.log("RequestedBooks", books)
   return (
     <Card className="border-none shadow-none  w-full">
       <CardContent>

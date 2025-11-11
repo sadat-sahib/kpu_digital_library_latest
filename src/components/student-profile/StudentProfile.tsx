@@ -5,18 +5,12 @@ import { usegetProfile } from "../../config/client/HomePgeApi.query";
 import StudentProfileSkeleton from "./StudentProfileSkeleton";
 
 
- 
-
-
-// Mock requested books data
-
 
 export default function UserProfile() {
     
 
     const { data: prof, isPending } = usegetProfile();
     if (isPending) return <StudentProfileSkeleton />;
-    console.log("prof", prof);
       const userData = prof?.data?.user;
 
   return (

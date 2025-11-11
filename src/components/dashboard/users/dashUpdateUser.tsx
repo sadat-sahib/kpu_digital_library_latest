@@ -3,10 +3,10 @@ import React, { ChangeEvent, useEffect, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import axios from "../../../axiosInstance";
-import { useAuthStore } from "../../../Store/useAuthStore";
+// import { useAuthStore } from "../../../Store/useAuthStore";
 import Swal from "sweetalert2";
 import { Loader2 } from "lucide-react";
 
@@ -33,12 +33,12 @@ interface UserRegistrationProps {
   onClose?: () => void;
 }
 const UpdateUser: React.FC<UserRegistrationProps> = ({ userId, onClose }) => {
-  const { setUser } = useAuthStore();
+  // const { setUser } = useAuthStore();
   const [loading, setLoading] = useState<boolean>(false);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [faculties, setFaculties] = useState<Faculty[]>([]);
   const [selectedFac, setSelectedFac] = useState<Faculty>();
-  const [response, setResponse] = useState<string>();
+  // const [response, setResponse] = useState<string>();
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
 
   // const { token } = useAdminAuthStore();
@@ -46,7 +46,7 @@ const UpdateUser: React.FC<UserRegistrationProps> = ({ userId, onClose }) => {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
+    // reset,
     setValue,
   } = useForm<FormFields>({
     resolver: zodResolver(schema),

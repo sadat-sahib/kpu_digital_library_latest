@@ -1,18 +1,26 @@
 import { Card, CardContent } from "../ui/card";
 
-import React from "react";
 import { BookCard } from "./ReserveBookCard";
 import { usegetProfile} from "../../config/client/HomePgeApi.query";
 import { Skeleton } from "../ui/skeleton";
-import { Book } from "./tabs-books";
+// import { Book } from "./tabs-books";
 
-interface BorrowedBooksProps {
-  books: Book[];
+// interface BorrowedBooksProps {
+//   
+// }
+
+interface BorrowBook {
+  book_title: string,
+  book_author: string,
+  reserve_date: string,
+  return_date: string,
+  reserveLable: string,
+  returnLabale: string,
+  book_image: string
 }
 
-export function BorrowedBooks({ books }: BorrowedBooksProps) {
+export function BorrowedBooks() {
   const {data:prof, isPending} = usegetProfile()
-console.log('reservedBooks',prof?.data.reserved_books)
   if (isPending) {
     return (
       <div>
@@ -39,7 +47,7 @@ console.log('reservedBooks',prof?.data.reserved_books)
           </p>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 w-full">
-            {UserBooks.map((book, index) => (
+            {UserBooks.map((book:BorrowBook, index:number) => (
               <BookCard
                 key={index}
                 title={book.book_title}

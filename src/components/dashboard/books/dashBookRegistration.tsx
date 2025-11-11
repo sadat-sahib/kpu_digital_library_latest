@@ -1,9 +1,8 @@
 import axios from "../../../axiosInstance";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import Swal from "sweetalert2";
 import { Loader2 } from "lucide-react";
-import { useParams } from "react-router";
+import { showToast } from "../../../utils/ShowToast";
 
 type FormValues = {
   title: string;
@@ -64,14 +63,6 @@ const DashBookRegistration: React.FC<DashBookRegistrationProps> = ({
     reset,
     setValue,
   } = useForm<FormValues>();
-  const { id } = useParams<{ id: string }>();
-
-  useEffect(() => {
-    if (id) {
-      // Fetch book data for editing
-      console.log("Fetching data for book ID:", id);
-    }
-  }, [id]);
 
   const handleFormatChange = (e: ChangeEvent<HTMLSelectElement>) => {
     setBookFormat(e.target.value);
@@ -80,20 +71,14 @@ const DashBookRegistration: React.FC<DashBookRegistrationProps> = ({
   useEffect(() => {
     axios
       .get("/api/dashboard/departments", {
-        // headers: {
-        //   Authorization: `Bearer ${token}`,
-        // },
-        withCredentials: true
+        withCredentials: true,
       })
       .then((response) => {
         setFaculties(response.data.data);
       });
     axios
       .get("/api/dashboard/sections", {
-        // headers: {
-        //   Authorization: `Bearer ${token}`,
-        // },
-        withCredentials: true
+        withCredentials: true,
       })
       .then((response) => {
         setShelves(response.data.data);
@@ -101,10 +86,7 @@ const DashBookRegistration: React.FC<DashBookRegistrationProps> = ({
       });
     axios
       .get("/api/dashboard/categories", {
-        // headers: {
-        //   Authorization: `Bearer ${token}`,
-        // },
-        withCredentials: true
+        withCredentials: true,
       })
       .then((response) => {
         setCategories(response.data.data);
@@ -115,8 +97,7 @@ const DashBookRegistration: React.FC<DashBookRegistrationProps> = ({
       console.log("bookId: ", bookId);
       axios
         .get(`/api/dashboard/books/${bookId}`, {
-          // headers: { Authorization: `Bearer ${token}` },
-          withCredentials: true
+          withCredentials: true,
         })
         .then((response) => {
           const bookData = response.data.data;
@@ -142,7 +123,7 @@ const DashBookRegistration: React.FC<DashBookRegistrationProps> = ({
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     const formData = new FormData();
-    
+
     formData.append("title", data.title);
     formData.append("author", data.author);
     formData.append("publisher", data.publisher);
@@ -154,7 +135,7 @@ const DashBookRegistration: React.FC<DashBookRegistrationProps> = ({
     formData.append("translator", data.translator);
     formData.append("description", data.description);
     formData.append("edition", data.edition);
-    
+
     if (bookFormat === "hard" || bookFormat === "both") {
       formData.append("borrow", data.barrow);
       formData.append("shelf", data.shelf);
@@ -186,30 +167,27 @@ const DashBookRegistration: React.FC<DashBookRegistrationProps> = ({
     method(url, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
-        // Authorization: `Bearer ${token}`,
       },
-      withCredentials: true
+      withCredentials: true,
     })
       .then((response) => {
         setResponse(response.data.message);
-        Swal.fire({
-          title: "Success!",
-          text: isEditing
+        showToast({
+          type: "success",
+          description: isEditing
             ? "کتاب موفقانه آپدیت گردید!"
             : "کتاب موفقانه اضافه گردید!",
-          icon: "success",
-          confirmButtonText: "OK",
         });
-        console.log(response);
         reset();
       })
       .catch((err) => {
-        if (err.response) {
-          console.error('Error response:', err.response.data);
-        } else {
-          console.error('Error:', err.message);
-        }
-        setResponse(err.response?.data?.message || 'An error occurred');
+        console.error(err);
+        setResponse(err.response?.data?.message || "An error occurred");
+        showToast({
+          type: "error",
+          description:
+            err.response?.data?.message || "در هنگام ثبت کتاب خطا رخ داد!",
+        });
       })
       .finally(() => {
         setLoading(false);
@@ -259,9 +237,9 @@ const DashBookRegistration: React.FC<DashBookRegistrationProps> = ({
             <label htmlFor="faculty" className="font-semibold">
               کتگوری:
             </label>
-            <select 
-              {...register("cat_id", { required: "این فیلد اجباری است" })} 
-              id="faculty" 
+            <select
+              {...register("cat_id", { required: "این فیلد اجباری است" })}
+              id="faculty"
               className="input"
             >
               <option value="">انتخاب کتگوری</option>
@@ -281,9 +259,9 @@ const DashBookRegistration: React.FC<DashBookRegistrationProps> = ({
             <label htmlFor="department" className="font-semibold">
               دپارتمنت:
             </label>
-            <select 
-              {...register("dep_id", { required: "این فیلد اجباری است" })} 
-              id="department" 
+            <select
+              {...register("dep_id", { required: "این فیلد اجباری است" })}
+              id="department"
               className="input"
             >
               <option value="">انتخاب دیپارتمنت</option>
@@ -315,28 +293,17 @@ const DashBookRegistration: React.FC<DashBookRegistrationProps> = ({
 
           <div className="flex flex-col">
             <label className="font-semibold">ناشر</label>
-            <input
-              type="text"
-              {...register("publisher")}
-              className="input"
-            />
+            <input type="text" {...register("publisher")} className="input" />
           </div>
 
           <div className="flex flex-col">
             <label className="font-semibold">چاپ</label>
-            <input
-              type="text"
-              {...register("edition")}
-              className="input"
-            />
+            <input type="text" {...register("edition")} className="input" />
           </div>
 
           <div className="flex flex-col">
             <label className="font-semibold">زبان</label>
-            <select
-              {...register("lang")}
-              className="input"
-            >
+            <select {...register("lang")} className="input">
               <option value="fa">دری</option>
               <option value="en">انگلیسی</option>
             </select>
@@ -368,11 +335,7 @@ const DashBookRegistration: React.FC<DashBookRegistrationProps> = ({
             <>
               <div className="flex flex-col">
                 <label className="font-semibold">تعداد</label>
-                <input
-                  type="number"
-                  {...register("total")}
-                  className="input"
-                />
+                <input type="number" {...register("total")} className="input" />
                 {errors.total && (
                   <span className="text-red-500 text-sm">
                     {errors.total.message}
@@ -382,10 +345,7 @@ const DashBookRegistration: React.FC<DashBookRegistrationProps> = ({
 
               <div className="flex flex-col">
                 <label className="font-semibold">نام الماری</label>
-                <select
-                  {...register("sec_id")}
-                  className="input"
-                >
+                <select {...register("sec_id")} className="input">
                   <option value="">الماری انتخاب کنید</option>
                   {shelves &&
                     shelves.map((shelf) => (
@@ -401,11 +361,7 @@ const DashBookRegistration: React.FC<DashBookRegistrationProps> = ({
 
               <div className="flex flex-col">
                 <label className="font-semibold">نمبر قفسه</label>
-                <input
-                  type="number"
-                  {...register("shelf")}
-                  className="input"
-                />
+                <input type="number" {...register("shelf")} className="input" />
                 {errors.shelf && (
                   <span className="text-red-500">{errors.shelf.message}</span>
                 )}
@@ -413,11 +369,7 @@ const DashBookRegistration: React.FC<DashBookRegistrationProps> = ({
 
               <div className="flex flex-col">
                 <label className="font-semibold">ISBN</label>
-                <input
-                  type="text"
-                  {...register("isbn")}
-                  className="input"
-                />
+                <input type="text" {...register("isbn")} className="input" />
                 {errors.isbn && (
                   <span className="text-red-500 text-sm">
                     {errors.isbn.message}
@@ -427,11 +379,7 @@ const DashBookRegistration: React.FC<DashBookRegistrationProps> = ({
 
               <div className="flex flex-col">
                 <label className="font-semibold">Code</label>
-                <input
-                  type="text"
-                  {...register("code")}
-                  className="input"
-                />
+                <input type="text" {...register("code")} className="input" />
                 {errors.code && (
                   <span className="text-red-500 text-sm">
                     {errors.code.message}
@@ -441,10 +389,7 @@ const DashBookRegistration: React.FC<DashBookRegistrationProps> = ({
 
               <div className="flex flex-col">
                 <label className="font-semibold">اجازه امانت</label>
-                <select
-                  {...register("barrow")}
-                  className="input"
-                >
+                <select {...register("barrow")} className="input">
                   <option value="yes">بلی</option>
                   <option value="no">نخیر</option>
                 </select>
@@ -460,10 +405,10 @@ const DashBookRegistration: React.FC<DashBookRegistrationProps> = ({
           {/* Image upload for all formats */}
           <div className="flex flex-col">
             <label className="font-semibold">انتخاب عکس</label>
-            <input 
-              type="file" 
-              onChange={handleImageChange} 
-              className="input" 
+            <input
+              type="file"
+              onChange={handleImageChange}
+              className="input"
               required={bookFormat !== "pdf"}
             />
           </div>
@@ -496,7 +441,7 @@ const DashBookRegistration: React.FC<DashBookRegistrationProps> = ({
 
           {/* Submit Button */}
           <div className="col-span-3 flex flex-col justify-center items-center">
-            <p className='text-red-500 mt-2'>{response}</p>
+            <p className="text-red-500 mt-2">{response}</p>
             <button
               type="submit"
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-20 rounded-md mt-4"

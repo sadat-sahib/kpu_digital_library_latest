@@ -40,18 +40,18 @@ interface UserTableProps {
 const DeActiveUserTable: React.FC<UserTableProps> = ({
   users,
   onView,
-  onEdit,
-  onDelete,
+  // onEdit,
+  // onDelete,
   refetchData,
-  loadingDelete,
+  // loadingDelete,
   
   component = "Users",
 }) => {
   const [filterText, setFilterText] = useState("");
-  const [facultyFilter, setFacultyFilter] = useState("");
+  const [facultyFilter, _setFacultyFilter] = useState("");
 
   const [loadingActivating, setLoadingActivating] = useState<number | null>(null);
-   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+   const [_successMessage, setSuccessMessage] = useState<string | null>(null);
 
   const handleClick = (user_id: number | undefined) => {
     if (!user_id) return;

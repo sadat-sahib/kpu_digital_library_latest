@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { User, Home, Info, Phone, BookA } from "lucide-react";
 import ShoppingCartSheet from "./ShoppingCartSheet";
 import ProfileSheet from "./ProfileSheet";
@@ -8,7 +8,7 @@ import {
   SheetHeader,
   SheetTitle,
 } from "../ui/sheet"; // ✅ import SheetHeader & SheetTitle
-import { useCartStore } from "../../Store/useCartStore";
+// import { useCartStore } from "../../Store/useCartStore";
 import { Link } from "react-router-dom";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden"; // ✅ import this
 
@@ -23,10 +23,10 @@ const MobileMenuSheet = ({
 }:MobileMenuSheetProps) => {
   const [isCartSheetOpen, setIsCartSheetOpen] = useState(false);
   const [isProfileSheetOpen, setIsProfileSheetOpen] = useState(false);
-  const { cartCount } = useCartStore();
+  // const { cartCount } = useCartStore();
 
-  const toggleCartSheet = () => setIsCartSheetOpen(!isCartSheetOpen);
-  const toggleProfileSheet = () => setIsProfileSheetOpen(!isProfileSheetOpen);
+  // const toggleCartSheet = () => setIsCartSheetOpen(!isCartSheetOpen);
+  // const toggleProfileSheet = () => setIsProfileSheetOpen(!isProfileSheetOpen);
 
   return (
     <>

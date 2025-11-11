@@ -1,7 +1,7 @@
 
 import React, { useState } from "react";
 import DataTable, { TableColumn } from "react-data-table-component";
-import { CheckCircle, Edit, Loader, Printer, Trash, Users, View } from "lucide-react";
+import { CheckCircle, Loader, View } from "lucide-react";
 import { CSVLink } from "react-csv";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
@@ -40,10 +40,10 @@ interface UserTableProps {
 const DeActiveEmployeeTable: React.FC<UserTableProps> = ({
   users,
   onView,
-  onEdit,
-  onDelete,
+  // onEdit,
+  // onDelete,
   refetchData,
-  loadingDelete,
+  // loadingDelete,
   
   component = "Users",
 }) => {
@@ -51,7 +51,7 @@ const DeActiveEmployeeTable: React.FC<UserTableProps> = ({
   const [facultyFilter, setFacultyFilter] = useState("");
 
   const [loadingActivating, setLoadingActivating] = useState<number | null>(null);
-   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+   const [_successMessage, setSuccessMessage] = useState<string | null>(null);
 
   const handleClick = (user_id: number | undefined) => {
     if (!user_id) return;

@@ -1,14 +1,12 @@
 
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import DataTable, { TableColumn } from "react-data-table-component";
-import { Edit, Trash, View } from "lucide-react";
+import { Edit, View } from "lucide-react";
 import { CSVLink } from "react-csv";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 import BooksTableSkeleton from "./bookTableSkeleton";
-import axios from "../../../axiosInstance";
-import { useAdminAuthStore } from "../../../Store/useAdminAuthStore";
 import { useGetFaculties } from "../../../config/client/DashFacultyApi.query";
 
 interface Book {
@@ -20,10 +18,10 @@ interface Book {
   faculty?: string;
 }
 
-interface Faculty {
-  id: number;
-  name: string;
-}
+// interface Faculty {
+//   id: number;
+//   name: string;
+// }
 
 interface BookTableProps {
   books: Book[];
@@ -38,8 +36,8 @@ const BookTable: React.FC<BookTableProps> = ({
   books,
   onView,
   onEdit,
-  onDelete,
-  loadingDelete,
+  // onDelete,
+  // loadingDelete,
   loading,
 }) => {
   const [filterText, setFilterText] = useState("");
@@ -63,7 +61,7 @@ const BookTable: React.FC<BookTableProps> = ({
   //   };
   //   fetchFaculties();
   // }, [token]);
-  const { data:faculties=[], isPending } = useGetFaculties() 
+  const { data:faculties=[] } = useGetFaculties() 
 
   
   const filteredBooks = books.filter((book) => {

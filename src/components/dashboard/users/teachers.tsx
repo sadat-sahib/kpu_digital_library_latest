@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "../../../axiosInstance";
-import { FaSearch } from "react-icons/fa";
+// import { FaSearch } from "react-icons/fa";
 import Swal from "sweetalert2";
 // import Pagination from "../pagination/pagination";
 import UserDetails from "../userTable/userDetails";
@@ -25,19 +25,19 @@ interface User {
 
 const Teachers: React.FC = () => {
   const [users, setUsers] = useState<User[]>([]);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, _setSearchTerm] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, _setCurrentPage] = useState(1);
   const [usersPerPage] = useState(10);
-  const [reload, setReload] = useState(false);
+  const [reload, _setReload] = useState(false);
   // const { token } = useAdminAuthStore();
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [loadingDelete, setLoadingDelete] = useState<number | null>(null);
   const [editingUserId, setEditingUserId] = useState<number | null>(null);
-  const refetchData = () => {
-    setReload(!reload);
-  };
+  // const refetchData = () => {
+  //   setReload(!reload);
+  // };
   useEffect(() => {
     fetchUsers();
   }, [reload]);

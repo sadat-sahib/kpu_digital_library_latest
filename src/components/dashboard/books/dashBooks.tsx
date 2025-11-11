@@ -37,14 +37,13 @@ interface Faculty {
 
 const DashBooks: React.FC = () => {
   const [books, setBooks] = useState<Book[]>([]);
-  const [faculties, setFaculties] = useState<Faculty[]>([]);
-  const [selectedFaculty, setSelectedFaculty] = useState<string>("");
-  const [searchTerm, setSearchTerm] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
+  const [_faculties, setFaculties] = useState<Faculty[]>([]);
+  const [selectedFaculty, _setSelectedFaculty] = useState<string>("");
+  const [searchTerm, _setSearchTerm] = useState("");
+  const [currentPage, _setCurrentPage] = useState(1);
   const [booksPerPage] = useState(10);
   const [loading, setLoading] = useState(true);
   const [loadingDelete, setLoadingDelete] = useState<number | null>(null);
-  // const { token } = useAdminAuthStore();
   const [editingBookId, setEditingBookId] = useState<number | null>(null);
   const [selectedBook, setSelectedBook] = useState<Book | null>(null);
 
@@ -57,9 +56,6 @@ const DashBooks: React.FC = () => {
     try {
       setLoading(true);
       const response = await axios.get("/api/dashboard/books", {
-        // headers: {
-        //   Authorization: `Bearer ${token}`,
-        // },
         withCredentials: true,
       });
       setBooks(response.data.data);
@@ -74,12 +70,9 @@ const DashBooks: React.FC = () => {
   const fetchFaculties = async () => {
     try {
       const response = await axios.get("/api/dashboard/faculties", {
-        // headers: {
-        //   Authorization: `Bearer ${token}`,
-        // },
         withCredentials: true
       });
-      // console.log("Faculties: ", response.data.data);
+      
       setFaculties(response.data.data);
     } catch (error) {
       console.error("Error fetching faculties:", error);
@@ -113,9 +106,6 @@ const DashBooks: React.FC = () => {
       if (result.isConfirmed) {
         setLoadingDelete(id);
         await axios.delete(`/api/dashboard/books/${id}`, {
-          // headers: {
-          //   Authorization: `Bearer ${token}`,
-          // },
           withCredentials: true
         });
         setBooks(books.filter((book) => book.id !== id));
@@ -129,10 +119,10 @@ const DashBooks: React.FC = () => {
     }
   };
 
-  const handleFacultyChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedFaculty(e.target.value);
-    setCurrentPage(1); // Reset to first page when filter changes
-  };
+  // const handleFacultyChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  //   setSelectedFaculty(e.target.value);
+  //   setCurrentPage(1); // Reset to first page when filter changes
+  // };
 
   const filteredBooks = books.filter((book) => {
     const matchesSearch = `${book.title} ${book.author} ${book.publisher}`

@@ -34,13 +34,13 @@ interface UserTableProps {
 const ActiveUserTable: React.FC<UserTableProps> = ({
   users,
   onView,
-  onEdit,
-  onDelete,
-  loadingDelete,
+  // onEdit,
+  // onDelete,
+  // loadingDelete,
   component = "Users",
 }) => {
   const [filterText, setFilterText] = useState("");
-  const [facultyFilter, setFacultyFilter] = useState("");
+  const [facultyFilter, _setFacultyFilter] = useState("");
 
   const [openPrintModal, setOpenPrintModal] = useState(false);
   const [userId, setUserId] = useState<number | undefined>();

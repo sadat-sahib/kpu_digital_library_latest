@@ -9,14 +9,14 @@ import UserDetails from "../userTable/userDetails";
 import UpdateUser from "./dashUpdateUser";
 
 import { useGetAllUsers, useDeleteUser } from "../../../config/client/DashUserApi.query";
-import { useGetFaculties } from "../../../config/client/DashFacultyApi.query";
+// import { useGetFaculties } from "../../../config/client/DashFacultyApi.query";
 import UserTableSkeleton from "../userTable/userTableSkeleton";
 import { Users } from "lucide-react";
 
-interface Faculty {
-  id: number;
-  name: string;
-}
+// interface Faculty {
+//   id: number;
+//   name: string;
+// }
 
 const DashUser: React.FC = () => {
   const {
@@ -24,14 +24,13 @@ const DashUser: React.FC = () => {
     isLoading: loadingUsers,
     refetch: refetchUsers,
   } = useGetAllUsers();
-  const { data: faculties = [], isLoading: loadingFaculties } =
-    useGetFaculties();
+  // const { data: faculties = [], isLoading: loadingFaculties } =useGetFaculties();
   const { mutate: deleteUser, isPending: isDeleting } = useDeleteUser();
 
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [editingUserId, setEditingUserId] = useState<number | null>(null);
-  const [selectedFaculty, setSelectedFaculty] = useState<string>("");
-  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedFaculty, _setSelectedFaculty] = useState<string>("");
+  const [searchTerm, _setSearchTerm] = useState("");
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -96,8 +95,8 @@ const DashUser: React.FC = () => {
     });
   };
 
-  const handleFacultyChange = (e: React.ChangeEvent<HTMLSelectElement>) =>
-    setSelectedFaculty(e.target.value);
+  // const handleFacultyChange = (e: React.ChangeEvent<HTMLSelectElement>) =>
+  //   setSelectedFaculty(e.target.value);
 
   // ✅ When editing, render the form component
   if (editingUserId !== null)
