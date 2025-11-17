@@ -1,15 +1,9 @@
-
 import { Skeleton } from "../ui/skeleton";
-
 
 export default function StudentProfileSkeleton() {
   return (
     <div className="flex flex-col-reverse lg:flex-row gap-4 p-4">
-
-
-      {/* Profile Section */}
       <div className="w-full lg:w-[300px] space-y-4">
-        {/* Profile Card */}
         <div className="p-4 border rounded-xl shadow-sm space-y-4">
           <div className="flex justify-center">
             <Skeleton className="w-24 h-24 rounded-full" />
@@ -24,37 +18,41 @@ export default function StudentProfileSkeleton() {
           </div>
         </div>
 
-        {/* Account Info */}
         <div className="p-4 border rounded-xl shadow-sm space-y-4">
-          {Array(7).fill(null).map((_, i) => (
-            <div key={i} className="flex justify-between items-center">
-              <Skeleton className="h-6 w-20" />
-              <Skeleton className="h-6 w-32" />
-            </div>
-          ))}
+          {Array(7)
+            .fill(null)
+            .map((_, i) => (
+              <div key={i} className="flex justify-between items-center">
+                <Skeleton className="h-6 w-20" />
+                <Skeleton className="h-6 w-32" />
+              </div>
+            ))}
         </div>
-        
       </div>
-            {/* Books Section */}
-            <div className="flex-1 space-y-6">
+
+      <div className="flex-1 space-y-6">
         <div>
           <Skeleton className="h-6 w-40 mb-4" />
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-            {Array(3).fill(null).map((_, i) => (
-              <Skeleton key={i} className="w-full h-48 rounded-xl" />
-            ))}
+            {Array(3)
+              .fill(null)
+              .map((_, i) => (
+                <Skeleton key={i} className="w-full h-48 rounded-xl" />
+              ))}
           </div>
         </div>
 
         <div>
           <Skeleton className="h-6 w-40 mb-4" />
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-            {Array(2).fill(null).map((_, i) => (
-              <Skeleton key={i} className="w-full h-48 rounded-xl" />
-            ))}
+            {Array(2)
+              .fill(null)
+              .map((_, i) => (
+                <Skeleton key={i} className="w-full h-48 rounded-xl" />
+              ))}
           </div>
         </div>
       </div>
     </div>
-  )
+  );
 }

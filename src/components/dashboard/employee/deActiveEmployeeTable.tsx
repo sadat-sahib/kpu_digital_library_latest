@@ -8,7 +8,7 @@ import { saveAs } from "file-saver";
 import axios from "../../../axiosInstance";
 
 
-// src/types/User.ts
+
 export interface User {
   id: number;
   firstName: string;
@@ -40,10 +40,7 @@ interface UserTableProps {
 const DeActiveEmployeeTable: React.FC<UserTableProps> = ({
   users,
   onView,
-  // onEdit,
-  // onDelete,
   refetchData,
-  // loadingDelete,
   
   component = "Users",
 }) => {

@@ -2,7 +2,7 @@
 import { Skeleton } from "../../ui/skeleton";
 
 const BooksTableSkeleton = () => {
-  // Define number of rows to simulate loading
+
   const rows = Array.from({ length: 8 });
 
   return (

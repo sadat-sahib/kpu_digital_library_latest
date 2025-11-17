@@ -11,7 +11,7 @@ import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 import UserCard from "./userCard";
 
-// src/types/User.ts
+
 export interface User {
   id: number;
   firstName: string;
@@ -40,8 +40,6 @@ const UserTable: React.FC<UserTableProps> = ({
   users,
   onView,
   onEdit,
-  // onDelete,
-  // loadingDelete,
   component = "Users",
 }) => {
   const [filterText, setFilterText] = useState("");
@@ -113,13 +111,6 @@ const UserTable: React.FC<UserTableProps> = ({
             <Edit size={18} />
           </button>
 
-          {/* <button
-            onClick={() => onDelete(row.id)}
-            disabled={loadingDelete === row.id}
-            className="text-red-500 hover:text-red-600"
-          >
-            {loadingDelete === row.id ? <Loader size={18} className="animate-spin" /> : <Trash size={18} />}
-          </button> */}
         </div>
       ),
       center: true,
@@ -192,12 +183,6 @@ const UserTable: React.FC<UserTableProps> = ({
   return (
     <div className="bg-white p-4 rounded-lg shadow-md">
       <DataTable
-        // title={
-        //   <div className="flex justify-start items-center gap-2">
-        //     <span className="text-2xl font-bold">لیست کاربران</span>
-        //     <Users size={20} className="text-blue-500" />
-        //   </div>
-        // }
         columns={columns}
         data={filteredUsers}
         pagination

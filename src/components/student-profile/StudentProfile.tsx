@@ -4,14 +4,10 @@ import { TabsBooks } from "./tabs-books";
 import { usegetProfile } from "../../config/client/HomePgeApi.query";
 import StudentProfileSkeleton from "./StudentProfileSkeleton";
 
-
-
 export default function UserProfile() {
-    
-
-    const { data: prof, isPending } = usegetProfile();
-    if (isPending) return <StudentProfileSkeleton />;
-      const userData = prof?.data?.user;
+  const { data: prof, isPending } = usegetProfile();
+  if (isPending) return <StudentProfileSkeleton />;
+  const userData = prof?.data?.user;
 
   return (
     <div className="space-y-8 py-5">

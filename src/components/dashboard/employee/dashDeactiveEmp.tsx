@@ -144,12 +144,6 @@ const DashDeActiveEmp: React.FC = () => {
             component="Deactivate-Users"
             refetchData={refetchData}
           />
-          {/* <Pagination
-            currentPage={currentPage}
-            totalItems={filteredUsers.length}
-            itemsPerPage={usersPerPage}
-            onPageChange={setCurrentPage}
-          /> */}
         </>
       )}
     </div>

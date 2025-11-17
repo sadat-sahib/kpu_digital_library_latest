@@ -11,7 +11,7 @@ import { Trash } from "lucide-react";
 import {
   useDeleteFromShoppingCart,
   useGetShoppingCartInfo,
-  useReserveBook, // Import the new hook
+  useReserveBook, 
 } from "../../config/client/HomePgeApi.query";
 import CustomImage from "../ui/custom-image/CustomImage";
 import CardSkeleton from "./ShoppingCardSkeleton";
@@ -32,7 +32,7 @@ interface Book {
   translator: string;
 }
 
-// Create a component for individual book card
+
 const BookCard: React.FC<{ book: Book }> = ({ book }) => {
   const deleteMutation = useDeleteFromShoppingCart();
   const reserveMutation = useReserveBook(book.id); // Use the book-specific hook

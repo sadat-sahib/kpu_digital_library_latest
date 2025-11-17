@@ -41,21 +41,18 @@ const BorrowsReport: React.FC = () => {
   );
   const [borrowedBooks, setBorrowedBooks] = useState<BorrowedBook[]>([]);
   const [loading, setLoading] = useState(false);
-  // const { token } = useAdminAuthStore();
   const [searchTerm, setSearchTerm] = useState("");
 
   // Fetch faculties and departments
   useEffect(() => {
     axios
       .get("/api/dashboard/faculties", {
-        // headers: { Authorization: `Bearer ${token}` },
         withCredentials: true,
       })
       .then((res) => setFaculties(res.data.data));
 
     axios
       .get("/api/dashboard/departments", {
-        // headers: { Authorization: `Bearer ${token}` },
         withCredentials: true,
       })
       .then((res) => setDepartments(res.data.data));
@@ -77,7 +74,6 @@ const BorrowsReport: React.FC = () => {
           dep_id: departmentId ? departmentId.toString() : "all",
         },
         { 
-          // headers: { Authorization: `Bearer ${token}` }
           withCredentials: true
          }
       )
@@ -113,7 +109,7 @@ const BorrowsReport: React.FC = () => {
 
   console.log("Filtered Books:", filteredBooks);
 
-  // ✅ Excel Export
+
   const handleDownloadExcel = () => {
     if (filteredBooks.length === 0)
       return alert("هیچ داده‌ای برای دانلود وجود ندارد!");
@@ -141,7 +137,7 @@ const BorrowsReport: React.FC = () => {
     saveAs(data, "BorrowedBooksReport.xlsx");
   };
 
-  // ✅ Print
+  
   const handlePrint = () => {
     const printWindow = window.open("", "_blank");
     if (printWindow) {
@@ -220,7 +216,7 @@ const BorrowsReport: React.FC = () => {
     }
   };
 
-  // ✅ Table Columns
+
   const columns = [
     {
       name: "عنوان کتاب",
@@ -243,8 +239,6 @@ const BorrowsReport: React.FC = () => {
       sortable: true,
     },
     { name: "ایمیل", selector: (row: BorrowedBook) => row.email },
-    // { name: "دیپارتمنت", selector: (row: BorrowedBook) => row.department },
-    // { name: "پوهنځی", selector: (row: BorrowedBook) => row.faculty },
     {
       name: "تاریخ بازگشت",
       selector: (row: BorrowedBook) =>

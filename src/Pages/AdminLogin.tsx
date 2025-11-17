@@ -39,17 +39,17 @@ const AdminLogin: React.FC = () => {
   setLoading(true);
   try {
     const res = await axios.post(
-      "http://localhost:8000/api/admin/login", // full API URL
+      "http://localhost:8000/api/admin/login", 
       {...data, recaptcha_token: recaptchaToken },
       {
-        withCredentials: true, // 👈 Important: allow cookies
+        withCredentials: true, 
       }
     );
 
     console.log("Response: ", res);
 
     if (res.status === 200) {
-      const user = res.data.data; // backend returns 'admin' object
+      const user = res.data.data; 
       console.log("User Data: ", user);
       const loggedInUser = {
         email: user.email,
@@ -57,17 +57,13 @@ const AdminLogin: React.FC = () => {
         type: user.type,
       };
 
-      // ✅ No need to read token manually anymore
-      // Cookie is automatically stored by browser (HttpOnly)
 
       const userIsAdmin = true;
       const type = user.type;
       const permission = user.role;
 
-      // If your context still needs to store auth state
       setUser(loggedInUser, userIsAdmin, type, permission);
 
-      // Redirect after login
       navigate("?tab=dashboard");
     }
   } catch (err) {

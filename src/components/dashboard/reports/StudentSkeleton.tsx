@@ -3,10 +3,9 @@ import { Skeleton } from "../../ui/skeleton";
 
 
 const StudentsReportTableSkeleton = () => {
-  // Simulate 8 loading rows
   const rows = Array.from({ length: 8 });
 
-  // Column definitions (matching StudentsReport)
+
   const columns = [
     { label: "نام", width: "w-[120px]" },
     { label: "دیپارتمنت", width: "w-[140px]" },

@@ -37,9 +37,6 @@ const StudentsReport: React.FC = () => {
   const [students, setStudents] = useState<Student[]>([]);
   const [loading, setLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-  // const { token } = useAdminAuthStore();
-
-  // fetch faculties (with departments) on mount
   useEffect(() => {
     axios
       .get("/api/home/faculties-with-departments")
@@ -50,8 +47,6 @@ const StudentsReport: React.FC = () => {
         setFaculties([]);
       });
   }, []);
-
-  // fetch students when faculty/department changes
   useEffect(() => {
     setLoading(true);
     axios
@@ -62,7 +57,7 @@ const StudentsReport: React.FC = () => {
           dep_id: selectedDepartment || "all",
         },
         {
-          // headers: { Authorization: `Bearer ${token}` },
+         
           withCredentials: true,
         }
       )

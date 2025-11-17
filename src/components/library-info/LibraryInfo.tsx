@@ -19,7 +19,7 @@ export default function LibraryInfo() {
     <section className="py-16 bg-muted/30 px-4">
       <div className="container">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          {/* Left Column - Info */}
+       
           <div>
             <h2 className="text-3xl font-bold mb-6">
               کتابخانه دیجیتال پوهنتون
@@ -88,9 +88,9 @@ export default function LibraryInfo() {
             </Button>
           </div>
 
-          {/* Right Column - Hours & Stats */}
+         
           <div className="space-y-8">
-            {/* Hours Card */}
+        
             <Card>
               <CardContent className="p-6">
                 <div className="flex items-center gap-4 mb-4">

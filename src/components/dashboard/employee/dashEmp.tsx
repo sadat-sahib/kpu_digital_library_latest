@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "../../../axiosInstance";
 import { FaSearch } from "react-icons/fa";
-// import Pagination from "../pagination/pagination";
 import Swal from "sweetalert2";
 import UserDetails from "../userTable/userDetails";
 import UserTable from "../userTable/userTable";
@@ -34,10 +33,6 @@ const DashEmp: React.FC = () => {
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [loadingDelete, setLoadingDelete] = useState<number | null>(null);
   const [editingUserId, setEditingUserId] = useState<number | null>(null);
-  // const refetchData = () => {
-  //   setReload(!reload);
-  // };
-
   useEffect(() => {
     axios
       .get("/api/dashboard/users/activated_teachers", {
@@ -80,9 +75,6 @@ const DashEmp: React.FC = () => {
       if (result.isConfirmed) {
         setLoadingDelete(id);
         axios.delete(`/api/dashboard/users/destroy/${id}`, {
-          // headers: {
-          //   Authorization: `Bearer ${token}`,
-          // },
           withCredentials: true
         });
         setUsers(users.filter((user) => user.id !== id));
@@ -147,14 +139,7 @@ const DashEmp: React.FC = () => {
             onDelete={handleDelete}
             loadingDelete={loadingDelete}
             component="Users"
-            // refetchData={refetchData}
           />
-          {/* <Pagination
-            currentPage={currentPage}
-            totalItems={filteredUsers.length}
-            itemsPerPage={usersPerPage}
-            onPageChange={setCurrentPage}
-          /> */}
         </>
       )}
     </div>

@@ -32,9 +32,6 @@ interface Request {
 }
 
 const DashBorrows: React.FC = () => {
-  // const [searchTerm, setSearchTerm] = useState("");
-  // const [currentPage, setCurrentPage] = useState(1);
-  // const [requestPerPage] = useState(10);
   const [selectedRequest, setSelectedRequest] = useState<Request | null>(null);
   const [loadingDelete, setLoadingDelete] = useState<number | null>(null);
 
@@ -42,10 +39,6 @@ const DashBorrows: React.FC = () => {
   const deleteMutation = useDeleteActiveUsers();
 
   const requests: Request[] = data ?? [];
-
-  // const handleEdit = (id: number) => {
-  //   console.log(`Editing request with id: ${id}`);
-  // };
 
   const handleView = (id: number) => {
     const requestToView = requests.find((request) => request.id === id);

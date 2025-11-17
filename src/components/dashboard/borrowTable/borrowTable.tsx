@@ -31,7 +31,7 @@ interface BorrowTableProps {
   onDelete: (id: number) => void;
   loadingDelete?: number | null;
   refetchData?: () => void;
-  component?: string; // "Requests" | "borrow"
+  component?: string; 
 }
 
 const BorrowTable: React.FC<BorrowTableProps> = ({
@@ -72,7 +72,6 @@ const BorrowTable: React.FC<BorrowTableProps> = ({
       setSuccessMessage(`Request ${selectedRequestId} activated successfully`);
       refetchData?.();
     } catch (error) {
-      console.error("❌ Error activating request:", error);
     } finally {
       setLoadingActivating(null);
       setTimeout(() => setSuccessMessage(null), 3000);

@@ -12,10 +12,6 @@ import { User } from "../../../config/client/DashUserApi";
 import UserTableSkeleton from "../userTable/userTableSkeleton";
 import DeActiveUserTable from "../userTable/deActiveUserTable";
 
-// interface Faculty {
-//   id: number;
-//   name: string;
-// }
 
 const DashDeActiveUsers: React.FC = () => {
   const [selectedFaculty, _setSelectedFaculty] = useState<string>("");
@@ -63,10 +59,6 @@ const DashDeActiveUsers: React.FC = () => {
     }
   };
 
-  // const handleFacultyChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-  //   setSelectedFaculty(e.target.value);
-  //   setCurrentPage(1);
-  // };
 
   const filteredUsers = users.filter((user) => {
     const matchesSearch = `${user.firstName} ${user.lastName}`

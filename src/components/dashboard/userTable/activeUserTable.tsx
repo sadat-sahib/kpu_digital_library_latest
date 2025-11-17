@@ -6,7 +6,7 @@ import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 import UserCard from "./userCard";
 
-// src/types/User.ts
+
 export interface User {
   id: number;
   firstName: string;
@@ -34,9 +34,6 @@ interface UserTableProps {
 const ActiveUserTable: React.FC<UserTableProps> = ({
   users,
   onView,
-  // onEdit,
-  // onDelete,
-  // loadingDelete,
   component = "Users",
 }) => {
   const [filterText, setFilterText] = useState("");
@@ -45,7 +42,7 @@ const ActiveUserTable: React.FC<UserTableProps> = ({
   const [openPrintModal, setOpenPrintModal] = useState(false);
   const [userId, setUserId] = useState<number | undefined>();
 
-  // Filter users by search + faculty
+
   const filteredUsers = users.filter(
     (u) =>
       (u.firstName.toLowerCase().includes(filterText.toLowerCase()) ||
@@ -158,12 +155,6 @@ const ActiveUserTable: React.FC<UserTableProps> = ({
   return (
     <div className="bg-white p-4 rounded-lg shadow-md">
       <DataTable
-        // title={
-        //   <div className="flex justify-start items-center gap-2">
-        //     <span className="text-2xl font-bold">لیست کاربران</span>
-        //     <Users size={20} className="text-blue-500" />
-        //   </div>
-        // }
         columns={columns}
         data={filteredUsers}
         pagination

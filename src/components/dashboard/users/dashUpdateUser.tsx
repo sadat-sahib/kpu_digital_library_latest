@@ -6,7 +6,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Link } from "react-router-dom";
 
 import axios from "../../../axiosInstance";
-// import { useAuthStore } from "../../../Store/useAuthStore";
 import Swal from "sweetalert2";
 import { Loader2 } from "lucide-react";
 
@@ -33,20 +32,17 @@ interface UserRegistrationProps {
   onClose?: () => void;
 }
 const UpdateUser: React.FC<UserRegistrationProps> = ({ userId, onClose }) => {
-  // const { setUser } = useAuthStore();
+
   const [loading, setLoading] = useState<boolean>(false);
-  // const navigate = useNavigate();
+
   const [faculties, setFaculties] = useState<Faculty[]>([]);
   const [selectedFac, setSelectedFac] = useState<Faculty>();
-  // const [response, setResponse] = useState<string>();
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
 
-  // const { token } = useAdminAuthStore();
   const {
     register,
     handleSubmit,
     formState: { errors },
-    // reset,
     setValue,
   } = useForm<FormFields>({
     resolver: zodResolver(schema),
@@ -120,7 +116,7 @@ const UpdateUser: React.FC<UserRegistrationProps> = ({ userId, onClose }) => {
           icon: "success",
           confirmButtonText: "تایید",
         }).then(() => {
-          onClose?.(); // ✅ Go back and refresh parent
+          onClose?.(); 
         });
       }
     } catch (err: any) {

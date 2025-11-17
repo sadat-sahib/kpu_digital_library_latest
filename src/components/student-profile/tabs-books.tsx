@@ -5,12 +5,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs"
 
   
   export interface Book {
-    // id: string
-    // title: string
-    // author: string
-    // borrowDate?: string
-    // requestDate?: string
-    // image: string
     id: string
     book_author: string
     book_title: string

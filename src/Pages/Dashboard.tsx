@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Sidebar from "../Layout/DashLayout/Sidebar";
 import TopBar from "../Layout/DashLayout/Topbar";
-import DashboardContent from "../Layout/DashLayout/DashboardContent";
+import DashboardContent from "../Layout/DashLayout/dashboardContent";
 const Dashboard: React.FC = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const toggleSidebar = () => {

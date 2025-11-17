@@ -33,9 +33,6 @@ const DashActiveEmp: React.FC = () => {
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [loadingDelete, setLoadingDelete] = useState<number | null>(null);
   const [editingUserId, setEditingUserId] = useState<number | null>(null);
-  // const refetchData = () => {
-  //   setReload(!reload);
-  // };
   useEffect(() => {
     fetchUsers();
   }, [reload]);
@@ -148,14 +145,8 @@ const DashActiveEmp: React.FC = () => {
             onDelete={handleDelete}
             loadingDelete={loadingDelete}
             component="Users"
-            // refetchData={refetchData}
+           
           />
-          {/* <Pagination
-            currentPage={currentPage}
-            totalItems={filteredUsers.length}
-            itemsPerPage={usersPerPage}
-            onPageChange={setCurrentPage}
-          /> */}
         </>
       )}
     </div>

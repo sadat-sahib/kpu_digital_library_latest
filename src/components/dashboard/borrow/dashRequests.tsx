@@ -33,9 +33,6 @@ interface Request {
 }
 
 const DashRequests: React.FC = () => {
-  // const [searchTerm, setSearchTerm] = useState("");
-  // const [currentPage, setCurrentPage] = useState(1);
-  // const [requestPerPage] = useState(10);
   const [selectedRequest, setSelectedRequest] = useState<Request | null>(null);
   const [loadingDelete, setLoadingDelete] = useState<number | null>(null);
 

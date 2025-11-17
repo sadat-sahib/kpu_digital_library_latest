@@ -7,10 +7,10 @@ import {
   SheetContent,
   SheetHeader,
   SheetTitle,
-} from "../ui/sheet"; // ✅ import SheetHeader & SheetTitle
-// import { useCartStore } from "../../Store/useCartStore";
+} from "../ui/sheet";
+
 import { Link } from "react-router-dom";
-import { VisuallyHidden } from "@radix-ui/react-visually-hidden"; // ✅ import this
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden"; 
 
 interface MobileMenuSheetProps {
   open: boolean;
@@ -23,16 +23,11 @@ const MobileMenuSheet = ({
 }:MobileMenuSheetProps) => {
   const [isCartSheetOpen, setIsCartSheetOpen] = useState(false);
   const [isProfileSheetOpen, setIsProfileSheetOpen] = useState(false);
-  // const { cartCount } = useCartStore();
-
-  // const toggleCartSheet = () => setIsCartSheetOpen(!isCartSheetOpen);
-  // const toggleProfileSheet = () => setIsProfileSheetOpen(!isProfileSheetOpen);
 
   return (
     <>
       <Sheet open={open} onOpenChange={onOpenChange}>
         <SheetContent>
-          {/* ✅ Add hidden accessible title */}
           <SheetHeader>
             <VisuallyHidden>
               <SheetTitle>Mobile Navigation Menu</SheetTitle>
@@ -81,13 +76,13 @@ const MobileMenuSheet = ({
         </SheetContent>
       </Sheet>
 
-      {/* ShoppingCartSheet */}
+   
       <ShoppingCartSheet
         open={isCartSheetOpen}
         onOpenChange={setIsCartSheetOpen}
       />
 
-      {/* ProfileSheet */}
+     
       <ProfileSheet
         open={isProfileSheetOpen}
         onOpenChange={setIsProfileSheetOpen}

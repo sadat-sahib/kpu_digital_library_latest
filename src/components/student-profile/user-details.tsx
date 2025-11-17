@@ -7,14 +7,6 @@ import { LogOutIcon } from "lucide-react";
 import { useAuthStore } from "../../Store/useAuthStore";
 import axios from "../../axiosInstance";
 
-// interface User {
-//   firstName: string;
-//   lastName: string;
-//   fatherName: string;
-//   email: string;
-//   phone: string;
-//   accountStatus: string;
-// }
 
 interface User {
   id: string | number,

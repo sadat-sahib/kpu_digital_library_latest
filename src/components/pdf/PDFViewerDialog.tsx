@@ -3,11 +3,10 @@ import { Dialog, DialogContent, DialogTitle } from "../ui/dialog";
 import { Document, Page, pdfjs } from "react-pdf";
 import { Button } from "../ui/button";
 
-// Import the required CSS styles
+
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
 
-// تنظیم worker با استفاده از مسیر محلی
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
 
 interface PDFViewerDialogProps {

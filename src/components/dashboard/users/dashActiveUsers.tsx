@@ -12,10 +12,6 @@ import { User } from "../../../config/client/DashUserApi";
 import UserTableSkeleton from "../userTable/userTableSkeleton";
 import ActiveUserTable from "../userTable/activeUserTable";
 
-// interface Faculty {
-//   id: number;
-//   name: string;
-// }
 
 const DashActiveUsers: React.FC = () => {
   const [selectedFaculty, _setSelectedFaculty] = useState<string>("");
@@ -30,10 +26,8 @@ const DashActiveUsers: React.FC = () => {
     data: users = [],
     isLoading: loadingUsers,
     isError,
-    // refetch: refetchUsers,
   } = useGetActiveUsers();
 
-  // const { data: faculties = [], isLoading: loadingFaculties } =useGetFaculties();
 
   const { mutate: deleteUser } = useDeleteUser();
 
@@ -74,11 +68,6 @@ const DashActiveUsers: React.FC = () => {
       });
     });
   };
-
-  // const handleFacultyChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-  //   setSelectedFaculty(e.target.value);
-  //   setCurrentPage(1);
-  // };
 
   if (editingUserId !== null) {
     return <UserRegistration userId={editingUserId} />;

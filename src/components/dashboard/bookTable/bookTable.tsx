@@ -18,11 +18,6 @@ interface Book {
   faculty?: string;
 }
 
-// interface Faculty {
-//   id: number;
-//   name: string;
-// }
-
 interface BookTableProps {
   books: Book[];
   onView: (id: number) => void;
@@ -36,31 +31,11 @@ const BookTable: React.FC<BookTableProps> = ({
   books,
   onView,
   onEdit,
-  // onDelete,
-  // loadingDelete,
+
   loading,
 }) => {
   const [filterText, setFilterText] = useState("");
-  // const [faculties, setFaculties] = useState<Faculty[]>([]);
   const [selectedFaculty, setSelectedFaculty] = useState("");
-  // const { token } = useAdminAuthStore();
-
-  // ✅ Fetch faculties once
-  // useEffect(() => {
-  //   const fetchFaculties = async () => {
-  //     try {
-  //       const response = await axios.get("/api/dashboard/faculties", {
-  //         headers: {
-  //           Authorization: `Bearer ${token}`,
-  //         },
-  //       });
-  //       setFaculties(response.data.data || []);
-  //     } catch (error) {
-  //       console.error("Error fetching faculties:", error);
-  //     }
-  //   };
-  //   fetchFaculties();
-  // }, [token]);
   const { data:faculties=[] } = useGetFaculties() 
 
   
@@ -115,17 +90,6 @@ const BookTable: React.FC<BookTableProps> = ({
           >
             <Edit size={18} />
           </button>
-          {/* <button
-            onClick={() => onDelete(row.id)}
-            disabled={loadingDelete === row.id}
-            className="text-red-500 hover:text-red-600"
-          >
-            {loadingDelete === row.id ? (
-              <div className="animate-spin h-4 w-4 border-2 border-b-0 border-red-500 rounded-full"></div>
-            ) : (
-              <Trash size={18} />
-            )}
-          </button> */}
         </div>
       ),
       center: true,

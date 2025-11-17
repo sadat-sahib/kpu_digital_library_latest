@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "../../../axiosInstance";
-// import { FaSearch } from "react-icons/fa";
 import Swal from "sweetalert2";
-// import Pagination from "../pagination/pagination";
 import UserDetails from "../userTable/userDetails";
 import UserTable from "../userTable/userTable";
 import UserRegistration from "../../../Pages/UserRegistration";
@@ -31,13 +29,10 @@ const Teachers: React.FC = () => {
   const [currentPage, _setCurrentPage] = useState(1);
   const [usersPerPage] = useState(10);
   const [reload, _setReload] = useState(false);
-  // const { token } = useAdminAuthStore();
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [loadingDelete, setLoadingDelete] = useState<number | null>(null);
   const [editingUserId, setEditingUserId] = useState<number | null>(null);
-  // const refetchData = () => {
-  //   setReload(!reload);
-  // };
+
   useEffect(() => {
     fetchUsers();
   }, [reload]);
@@ -46,9 +41,6 @@ const Teachers: React.FC = () => {
     try {
       setLoading(true);
       const response = await axios.get("/api/dashboard/users/activated_teachers", {
-        // headers: {
-        //   Authorization: `Bearer ${token}`
-        // }
         withCredentials: true
       });
       setUsers(response.data.data);
@@ -87,11 +79,7 @@ const Teachers: React.FC = () => {
 
       if (result.isConfirmed) {
         setLoadingDelete(id);
-        // Implement delete functionality
         axios.delete(`/api/dashboard/users/destroy/${id}`, {
-          // headers: {
-          //   Authorization: `Bearer ${token}`
-          // }
           withCredentials: true
         });
         setUsers(users.filter((user) => user.id !== id));
@@ -144,14 +132,7 @@ const Teachers: React.FC = () => {
             onDelete={handleDelete}
             loadingDelete={loadingDelete}
             component="Users"
-            // refetchData={refetchData}
           />
-          {/* <Pagination
-            currentPage={currentPage}
-            totalItems={filteredUsers.length}
-            itemsPerPage={usersPerPage}
-            onPageChange={setCurrentPage}
-          /> */}
         </>
       )}
     </div>

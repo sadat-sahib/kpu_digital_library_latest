@@ -4,21 +4,10 @@ import { ShoppingCart, User, Menu, Home, Info,  Phone, BookA } from "lucide-reac
 import MobileMenuSheet from "./MobileMenuSheet";
 import ShoppingCartSheet from "./ShoppingCartSheet";
 import ProfileSheet from "./ProfileSheet";
-// import { useSearchStore } from "../../Store/useSearchStore";
 import { useAuthStore } from "../../Store/useAuthStore";
 import { useCartStore } from "../../Store/useCartStore";
 import React from "react";
 import { Link } from "react-router-dom";
-// import axios from "../../axiosInstance";
-
-// interface Book {
-//   id: number;
-//   title: string;
-//   author: string;
-//   publicationYear: number;
-//   faculty: string;
-//   department: string;
-// }
 const Navbar: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
   const [isCartSheetOpen, setIsCartSheetOpen] = useState<boolean>(false);
@@ -26,27 +15,9 @@ const Navbar: React.FC = () => {
 
   const { cartCount } = useCartStore();
   const { token } = useAuthStore();
-  // const { query, setFilteredResults } = useSearchStore();
-  // const [filter, _setFilter] = useState<string>("all");
 
   const toggleMobileMenu = () => setIsMobileMenuOpen((prev) => !prev);
   const toggleCartSheet = () => setIsCartSheetOpen((prev) => !prev);
-  // const toggleProfileSheet = () => setIsProfileSheetOpen((prev) => !prev);
-
-  // const handleSearch = async (e: React.FormEvent<HTMLFormElement>) => {
-  //   e.preventDefault();
-  //   if (!query.trim()) return; // جلوگیری از ارسال درخواست خالی
-
-  //   try {
-  //     const response = await axios.post<{ data: Book[] }>("/api/books/search", {
-  //       searchType: filter,
-  //       searchKey: query,
-  //     });
-  //     setFilteredResults(response.data.data);
-  //   } catch (error) {
-  //     console.error("Error searching:", error);
-  //   }
-  // };
 
   return (
     <>

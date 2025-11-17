@@ -3,13 +3,11 @@ import { useLocation } from "react-router";
 import DashProfile from "../../Components/Dashboard/DashProfile";
 import DashBooks from "../../components/dashboard/books/dashBooks";
 import DashUsers from "../../components/dashboard/users/dashUsers";
-// import DashMonographs from "../../Components/Dashboard/monograph/DashMonographs";
-// import DashArticles from "../../Components/article/DashArticles";
 import DashBookRegistration from "../../components/dashboard/books/dashBookRegistration";
 import DashboardComp from "../../Components/Dashboard/DashboardComp";
 import DashDeActiveUsers from "../../components/dashboard/users/dashDeActiveUsers";
 import DashActiveUsers from "../../components/dashboard/users/dashActiveUsers";
-import DashFaculty from "../../Components/Dashboard/faculty/DashFaculty";
+import DashFaculty from "../../components/dashboard/faculty/dashFaculty";
 import DashDepartment from "../../Components/Dashboard/department/DashDepartment";
 import DashSectionRegistration from "../../Components/Dashboard/section/DashSectionRegistration";
 import DashCategoryRegistration from "../../Components/Dashboard/category/DashCategoryRegistration";
@@ -18,20 +16,12 @@ import DashDeActiveEmp from "../../components/dashboard/employee/dashDeactiveEmp
 import DashActiveEmp from "../../components/dashboard/employee/dashActiveEmp";
 import DashEmp from "../../components/dashboard/employee/dashEmp";
 import DashReservedBooks from "../../components/dashboard/books/dashReservedBooks";
-import DashReserves from "../../Components/Dashboard/borrow/DashBorrows";
-import DashRequests from "../../Components/Dashboard/borrow/DashRequests";
-// If the DashReturned component file is missing, provide inline stubs for the missing components
+import DashReserves from "../../components/dashboard/borrow/dashBorrows";
+import DashRequests from "../../components/dashboard/borrow/dashRequests";
 const DashReturned: React.FC = () => {
   return <div>Returned Books</div>;
 };
 
-// const DashMonographs: React.FC = () => {
-//   return <div>Monographs</div>;
-// };
-
-// const DashArticles: React.FC = () => {
-//   return <div>Articles</div>;
-// };
 import Teachers from "../../components/dashboard/users/teachers";
 import Admin from "../../Components/Dashboard/admin/admin";
 import StudentsReport from "../../components/dashboard/reports/StudentsReport";

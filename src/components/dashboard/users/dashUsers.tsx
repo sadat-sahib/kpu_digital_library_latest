@@ -9,14 +9,10 @@ import UserDetails from "../userTable/userDetails";
 import UpdateUser from "./dashUpdateUser";
 
 import { useGetAllUsers, useDeleteUser } from "../../../config/client/DashUserApi.query";
-// import { useGetFaculties } from "../../../config/client/DashFacultyApi.query";
 import UserTableSkeleton from "../userTable/userTableSkeleton";
 import { Users } from "lucide-react";
 
-// interface Faculty {
-//   id: number;
-//   name: string;
-// }
+
 
 const DashUser: React.FC = () => {
   const {
@@ -24,7 +20,7 @@ const DashUser: React.FC = () => {
     isLoading: loadingUsers,
     refetch: refetchUsers,
   } = useGetAllUsers();
-  // const { data: faculties = [], isLoading: loadingFaculties } =useGetFaculties();
+ 
   const { mutate: deleteUser, isPending: isDeleting } = useDeleteUser();
 
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
@@ -35,7 +31,6 @@ const DashUser: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // ✅ When clicking "Edit", update URL with ?editing=<id>
   const handleEdit = (id: number) => {
     setEditingUserId(id);
     const searchParams = new URLSearchParams(location.search);
@@ -45,7 +40,6 @@ const DashUser: React.FC = () => {
     });
   };
 
-  // ✅ On mount, if ?editing=id exists, open edit mode
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
     const editingParam = searchParams.get("editing");
@@ -54,7 +48,7 @@ const DashUser: React.FC = () => {
     }
   }, [location.search]);
 
-  // ✅ Close edit mode and remove query param
+
   const closeEditForm = () => {
     setEditingUserId(null);
     const searchParams = new URLSearchParams(location.search);
@@ -95,14 +89,10 @@ const DashUser: React.FC = () => {
     });
   };
 
-  // const handleFacultyChange = (e: React.ChangeEvent<HTMLSelectElement>) =>
-  //   setSelectedFaculty(e.target.value);
 
-  // ✅ When editing, render the form component
   if (editingUserId !== null)
     return <UpdateUser userId={editingUserId} onClose={closeEditForm} />;
 
-  // ✅ Filter users
   const filteredUsers = users.filter((user) => {
     const matchesSearch = `${user.firstName} ${user.lastName}`
       .toLowerCase()

@@ -18,7 +18,6 @@ interface User {
 }
 
 const UserCard = ({ closeModal, id }: Props) => {
-  // const { token } = useAdminAuthStore();
   const [user, setUser] = useState<User>();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -27,7 +26,6 @@ const UserCard = ({ closeModal, id }: Props) => {
   useEffect(() => {
     axios
       .get(`/api/dashboard/users/activated_users/${id}`, {
-        // headers: { Authorization: `Bearer ${token}` },
         withCredentials: true,
       })
       .then((response) => {
@@ -48,7 +46,6 @@ const UserCard = ({ closeModal, id }: Props) => {
     const printWindow = window.open('', '_blank');
     if (!printWindow) return;
 
-    // const cardHtml = cardRef.current.innerHTML;
     printWindow.document.write(`
       <!DOCTYPE html>
       <html dir="rtl">

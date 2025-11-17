@@ -3,11 +3,6 @@ import { Card, CardContent } from "../ui/card";
 import { BookCard } from "./ReserveBookCard";
 import { usegetProfile} from "../../config/client/HomePgeApi.query";
 import { Skeleton } from "../ui/skeleton";
-// import { Book } from "./tabs-books";
-
-// interface BorrowedBooksProps {
-//   
-// }
 
 interface BorrowBook {
   book_title: string,

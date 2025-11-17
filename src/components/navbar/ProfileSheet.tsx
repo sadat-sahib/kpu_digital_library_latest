@@ -55,10 +55,6 @@ const ProfileSheet = ({ open, onOpenChange }:ProfileSheetProps) => {
               </div>
             </Link>
           )}
-          {/* <div className="flex justify-center items-center gap-3">
-            <BookA size={18} />
-            <Link to={'./student-profile'}>کتاب های گرفته شده</Link>
-          </div> */}
         </div>
         <div className="mt-auto w-full pb-4">
           <Button
