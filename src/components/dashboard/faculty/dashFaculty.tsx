@@ -4,7 +4,7 @@ import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import z from "zod";
 import { Loader } from "lucide-react";
-import DashFacultyTable from "./DashFacultyTable";
+import DashFacultyTable from "./dashFacultyTable";
 import { useAddFaculty } from "../../../config/client/DashFacultyApi.query";
 import { showToast } from "../../../utils/ShowToast";
 
