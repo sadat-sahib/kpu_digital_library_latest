@@ -3,7 +3,7 @@ import { useAuthStore } from "../../Store/useAuthStore";
 
 
 const authFetcher = axios.create({
-  baseURL: "http://localhost:8000",
+  baseURL: "https://kpu-backend-repo.onrender.com",
   headers: {
     "Content-Type": "application/json",
   },
