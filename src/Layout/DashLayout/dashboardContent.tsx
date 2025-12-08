@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router";
-import DashProfile from "../../components/Dashboard/DashProfile";
+import DashProfile from "../../components/dashboard/dashProfile";
 import DashBooks from "../../components/dashboard/books/dashBooks";
 import DashUsers from "../../components/dashboard/users/dashUsers";
 import DashBookRegistration from "../../components/dashboard/books/dashBookRegistration";
-import DashboardComp from "../../components/Dashboard/DashboardComp";
+import DashboardComp from "../../components/dashboard/dashboardComp";
 import DashDeActiveUsers from "../../components/dashboard/users/dashDeActiveUsers";
 import DashActiveUsers from "../../components/dashboard/users/dashActiveUsers";
 import DashFaculty from "../../components/dashboard/faculty/dashFaculty";
-import DashDepartment from "../../components/Dashboard/department/DashDepartment";
-import DashSectionRegistration from "../../components/Dashboard/section/DashSectionRegistration";
-import DashCategoryRegistration from "../../components/Dashboard/category/DashCategoryRegistration";
+import DashDepartment from "../../components/dashboard/department/dashDepartment";
+import DashSectionRegistration from "../../components/dashboard/section/dashSectionRegistration";
+import DashCategoryRegistration from "../../components/dashboard/category/dashCategoryRegistration";
 import UserRegistration from "../../Pages/UserRegistration";
 import DashDeActiveEmp from "../../components/dashboard/employee/dashDeactiveEmp";
 import DashActiveEmp from "../../components/dashboard/employee/dashActiveEmp";
@@ -23,7 +23,7 @@ const DashReturned: React.FC = () => {
 };
 
 import Teachers from "../../components/dashboard/users/teachers";
-import Admin from "../../Components/Dashboard/admin/admin";
+import Admin from "../../components/dashboard/admin/admin";
 import StudentsReport from "../../components/dashboard/reports/StudentsReport";
 import BooksReport from "../../components/dashboard/reports/BooksReport";
 import BorrowsReport from "../../components/dashboard/reports/BorrowsReport";

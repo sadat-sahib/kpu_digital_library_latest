@@ -5,7 +5,7 @@ import { View } from "lucide-react";
 import { CSVLink } from "react-csv";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
-import ReservedTableSkeleton from "../../../components/Dashboard/bookTable/reservedSkeleton";
+import ReservedTableSkeleton from "../../../components/dashboard/bookTable/bookTableSkeleton";
 import { toJalaliPersian } from "../../../utils/dateUtils";
 
 interface Book {
