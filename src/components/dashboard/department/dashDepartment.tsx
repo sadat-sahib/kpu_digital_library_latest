@@ -6,7 +6,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import z from "zod";
 
 import { Loader } from "lucide-react";
-import DashDepartmentTable from "./DashDepartmentTable";
+import DashDepartmentTable from "./dashDepartmentTable";
 import { useAddDepartment } from "../../../config/client/DashDepartmentRegisterApi.query";
 import { useGetFaculties } from "../../../config/client/DashFacultyApi.query";
 import { showToast } from "../../../utils/ShowToast";

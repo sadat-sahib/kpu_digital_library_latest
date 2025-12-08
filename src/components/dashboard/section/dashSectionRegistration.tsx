@@ -3,7 +3,7 @@ import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import z from "zod";
 import { Loader } from "lucide-react";
-import DashSectionTable from "./DashSectionTable";
+import DashSectionTable from "./dashSectionTable";
 import { useAddSection } from "../../../config/client/DashSectionApi.query";
 import { showToast } from "../../../utils/ShowToast";
 

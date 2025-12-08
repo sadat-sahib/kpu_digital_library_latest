@@ -7,7 +7,7 @@ import z from "zod";
 
 import { Loader } from "lucide-react";
 import { useAddCategory } from "../../../config/client/DashCategoryRegistrationApi.query";
-import DashCategoryTable from "./DashCategoryTable";
+import DashCategoryTable from "./dashCategoryTable";
 import { showToast } from "../../../utils/ShowToast";
 
 const Schema = z.object({
