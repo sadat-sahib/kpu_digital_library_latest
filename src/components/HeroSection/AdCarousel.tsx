@@ -26,6 +26,9 @@ export default function AdBanner() {
             <Link to={'/register'} className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-md text-center">
               ثبت نام
             </Link>
+            <Link to={'/dashboard'} className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-md text-center">
+              داشبورد
+            </Link>
           </div>
         )}
       </div>
