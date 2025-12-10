@@ -39,7 +39,7 @@ const AdminLogin: React.FC = () => {
   setLoading(true);
   try {
     const res = await axios.post(
-      "http://localhost:8000/api/admin/login", 
+      "https://kpu-backend-repo.onrender.com/api/admin/login", 
       {...data, recaptcha_token: recaptchaToken },
       {
         withCredentials: true, 
