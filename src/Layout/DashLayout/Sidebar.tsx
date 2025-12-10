@@ -51,7 +51,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
  const handleSignout = async (): Promise<void> => {
   try {
     const response = await axios.post(
-      "http://localhost:8000/api/dashboard/admin/logout",
+      "https://kpu-digital-library-latest.onrender.com//api/dashboard/admin/logout",
       {},
       {
         withCredentials: true,
