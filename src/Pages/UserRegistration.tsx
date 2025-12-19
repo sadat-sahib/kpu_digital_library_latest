@@ -142,7 +142,7 @@ const [selectedImage, setSelectedImage] = useState<File | null>(null);
       setUser(loggedInUser, userToken, isLoggedIn);
 
       // ✅ Redirect to home page after success
-      if (currentPath === "/user-registration") {
+      if (currentPath === "/register") {
         navigate("/");
       }
       else {
