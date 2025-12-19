@@ -309,7 +309,7 @@ const UpdateUser: React.FC<UserRegistrationProps> = ({ userId, onClose }) => {
               {/* تلفن */}
               <div>
                 <Input
-                  {...register("phone", { valueAsNumber: true })}
+                  {...register("phone")}
                   type="tel"
                   placeholder="شماره تلفن شما"
                   className="w-full rounded-md border border-gray-300 bg-gray-50 px-3 py-2 text-right 
